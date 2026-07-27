@@ -1,0 +1,69 @@
+name: Deploy Feature 1 to GitHub Pages
+
+# Builds the Feature 1 intake app and publishes it to GitHub Pages.
+#
+# The app is fully client-side: no server, no network calls, nothing uploaded.
+# Source files a user attaches are hashed in the browser and never leave it, so
+# a static host is a truthful place to run it.
+#
+# The kernel test suite runs first and the deploy is gated on it. Publishing a
+# build whose geometry tests failed would put an unverified drawing engine in
+# front of people, which is the one thing this project exists not to do.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  verify-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install root dependencies
+        run: npm ci || npm install
+
+      - name: Install kernel dependencies
+        working-directory: kernel
+        run: npm ci || npm install
+
+      - name: Kernel type-check (strict)
+        working-directory: kernel
+        run: npm run typecheck
+
+      - name: Kernel acceptance suite
+        working-directory: kernel
+        run: npm test
+
+      - name: Build Feature 1
+        run: npm run feature1:build:pages
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-feature1
+
+  deploy:
+    needs: verify-and-build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
