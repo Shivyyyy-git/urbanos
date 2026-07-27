@@ -1,0 +1,803 @@
+{
+  "schemaVersion": "urbanos-export-parity-v1",
+  "coordinateUnit": "m",
+  "declaredScaleDenominator": 100,
+  "sheet": {
+    "ref": "A3",
+    "widthMm": 420,
+    "heightMm": 297
+  },
+  "frame": {
+    "leftMm": 12,
+    "rightMm": 12,
+    "topMm": 12,
+    "bottomMm": 12,
+    "titleBlockHeightMm": 48
+  },
+  "paperToleranceMm": 0.25,
+  "paperTransform": {
+    "scaleDenominator": 100,
+    "pointsPerModelMetre": 28.34645669291339,
+    "originXPoints": 272.12598425196853,
+    "originYPoints": 311.8110236220473,
+    "modelMinX": -0.9500000000000001,
+    "modelMinY": -1.55,
+    "drawingWidthMm": 228,
+    "drawingHeightMm": 125,
+    "availableWidthMm": 396,
+    "availableHeightMm": 225
+  },
+  "reviewStatus": "READY FOR PROFESSIONAL REVIEW - NOT FOR CONSTRUCTION",
+  "boundaryProvenanceNote": null,
+  "validation": {
+    "digest": "0a68f315308a8a20a7afec65a91ab330b0e84b0372d3554aa62425ed9ccf9f46:25c51587308bd66da7fef33c3cdfc6f92f1800389614f62d53a74ae61f939d33",
+    "kernelVersion": "acceptance-kernel-v1",
+    "specRevision": "SitePlanBrief-v5"
+  },
+  "paths": [
+    {
+      "id": "plot:outer:plot-outer",
+      "layer": "PLOT-BOUNDARY",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          0,
+          0
+        ],
+        [
+          20,
+          0
+        ],
+        [
+          20,
+          10
+        ],
+        [
+          0,
+          10
+        ]
+      ],
+      "sourceIds": [
+        "plot-surface",
+        "plot-outer"
+      ]
+    },
+    {
+      "id": "developable:0:outer:envelope-0-outer",
+      "layer": "DEVELOPABLE-ENVELOPE",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          1,
+          1
+        ],
+        [
+          19,
+          1
+        ],
+        [
+          19,
+          9
+        ],
+        [
+          1,
+          9
+        ]
+      ],
+      "sourceIds": [
+        "envelope-0",
+        "envelope-0-outer"
+      ]
+    },
+    {
+      "id": "developable:0:hole:envelope-0-hole-0",
+      "layer": "DEVELOPABLE-ENVELOPE",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          15,
+          2
+        ],
+        [
+          15,
+          6
+        ],
+        [
+          16,
+          6
+        ],
+        [
+          16,
+          2
+        ]
+      ],
+      "sourceIds": [
+        "envelope-0",
+        "envelope-0-hole-0"
+      ]
+    },
+    {
+      "id": "setback-envelope:0:outer:envelope-0-outer",
+      "layer": "SETBACK",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          1,
+          1
+        ],
+        [
+          19,
+          1
+        ],
+        [
+          19,
+          9
+        ],
+        [
+          1,
+          9
+        ]
+      ],
+      "sourceIds": [
+        "setback-0",
+        "setback-1",
+        "setback-2",
+        "setback-3",
+        "envelope-0-outer"
+      ]
+    },
+    {
+      "id": "setback-envelope:0:hole:envelope-0-hole-0",
+      "layer": "SETBACK",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          15,
+          2
+        ],
+        [
+          15,
+          6
+        ],
+        [
+          16,
+          6
+        ],
+        [
+          16,
+          2
+        ]
+      ],
+      "sourceIds": [
+        "setback-0",
+        "setback-1",
+        "setback-2",
+        "setback-3",
+        "envelope-0-hole-0"
+      ]
+    },
+    {
+      "id": "frontage:frontage-0:0",
+      "layer": "ROAD-FRONTAGE",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          0,
+          0
+        ],
+        [
+          20,
+          0
+        ]
+      ],
+      "sourceIds": [
+        "frontage-0",
+        "plot-outer#e0"
+      ]
+    },
+    {
+      "id": "encumbrance:service-corridor:0:outer:encumbrance-service-corridor-outer",
+      "layer": "ENCUMBRANCE",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          15,
+          2
+        ],
+        [
+          16,
+          2
+        ],
+        [
+          16,
+          6
+        ],
+        [
+          15,
+          6
+        ]
+      ],
+      "sourceIds": [
+        "service-corridor",
+        "encumbrance-service-corridor-outer"
+      ]
+    },
+    {
+      "id": "existing-feature:existing-wall:polyline",
+      "layer": "EXISTING-FEATURE",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          2,
+          8
+        ],
+        [
+          7,
+          8
+        ]
+      ],
+      "sourceIds": [
+        "existing-wall"
+      ]
+    },
+    {
+      "id": "footprint:proposed-building:outer:footprint-proposed-building",
+      "layer": "FOOTPRINT",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          3,
+          3
+        ],
+        [
+          9,
+          3
+        ],
+        [
+          9,
+          7
+        ],
+        [
+          3,
+          7
+        ]
+      ],
+      "sourceIds": [
+        "proposed-building",
+        "footprint-proposed-building"
+      ]
+    },
+    {
+      "id": "footprint:proposed-building:hole:footprint-proposed-building-hole-0",
+      "layer": "FOOTPRINT",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          4
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          5,
+          5
+        ]
+      ],
+      "sourceIds": [
+        "proposed-building",
+        "footprint-proposed-building-hole-0"
+      ]
+    },
+    {
+      "id": "projection:entrance-canopy:outer:projection-entrance-canopy",
+      "layer": "PROJECTION",
+      "closed": true,
+      "critical": true,
+      "pointsM": [
+        [
+          9,
+          4
+        ],
+        [
+          9.8,
+          4
+        ],
+        [
+          9.8,
+          6
+        ],
+        [
+          9,
+          6
+        ]
+      ],
+      "sourceIds": [
+        "entrance-canopy",
+        "projection-entrance-canopy"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e0:line",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          0,
+          -0.8
+        ],
+        [
+          20,
+          -0.8
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e0",
+        "verified-front-edge"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e0:extension-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          -0.9500000000000001
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e0",
+        "verified-front-edge",
+        "plot-outer#v0"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e0:extension-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          20,
+          0
+        ],
+        [
+          20,
+          -0.9500000000000001
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e0",
+        "verified-front-edge",
+        "plot-outer#v1"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e0:arrow-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          0.18,
+          -0.881
+        ],
+        [
+          0,
+          -0.8
+        ],
+        [
+          0.18,
+          -0.7190000000000001
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e0",
+        "verified-front-edge"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e0:arrow-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          19.82,
+          -0.881
+        ],
+        [
+          20,
+          -0.8
+        ],
+        [
+          19.82,
+          -0.7190000000000001
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e0",
+        "verified-front-edge"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e1:line",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          20.8,
+          0
+        ],
+        [
+          20.8,
+          10
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e1"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e1:extension-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          20,
+          0
+        ],
+        [
+          20.95,
+          0
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e1",
+        "plot-outer#v1"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e1:extension-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          20,
+          10
+        ],
+        [
+          20.95,
+          10
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e1",
+        "plot-outer#v2"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e1:arrow-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          20.881,
+          0.18
+        ],
+        [
+          20.8,
+          0
+        ],
+        [
+          20.719,
+          0.18
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e1"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e1:arrow-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          20.881,
+          9.82
+        ],
+        [
+          20.8,
+          10
+        ],
+        [
+          20.719,
+          9.82
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e1"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e2:line",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          20,
+          10.8
+        ],
+        [
+          0,
+          10.8
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e2"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e2:extension-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          20,
+          10
+        ],
+        [
+          20,
+          10.95
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e2",
+        "plot-outer#v2"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e2:extension-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          0,
+          10
+        ],
+        [
+          0,
+          10.95
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e2",
+        "plot-outer#v3"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e2:arrow-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          19.82,
+          10.881
+        ],
+        [
+          20,
+          10.8
+        ],
+        [
+          19.82,
+          10.719000000000001
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e2"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e2:arrow-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          0.18,
+          10.881
+        ],
+        [
+          0,
+          10.8
+        ],
+        [
+          0.18,
+          10.719000000000001
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e2"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e3:line",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          -0.8,
+          10
+        ],
+        [
+          -0.8,
+          0
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e3"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e3:extension-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          0,
+          10
+        ],
+        [
+          -0.9500000000000001,
+          10
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e3",
+        "plot-outer#v3"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e3:extension-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          0,
+          0
+        ],
+        [
+          -0.9500000000000001,
+          0
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e3",
+        "plot-outer#v0"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e3:arrow-a",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          -0.881,
+          9.82
+        ],
+        [
+          -0.8,
+          10
+        ],
+        [
+          -0.7190000000000001,
+          9.82
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e3"
+      ]
+    },
+    {
+      "id": "auto-dimension:plot-outer#e3:arrow-b",
+      "layer": "DIMENSION",
+      "closed": false,
+      "critical": false,
+      "pointsM": [
+        [
+          -0.881,
+          0.18
+        ],
+        [
+          -0.8,
+          0
+        ],
+        [
+          -0.7190000000000001,
+          0.18
+        ]
+      ],
+      "sourceIds": [
+        "plot-outer#e3"
+      ]
+    },
+    {
+      "id": "north:shaft",
+      "layer": "NORTH",
+      "closed": false,
+      "critical": true,
+      "pointsM": [
+        [
+          21.6,
+          8.5
+        ],
+        [
+          21.6,
+          10
+        ]
+      ],
+      "sourceIds": [
+        "true"
+      ]
+    },
+    {
+      "id": "north:arrowhead",
+      "layer": "NORTH",
+      "closed": true,
+      "critical": false,
+      "pointsM": [
+        [
+          21.35,
+          9.75
+        ],
+        [
+          21.6,
+          10
+        ],
+        [
+          21.85,
+          9.75
+        ]
+      ],
+      "sourceIds": [
+        "true"
+      ]
+    }
+  ]
+}

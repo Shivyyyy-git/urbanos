@@ -1,0 +1,21 @@
+{
+  "name": "@urbanos/geometry-kernel",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Survey-boundary geometry kernel. Independent of the frozen prototype at ../src.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "//test": "Sol owns kernel/tests, including the runner. Wired to match the root convention (tests/run-tests.mjs, esbuild + node:test); change freely.",
+    "test": "node tests/run-tests.mjs",
+    "contract": "python3 tools/extract-contract.py && tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.1",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "polygon-clipping": "^0.15.7"
+  }
+}

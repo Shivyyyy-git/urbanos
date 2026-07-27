@@ -1,0 +1,298 @@
+/* ---------------------------------------------------------------------------
+   UrbanOS MVP — design tokens + shared components.
+   Light theme. Palette follows the validated reference dataviz palette.
+   UI components (agents): use these classes/vars — avoid ad-hoc hex values.
+--------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Surfaces & ink */
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;
+  --hairline: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+
+  /* Brand accent */
+  --accent: #2a78d6;
+  --accent-deep: #184f95;
+  --accent-wash: #eaf2fc;
+
+  /* Categorical series (fixed order — never cycle) */
+  --series-1: #2a78d6;
+  --series-2: #008300;
+  --series-3: #e87ba4;
+  --series-4: #eda100;
+  --series-5: #1baf7a;
+  --series-6: #eb6834;
+  --series-7: #4a3aa7;
+  --series-8: #e34948;
+
+  /* Status (reserved — always paired with icon + label, never color alone) */
+  --status-good: #0ca30c;
+  --status-good-text: #006300;
+  --status-warning: #fab219;
+  --status-serious: #ec835a;
+  --status-critical: #d03b3b;
+
+  /* Land-use fills (semantic, consistent across every scenario & legend) */
+  --lu-residential: #eda100;
+  --lu-commercial: #2a78d6;
+  --lu-green: #008300;
+  --lu-roads: #d6d5cd;
+  --lu-amenities: #4a3aa7;
+  --lu-utilities: #898781;
+
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(11, 11, 11, 0.05), 0 4px 16px rgba(11, 11, 11, 0.05);
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { margin: 0; min-height: 100vh; }
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 14.5px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { margin: 0; font-weight: 650; letter-spacing: -0.01em; }
+p { margin: 0; }
+a { color: var(--accent); }
+
+.muted { color: var(--ink-2); }
+.small { font-size: 12.5px; }
+.mono-num { font-variant-numeric: tabular-nums; }
+
+/* ------------------------------- App chrome ------------------------------ */
+
+.app-header {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--hairline);
+  position: sticky; top: 0; z-index: 40;
+}
+.logo-mark {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
+  display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 15px;
+}
+.app-title { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+.app-tagline { font-size: 12px; color: var(--muted); margin-top: -2px; }
+.header-spacer { flex: 1; }
+
+.app-main { max-width: 1200px; margin: 0 auto; padding: 28px 28px 80px; }
+
+/* --------------------------------- Cards --------------------------------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card-pad { padding: 20px 22px; }
+
+.section-title {
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--muted); margin-bottom: 12px;
+}
+
+/* -------------------------------- Buttons -------------------------------- */
+
+.btn {
+  font: inherit; font-weight: 600; font-size: 14px;
+  border-radius: 8px; padding: 9px 18px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+  transition: background 0.15s, border-color 0.15s, transform 0.05s;
+}
+.btn:hover { background: #f3f2ef; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--accent); }
+.btn-ghost:hover { background: var(--accent-wash); }
+.btn-lg { padding: 12px 26px; font-size: 15px; border-radius: 10px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* --------------------------------- Forms --------------------------------- */
+
+.field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.field label { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.field .hint { font-size: 12px; color: var(--muted); }
+/* Inline field feedback — advisory (still submittable) vs blocking. */
+.field .hint-warn { font-size: 12px; color: #8a5a00; }
+.field .hint-bad  { font-size: 12px; color: #9c2222; }
+.input:disabled, .select:disabled {
+  background: #f4f3f0; color: var(--ink-2); cursor: not-allowed;
+}
+.input, .select, textarea.input {
+  font: inherit; color: var(--ink);
+  background: #fff; border: 1px solid var(--hairline); border-radius: 8px;
+  padding: 9px 12px; outline: none; width: 100%;
+}
+.input:focus, .select:focus, textarea.input:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42, 120, 214, 0.15);
+}
+.input-row { display: flex; gap: 12px; }
+.input-row > * { flex: 1; }
+
+.radio-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.radio-card {
+  border: 1.5px solid var(--hairline); border-radius: 10px; padding: 12px 14px;
+  cursor: pointer; background: #fff; transition: border-color 0.15s, background 0.15s;
+}
+.radio-card:hover { border-color: var(--baseline); }
+.radio-card.selected { border-color: var(--accent); background: var(--accent-wash); }
+.radio-card .rc-title { font-weight: 650; font-size: 13.5px; }
+.radio-card .rc-desc { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+
+/* ---------------------------------- Tabs --------------------------------- */
+
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--hairline); margin-bottom: 20px; }
+.tab {
+  font: inherit; font-weight: 600; font-size: 14px; color: var(--ink-2);
+  background: none; border: none; cursor: pointer;
+  padding: 10px 16px; border-bottom: 2px solid transparent; margin-bottom: -1px;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ------------------------------- KPI tiles ------------------------------- */
+
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.kpi-tile {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 16px;
+}
+.kpi-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.kpi-value { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; margin-top: 4px; }
+.kpi-sub { font-size: 12px; color: var(--ink-2); margin-top: 2px; }
+.kpi-good { color: var(--status-good-text); }
+.kpi-bad { color: var(--status-critical); }
+
+/* --------------------------------- Tables -------------------------------- */
+
+.table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.table th {
+  text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--muted); font-weight: 650; padding: 8px 10px; border-bottom: 1px solid var(--hairline);
+}
+.table td { padding: 9px 10px; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+.table tr:last-child td { border-bottom: none; }
+.table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* --------------------------------- Badges -------------------------------- */
+
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 650; border-radius: 999px; padding: 3px 10px;
+  white-space: nowrap;
+}
+.badge-pass { background: #e7f6e7; color: var(--status-good-text); }
+.badge-warn { background: #fdf3dc; color: #8a5a00; }
+.badge-fail { background: #fbe5e5; color: #9c2222; }
+.badge-neutral { background: #f0efec; color: var(--ink-2); }
+
+/* ------------------------------ Score rings ------------------------------ */
+
+.score-pill {
+  display: inline-flex; align-items: baseline; gap: 4px;
+  font-weight: 700; font-variant-numeric: tabular-nums;
+}
+.score-pill .of { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+/* ------------------------------ Legends etc ------------------------------ */
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--ink-2); }
+.legend-item { display: inline-flex; align-items: center; gap: 6px; }
+.legend-swatch { width: 12px; height: 12px; border-radius: 3px; border: 1px solid rgba(11,11,11,0.15); }
+
+.divider { height: 1px; background: var(--hairline); border: none; margin: 18px 0; }
+
+/* ------------------------- Scenario selector cards ------------------------ */
+
+.scenario-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 22px; }
+.scenario-card {
+  text-align: left; font: inherit; cursor: pointer;
+  background: var(--surface); border: 1.5px solid var(--hairline); border-radius: var(--radius);
+  padding: 16px 18px; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.scenario-card:hover { border-color: var(--baseline); box-shadow: var(--shadow); }
+.scenario-card.active { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(42, 120, 214, 0.15); }
+.scenario-card .sc-name { font-weight: 700; font-size: 15px; }
+.scenario-card .sc-tagline { font-size: 12.5px; color: var(--ink-2); margin: 4px 0 10px; }
+.scenario-card .sc-stats { display: flex; gap: 14px; font-size: 12.5px; color: var(--ink-2); flex-wrap: wrap; }
+.scenario-card .sc-stats b { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* --------------------------- Generating overlay --------------------------- */
+
+.gen-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(249, 249, 247, 0.96);
+  display: grid; place-items: center;
+}
+.gen-box { text-align: center; max-width: 420px; padding: 24px; }
+.gen-steps { text-align: left; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+.gen-step { display: flex; align-items: center; gap: 10px; font-size: 13.5px; color: var(--muted); }
+.gen-step.done { color: var(--status-good-text); }
+.gen-step.now { color: var(--ink); font-weight: 600; }
+.spinner {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid var(--hairline); border-top-color: var(--accent);
+  animation: spin 0.8s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.progress-track { height: 6px; border-radius: 3px; background: var(--hairline); overflow: hidden; margin-top: 22px; }
+.progress-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 0.4s ease; }
+
+/* ------------------------------- Report view ------------------------------ */
+
+.report-overlay {
+  position: fixed; inset: 0; z-index: 90; overflow: auto;
+  background: rgba(11, 11, 11, 0.45);
+  padding: 30px 16px;
+}
+.report-sheet {
+  background: #fff; max-width: 860px; margin: 0 auto;
+  border-radius: 8px; padding: 48px 56px; color: var(--ink);
+}
+.report-toolbar {
+  max-width: 860px; margin: 0 auto 12px; display: flex; justify-content: flex-end; gap: 10px;
+}
+
+@media print {
+  body { background: #fff; }
+  .no-print, .app-header, .app-main, .report-toolbar { display: none !important; }
+  .report-overlay { position: static; padding: 0; background: none; overflow: visible; }
+  .report-sheet { border-radius: 0; padding: 0; max-width: none; box-shadow: none; }
+  .report-page-break { page-break-before: always; }
+}
+
+/* --------------------------------- Charts -------------------------------- */
+
+.chart-figure { margin: 0; }
+.chart-title { font-size: 13.5px; font-weight: 650; margin-bottom: 10px; }
+.chart-note { font-size: 12px; color: var(--muted); margin-top: 8px; }
+svg text { font-family: var(--font); }
+
+/* ------------------------------ Empty states ------------------------------ */
+
+.empty {
+  padding: 40px; text-align: center; color: var(--muted); font-size: 14px;
+}
+
+/* ------------------------------- Responsive ------------------------------ */
+
+@media (max-width: 760px) {
+  .app-main { padding: 16px 14px 60px; }
+  .report-sheet { padding: 24px 20px; }
+  .input-row { flex-direction: column; }
+}
