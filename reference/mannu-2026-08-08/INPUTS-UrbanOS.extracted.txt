@@ -1,0 +1,799 @@
+For UrbanOS, this should become your Project Input Engine. Every AI agent should first verify these inputs before any planning starts
+
+Stage 1 — Client Information
+A. Project Details
+	•	Project name
+	•	Client name
+	•	Developer/company
+	•	Contact details
+	•	Project location
+	•	GPS coordinates
+	•	District
+	•	State
+	•	Project objectives
+Example
+Residential Township
+Group Housing
+Mixed Use
+Commercial
+Industrial
+Institutional
+
+B. Development Vision
+What is the client trying to achieve?
+Examples
+	•	Maximum saleable area
+	•	Premium luxury township
+	•	Affordable housing
+	•	Township with schools
+	•	Transit-oriented development
+	•	Sustainable development
+	•	Smart city development
+
+Stage 2 — Land Ownership Documents
+Without these nothing should proceed.
+Ownership Proof
+	•	Sale Deed
+	•	Conveyance Deed
+	•	Lease Deed (if leasehold)
+	•	Gift Deed (if applicable)
+	•	Mutation Records
+	•	Jamabandi
+	•	Khasra/Khatauni
+	•	Revenue Record
+	•	Registry documents
+
+Land Title Documents
+	•	Title Search Report
+	•	Encumbrance Certificate
+	•	Litigation status
+	•	Court cases
+	•	Mortgage details
+	•	Easement rights
+
+Stage 3 — Site Information
+This is one of the most important sections.
+Site Survey
+Preferably a DGPS + Total Station Survey.
+Should include
+	•	Exact boundary
+	•	Coordinates
+	•	Area
+	•	Contours
+	•	Existing roads
+	•	Existing buildings
+	•	Existing trees
+	•	Existing utilities
+	•	Electric poles
+	•	Drains
+	•	Water bodies
+	•	Existing pipelines
+	•	High tension lines
+	•	Sewer lines
+
+Site Measurements
+	•	Total area
+	•	Plot dimensions
+	•	Frontage
+	•	Depth
+	•	Corner plot?
+	•	Irregular shape?
+	•	Existing access roads
+
+Topographical Survey
+Need
+	•	Levels
+	•	Slopes
+	•	Drainage direction
+	•	Natural depressions
+	•	Water channels
+	•	Existing ponds
+
+Stage 4 — Planning Documents
+This is where most AI planning systems fail.
+UrbanOS should automatically collect these.
+
+Master Plan
+Applicable Development Plan.
+Need
+	•	Land Use
+	•	Sector Plan
+	•	Zoning
+	•	Road hierarchy
+	•	Proposed roads
+	•	Metro corridor
+	•	Utilities
+	•	Public facilities
+
+Development Control Regulations
+Need
+	•	FAR
+	•	Ground Coverage
+	•	Building Height
+	•	Setbacks
+	•	Density
+	•	Parking norms
+	•	Fire norms
+	•	Open Space requirements
+
+Building Bye-laws
+Applicable
+	•	State Bye-laws
+	•	ULB Bye-laws
+	•	Fire Regulations
+	•	NBC
+	•	Accessibility norms
+
+Stage 5 — Site Constraints
+Need identification of
+	•	Flood zone
+	•	Green belt
+	•	High tension corridor
+	•	Restricted zones
+	•	Forest land
+	•	Railway buffer
+	•	Airport funnel
+	•	Defence restrictions
+	•	Heritage restrictions
+	•	Utility easements
+
+Stage 6 — Road Information
+Need
+Existing Roads
+	•	ROW
+	•	Carriageway
+	•	Service roads
+	•	Slip roads
+	•	Junctions
+Future Roads
+	•	Proposed widening
+	•	Sector roads
+	•	National highways
+
+Stage 7 — Utility Information
+Need existing
+Water
+	•	Source
+	•	Line sizes
+	•	Pressure
+Sewer
+	•	Trunk sewer
+	•	STP connection
+Storm Water
+	•	Existing drains
+	•	Outfall
+Electricity
+	•	HT lines
+	•	LT lines
+	•	Substations
+Gas
+Telecom
+Internet
+
+Stage 8 — Environmental Information
+Need
+	•	Existing trees
+	•	Protected trees
+	•	Water bodies
+	•	Natural drainage
+	•	Soil condition
+	•	Groundwater
+	•	Noise sources
+	•	Pollution sources
+
+Stage 9 — Geotechnical Investigation
+Need
+Soil Investigation Report
+Includes
+	•	SBC
+	•	Bore logs
+	•	Groundwater level
+	•	Soil strata
+	•	Foundation recommendations
+
+Stage 10 — Market Intelligence
+UrbanOS should automatically generate this.
+Need
+Competitor Projects
+Nearby
+	•	Pricing
+	•	Density
+	•	Unit Mix
+	•	Amenities
+	•	Sales velocity
+	•	Occupancy
+	•	Rental demand
+
+Demand Analysis
+Need
+	•	Population
+	•	Income
+	•	Future demand
+	•	Absorption rate
+
+Stage 11 — Financial Inputs
+Developer should specify
+	•	Budget
+	•	Target ROI
+	•	Funding
+	•	Sales strategy
+	•	Phasing
+	•	Construction timeline
+
+Stage 12 — Product Mix
+Developer should specify
+Examples
+Residential
+	•	Villas
+	•	Plots
+	•	Apartments
+	•	EWS
+	•	Affordable
+Commercial
+	•	SCO
+	•	Shops
+	•	Offices
+Institutional
+	•	Schools
+	•	Hospitals
+	•	Religious
+Recreation
+	•	Parks
+	•	Club
+	•	Sports
+Utilities
+	•	STP
+	•	WTP
+	•	Substation
+
+Stage 13 — Regulatory Approvals (Existing)
+Need
+	•	CLU status
+	•	Environmental Clearance
+	•	Fire NOC
+	•	Airport NOC (if applicable)
+	•	Forest clearance
+	•	Utility approvals
+	•	Any previous sanctioned plans
+
+Stage 14 — GIS Data
+UrbanOS should automatically fetch
+	•	Satellite imagery
+	•	Cadastral map
+	•	Road network
+	•	Utilities
+	•	Terrain model
+	•	DEM
+	•	Slope
+	•	Land cover
+	•	Nearby infrastructure
+
+Stage 15 — Nearby Context
+Need to map
+Within 500 m, 1 km, 2 km, 5 km, and 10 km:
+	•	Metro stations
+	•	Railway stations
+	•	Bus terminals
+	•	Schools
+	•	Colleges
+	•	Hospitals
+	•	Malls
+	•	Employment hubs
+	•	Parks
+	•	Highways
+	•	Airports
+	•	Industrial areas
+
+Stage 16 — Design Preferences
+Client preferences
+Examples
+	•	Vaastu compliance
+	•	Sustainable design
+	•	IGBC/GRIHA goals
+	•	Walkability
+	•	Smart infrastructure
+	•	High-density
+	•	Low-density
+	•	Luxury positioning
+	•	Affordable positioning
+
+Stage 17 — Required Deliverables
+The client should define what is expected from the planning exercise, for example:
+	•	Concept Master Plan
+	•	Final Master Plan
+	•	Land Use Plan
+	•	Road Network Plan
+	•	Mobility Plan
+	•	Open Space Plan
+	•	Utility Plan
+	•	Phasing Plan
+	•	Infrastructure Cost Estimate
+	•	Development Feasibility Report
+	•	Financial Viability Report
+	•	Approval Drawings
+	•	CAD, GIS, BIM, and presentation outputs
+
+For UrbanOS: Separate User Inputs from AI-Acquired Inputs
+This distinction is critical for your MVP.
+User uploads/provides
+UrbanOS automatically acquires or validates
+Ownership and title documents
+Applicable master plan and zoning
+Site survey (or coordinates if survey is unavailable)
+GIS layers and satellite imagery
+Project vision and objectives
+Planning regulations, DCRs, and building bye-laws
+Budget and financial assumptions
+Road hierarchy and nearby infrastructure
+Desired product mix
+Environmental constraints and protected zones
+Design preferences
+Market intelligence and competitor analysis
+Existing approvals and reports
+Accessibility, utilities, and context mapping
+A note specific to Dwarka Expressway
+For projects along the Dwarka Expressway (including sectors under Gurugram and adjoining planning areas), the planning process should additionally verify jurisdiction-specific inputs before design begins, such as:
+	•	Applicable planning authority and sector plan.
+	•	Current zoning and land-use permissions.
+	•	CLU status (where relevant).
+	•	FAR, density, height, and setback controls applicable to the site.
+	•	Proposed and existing road network, including service roads and sector roads.
+	•	Utility availability and planned infrastructure.
+	•	Any corridor-specific restrictions, reservations, or infrastructure proposals that affect the parcel.
+
+This workflow mirrors how experienced development firms operate: verify legal ownership → establish accurate site data → confirm regulatory constraints → understand market and financial objectives → then produce a compliance-first master plan. For UrbanOS, these inputs can become a structured intake system that blocks layout generation until all mandatory information has been supplied or verified, ensuring that every master plan is based on validated data rather than assumptions.
+  For UrbanOS, you should think of every input in three categories:
+	•	Permanent Database → Data that UrbanOS continuously maintains and updates for every city/sector.
+	•	Project-Specific User Inputs → Data unique to the client's site or project.
+	•	AI-Derived Data → Information generated automatically after combining the database with user inputs.
+This separation is one of the biggest competitive advantages you can build. Commercial software like AutoCAD or Civil 3D provides design tools, but it does not maintain a planning intelligence database that understands regulations, land use, feasibility, and market context.
+
+A. Planning & Regulatory Database (Maintained by UrbanOS)
+These datasets should exist independently of any individual project and be regularly updated.
+Information
+Source Authority
+Stored in UrbanOS Database?
+User Input?
+Notes
+Regional Plan
+State Town & Country Planning Department
+✅
+❌
+Master planning hierarchy
+Master Plan
+Development Authority / Planning Authority
+✅
+❌
+Current approved plan
+Sector Plans
+Development Authority
+✅
+❌
+Essential for Dwarka Expressway
+Land Use Plans
+Planning Authority
+✅
+❌
+Existing and proposed land use
+Zoning Regulations
+Planning Authority
+✅
+❌
+Zoning rules by parcel/sector
+Development Control Regulations (DCR)
+Planning Authority
+✅
+❌
+FAR, setbacks, density, etc.
+Building Bye-laws
+ULB / State Govt
+✅
+❌
+Building regulations
+National Building Code provisions
+National standard
+✅
+❌
+Applicable references
+Fire Norms
+Fire Department
+✅
+❌
+Fire compliance
+Barrier-free / Accessibility Codes
+Govt standards
+✅
+❌
+Accessibility compliance
+TOD Policies
+State Govt
+✅
+❌
+Transit-oriented development
+Affordable Housing Policies
+Govt
+✅
+❌
+Incentives and obligations
+Environmental Regulations
+MoEFCC / SPCB
+✅
+❌
+Environmental constraints
+RERA Regulations
+State RERA
+✅
+❌
+Project registration requirements
+Green Building Guidelines
+IGBC / GRIHA (where applicable)
+✅
+❌
+Sustainability references
+
+B. GIS & Spatial Database
+This should power UrbanOS's map engine.
+Information
+Source
+Database
+User Input
+Satellite Imagery
+Government/open or licensed providers
+✅
+❌
+Parcel Boundaries (where available)
+Revenue/Cadastral records
+✅
+❌
+Administrative Boundaries
+Government GIS
+✅
+❌
+Road Network
+Government GIS / Road authorities
+✅
+❌
+Metro Lines
+Metro authority
+✅
+❌
+Railway Network
+Rail authorities
+✅
+❌
+Bus Routes
+Transport authorities
+✅
+❌
+Airports
+Aviation authorities
+✅
+❌
+Rivers
+Government GIS
+✅
+❌
+Lakes
+Government GIS
+✅
+❌
+Canals
+Government GIS
+✅
+❌
+Forest Areas
+Forest department
+✅
+❌
+Green Belts
+Planning authority
+✅
+❌
+Contours / DEM
+Government/open terrain datasets
+✅
+❌
+Flood Zones
+Disaster management agencies
+✅
+❌
+HT Power Corridors
+Power utilities
+✅
+❌
+Water Supply Network (where available)
+Utility agency
+✅
+❌
+Sewer Network (where available)
+Utility agency
+✅
+❌
+Storm Water Network (where available)
+Utility agency
+✅
+❌
+
+C. Market Intelligence Database
+Information
+Source
+Database
+User Input
+Existing Projects
+Public records & market research
+✅
+❌
+Upcoming Projects
+Public approvals
+✅
+❌
+Property Rates
+Market datasets
+✅
+❌
+Rental Rates
+Market datasets
+✅
+❌
+Absorption Rates
+Market research
+✅
+❌
+Demographics
+Census & government data
+✅
+❌
+Income Levels
+Government statistics
+✅
+❌
+Population Growth
+Census
+✅
+❌
+Employment Hubs
+Government & public data
+✅
+❌
+Schools
+Public datasets
+✅
+❌
+Hospitals
+Public datasets
+✅
+❌
+Commercial Centers
+Public datasets
+✅
+❌
+
+D. Utility & Infrastructure Database
+Information
+Source
+Database
+User Input
+Existing Water Infrastructure
+Utility authority
+✅
+❌
+Existing Sewer Infrastructure
+Utility authority
+✅
+❌
+Electrical Infrastructure
+Power utility
+✅
+❌
+Gas Infrastructure
+Gas utility
+✅
+❌
+Telecom Infrastructure
+Telecom providers
+✅
+❌
+Existing STPs
+Utility authority
+✅
+❌
+Existing WTPs
+Utility authority
+✅
+❌
+
+E. Project-Specific Inputs (Must Be Provided by the User)
+These are unique to each project and cannot realistically be maintained in a central database.
+Legal Documents
+Information
+Database
+User Input
+Sale Deed
+❌
+✅
+Lease Deed
+❌
+✅
+Title Documents
+❌
+✅
+Encumbrance Certificate
+❌
+✅
+Mutation Records
+❌
+✅
+Revenue Records
+❌
+✅
+Existing NOCs
+❌
+✅
+Previous Approvals
+❌
+✅
+
+Site Survey
+Information
+Database
+User Input
+DGPS Survey
+❌
+✅
+Total Station Survey
+❌
+✅
+Boundary Coordinates
+❌
+✅
+Topographic Survey
+❌
+✅
+Contours (high-accuracy)
+❌
+✅
+Existing Trees Survey
+❌
+✅
+Existing Structures Survey
+❌
+✅
+Utility Survey
+❌
+✅
+
+Soil Investigation
+Information
+Database
+User Input
+Bore Logs
+❌
+✅
+SBC
+❌
+✅
+Groundwater Level
+❌
+✅
+Soil Report
+❌
+✅
+
+Developer Inputs
+Information
+Database
+User Input
+Project Budget
+❌
+✅
+Target ROI
+❌
+✅
+Project Timeline
+❌
+✅
+Construction Phasing
+❌
+✅
+Product Mix
+❌
+✅
+Target Buyer
+❌
+✅
+Design Philosophy
+❌
+✅
+Sustainability Goals
+❌
+✅
+Vaastu Requirements
+❌
+✅
+
+F. AI-Derived Outputs (Generated by UrbanOS)
+These should never be manually entered; they are the result of analysis.
+Generated by UrbanOS
+Based On
+Buildable Area
+Survey + DCR + setbacks
+Permissible FAR Utilization
+Land use + DCR
+Maximum Dwelling Units
+Density regulations
+Saleable Area
+Planning rules + design
+Infrastructure Demand
+Population projections
+Water Demand
+Standards + project size
+Sewer Generation
+Water demand calculations
+Parking Requirement
+Bye-laws
+Open Space Requirement
+DCR
+Fire Tender Access Validation
+Road network + fire norms
+Sunlight/Shadow Analysis
+Site orientation + building massing
+Wind Analysis
+Climate + geometry
+Cost Estimate
+Quantities + cost database
+Financial Feasibility
+Costs + revenues
+ROI
+Financial model
+Regulatory Compliance Report
+Entire planning database
+Approval Readiness Report
+Compliance checks
+
+G. What Should Be Mandatory for an UrbanOS MVP?
+To keep the MVP focused while still delivering real value for Dwarka Expressway, I would classify the inputs as follows:
+Mandatory UrbanOS Database
+	•	Planning hierarchy (regional, master, sector plans)
+	•	Land use and zoning
+	•	DCR and building bye-laws
+	•	Road network
+	•	Administrative boundaries
+	•	Satellite imagery
+	•	Basic GIS layers
+	•	Nearby amenities
+	•	Market intelligence
+	•	Utility corridors (where available)
+Mandatory User Inputs
+	•	Site location (or coordinates)
+	•	Boundary file (CAD, SHP, KML, GeoJSON, or survey)
+	•	Ownership documents
+	•	Plot dimensions (if no survey is available)
+	•	Project type
+	•	Budget
+	•	Product mix
+	•	Design objectives
+	•	Soil investigation (or acknowledgment that it is unavailable)
+Generated by UrbanOS
+	•	Compliance-first buildable envelope
+	•	Land-use allocation
+	•	Road hierarchy
+	•	Plot subdivision
+	•	Development yield
+	•	FAR utilization
+	•	Infrastructure sizing
+	•	Cost estimate
+	•	Revenue projection
+	•	ROI
+	•	Phasing
+	•	Compliance report
+	•	Approval-ready 2D layout
+	•	Feasibility report
+
+Recommendation for UrbanOS Architecture
+Instead of thinking of these as simple "inputs," organize your platform into four foundational knowledge layers:
+	•	Regulatory Intelligence Layer – planning regulations, zoning, DCRs, byelaws, approval workflows, and policies.
+	•	Spatial Intelligence Layer – GIS, satellite imagery, cadastral data, terrain, utilities, and environmental constraints.
+	•	Market Intelligence Layer – pricing, demand, demographics, competitors, infrastructure, and economic indicators.
+	•	Project Intelligence Layer – all client-specific documents, surveys, financial assumptions, and project objectives.
+This architecture will make UrbanOS scalable beyond Dwarka Expressway to any city or region by replacing only the first three regional knowledge layers while keeping the Project Intelligence Layer universal.
+

@@ -25,26 +25,132 @@ new work until the ball comes back.
    reference; no jurisdiction rules; no live-form changes; spec and tests
    before code. Two-stamp honesty system applies to everything we produce.
 
-## Current workstream: survey-boundary foundation
+## Current workstream: Feature 2 — 2BHK unit-plan module (opened 2026-08-08)
 
-Agreed by both agents + Shivam (2026-07-25). Target: invalid or assumed geometry
-can never reach DXF/PDF; valid geometry reproduces exactly.
+Ruled by Shivam 2026-08-08: Phase 1 = simple input → 2D output; 2BHK first.
+Target: validated unit-plan input → canonical geometry → deterministic
+dimensioned DXF R12 + vector PDF, same fail-closed discipline as the site
+kernel. v0 = parametric replica of the Privy AT4 2BHK for Mannu to redline.
 
-- **Fable:** draft `collab/SitePlanBrief.md` (contract, with PENDING-MANNU
-  markers) and the boundary-entry experience spec using sample plots.
-- **Sol:** draft `collab/acceptance-tests.md` — validation spec for arbitrary
-  polygon shapes, units (m / ft / gaj), area match, closure/misclosure
-  tolerance, self-intersection, north direction, road edges, source
-  verification. Sol also continues DWG-conversion research.
-- **Then:** each reviews the other's file (ledger entry per review), reconcile,
-  and only after both specs pass review does any code get written.
+- **Fable:** drafted `collab/UnitPlanBrief.md` (v1, awaiting Sol review).
+- **Sol:** review the brief; draft `collab/unit-plan-acceptance-tests.md`.
+- **Then:** mutual review, ratification entry, tests-first implementation.
 
-Open inputs pending from Mannu (via Shivam): documents customers actually hold;
-one real pilot plot in Sectors 99–113; a photo of an accepted site plan.
+Prior workstream (survey-boundary foundation / Feature 1) closed at 10.0/10 as
+bounded — see entries 020–024. Still open from it: A5 (archive frozen
+prototype — Shivam), one accepted local site plan + one real plot with papers
+(Mannu). Source materials from Mannu (2026-08-08) preserved in
+`reference/mannu-2026-08-08/`.
 
 ---
 
 ## Entries (newest first)
+
+### 026 — Fable — 2026-08-08
+
+**Protocol change by Shivam (in chat): Sol is inactive; Fable carries both the
+builder and verifier roles until further notice.** The two-agent gate in
+protocol rule 1 is suspended, not deleted — the verification BAR (tests-first,
+mutation-checked, independently parsed artifacts) stays; only the second pair
+of eyes is gone, and that loss is real. Mannu's redline pass (M-U5) is now the
+only independent check this feature gets, which makes it more important, not
+less.
+
+**Feature 2 v0 is BUILT and delivered.** New standalone package `unitplan/`
+(zero imports across the kernel boundary in either direction; the kernel's
+public contract and 113-test suite untouched). Pipeline: structured
+`UnitPlanBrief` (Privy AT4 2BHK schedule) → parametric template → fail-closed
+validation → one drawing model → deterministic DXF R12 + vector A2 PDF at
+1:50. Artifacts in `output/dxf/` and `output/pdf/` as
+`urbanos-feature2-2bhk-privy-at4-v0.*` with manifest.
+
+**Acceptance: 14/14 green (UP-1…UP-14), coverage preflight enforced.**
+Verified by mutation, not assertion: neutered overlap detection → UP-2 alone
+fails; restored the silent balcony drop → UP-10 alone fails; coarsened DXF
+coordinate precision → UP-7 alone fails. All reverted, 14/14 restored.
+Artifact checks parse the DXF and PDF with independent readers in the tests,
+and ezdxf (third-party) opens the shipped DXF with **0 audit errors**; master
+bedroom extents re-measured externally at exactly 3.6576 x 4.0640 m.
+
+**Honest findings from the red run, recorded per our practice:**
+1. **Real defect caught: silent balcony drop.** A balcony pointed at a room
+   without a template slot vanished from the drawing with no error — declared
+   in input, absent in output, same defect class as the old prototype's
+   fabricated setbacks. Now fails closed (`E_BALCONY_DETACHED`); UP-10 pins it.
+2. **Two of my fixture premises were wrong, and the code was right.** I
+   expected a corrupted room size to create an overlap and an 8' shaft to
+   disconnect the envelope; the parametric template chains every placement,
+   so hostile inputs stretch the plan consistently instead of breaking it.
+   The overlap/disconnection/hole gates guard against future *template* bugs
+   and are tested through a declared audit seam (`auditLayoutGeometry`),
+   following the kernel's fixture-28 seam precedent.
+3. **Honesty constraints enforced in code:** `research-draft` is the only
+   reachable status (`E_ASSUMPTIONS_BLOCK_REVIEW` otherwise); wall/corridor/
+   shaft assumptions must be declared with PENDING-MANNU refs and are printed
+   on the sheet; the sheet states the arrangement is a parametric template,
+   not a trace of the brochure; carpet area is labelled as the sum of clear
+   room areas and never reconciled against the brochure's super area.
+
+**Sheet contents** (visually inspected from a rendered PDF): articulated
+envelope with 230 mm external / 115 mm internal wall poche, door cuts with
+swing arcs, window symbols, three balconies, shaft, circulation spine, room
+labels with brochure-exact lettering (e.g. 12'-0" x 13'-4"), overall extent
+dimensions, assumed-north arrow, title block with source attribution, digest,
+and the stamp in two corners.
+
+**Open:** M-U1 (drawing standard) and M-U4 (wall conventions) to Mannu before
+v1; M-U5 redline pass on this sheet is the next real gate. A5 and Mannu's
+Feature 1 inputs carry unchanged. Nothing is committed to git yet — Shivam's
+call.
+
+**BALL: Mannu** (via Shivam) — redline the v0 sheet.
+
+### 025 — Fable — 2026-08-08
+
+**New workstream opened: Feature 2, 2BHK unit-plan module. Feature 1 score:
+10.0/10 as bounded (no change).** Sol and Fable.
+
+**Shivam has ruled (in chat, 2026-08-08): 2BHK first.** Context: Mannu delivered
+a 17-stage project intake spec plus Spaze Privy AT4 brochures with dimensioned
+2BHK/3BHK unit plans — preserved in `reference/mannu-2026-08-08/` (WhatsApp tmp
+copies get purged; originals are now in-repo). Mannu's framing was "integrate
+AutoCAD, then teach it to design from the brochures." Fable's assessment, which
+Shivam accepted: the AutoCAD half is already answered by
+`collab/dwg-conversion-research.md` (kernel is the engine, DXF/PDF the outputs,
+AutoCAD a viewer — no change); the "learn from brochures" half is redirected
+from ML-training to **rules encoded explicitly + brochures as templates and
+test fixtures**.
+
+**Named scope tension, resolved:** the 2BHK is unit/architecture scale; the
+kernel, Feature 1, and Mannu's intake doc are site/master-plan scale. The 2BHK
+proceeds first as the pipeline trainer; the site-scale compliance product
+remains the business wedge. The intake doc is parked as the spec seed for the
+site-scale workstream — it is not this feature's input surface.
+
+**Draft brief is at `collab/UnitPlanBrief.md` (v1, not ratified).** Shape: v0 =
+parametric replica of the Privy AT4 2BHK (room schedule extracted from the
+brochure, declared wall-thickness assumptions printed on the sheet, stamp
+`Research Draft — Not for Construction` because the brochure's own disclaimer
+says its dimensions are indicative) → Mannu redlines → redlines become v1
+fixtures. v1 = rule-driven variants, gated on Mannu's rulebook. Non-goals fenced
+in §6, including: no change to the site kernel's public contract or its
+113-test suite. Five PENDING-MANNU items registered (M-U1…M-U5); highest-value
+are M-U1 (drawing standard) and M-U4 (wall conventions).
+
+**Carried open from 024, unchanged:** A5 (archive the frozen prototype, promote
+Feature 1 to root — Shivam's call, not yet ruled); Mannu's Feature 1 inputs (one
+accepted local site plan, one real plot with papers) — still the critical path
+for the site-scale product's market validation, unaffected by Feature 2.
+
+Sol: review `collab/UnitPlanBrief.md` — especially §5, where the draft reference
+shape needs your route-relative-reference lesson from 013/014 applied before I
+repeat that mistake a fourth time — and draft
+`collab/unit-plan-acceptance-tests.md`. No code from either of us until both
+documents pass, per protocol rule 6.
+
+Your turn. Check the ledger.
+
+**BALL: Sol**
 
 ### 024 — Fable — 2026-07-26
 

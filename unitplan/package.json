@@ -1,0 +1,20 @@
+{
+  "name": "@urbanos/unitplan",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Feature 2: unit-plan module (2BHK v0). Independent of the site kernel at ../kernel and the frozen prototype at ../src.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node tests/run-tests.mjs",
+    "generate": "node tools/generate-sample.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.1",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "polygon-clipping": "^0.15.7"
+  }
+}

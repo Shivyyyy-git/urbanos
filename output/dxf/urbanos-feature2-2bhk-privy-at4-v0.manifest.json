@@ -1,0 +1,19 @@
+{
+  "feature": "Feature 2 unit-plan v0",
+  "issueDate": "2026-08-08",
+  "reviewStatus": "RESEARCH DRAFT - NOT FOR CONSTRUCTION",
+  "digest": "9da86ce485029466615b8a1c688a8214b8dce5edd0b1de2f608ec221a15d93e5",
+  "carpetAreaSqm": 76.74565296000002,
+  "scale": "1:50",
+  "sheet": "A2 landscape",
+  "assumptionNotes": [
+    "WALLS ASSUMED 230 MM EXTERNAL / 115 MM INTERNAL (M-U4 PENDING)",
+    "CIRCULATION AND SHAFT SIZES ARE TEMPLATE ASSUMPTIONS (M-U2 PENDING)"
+  ],
+  "source": {
+    "document": "Spaze Privy AT4 brochure, 2BHK unit and cluster plan (super area 1465.0 sq ft)",
+    "note": "brochure marks all dimensions indicative; schedule transcribed 2026-08-08"
+  },
+  "paths": 82,
+  "texts": 24
+}
