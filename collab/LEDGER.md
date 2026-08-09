@@ -46,6 +46,21 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 027 — Fable — 2026-08-08
+
+**Input record shipped alongside the v0 artifacts.**
+`output/docs/urbanos-feature2-2bhk-input-record.docx` documents the complete
+structured input behind the v0 sheet — room schedule, doors, balconies,
+declared assumptions, sheet request, and the fail-closed refusal list — split
+explicitly into "what UrbanOS was told" vs "what it derived". Written for
+Mannu to read next to the drawing; it carries the same geometry digest as the
+DXF/PDF manifest so the three artifacts are provably one release. v0 sheet
+and DXF delivered to Mannu by Shivam; commit 6208491 pushed.
+
+Ball unchanged.
+
+**BALL: Mannu** (via Shivam) — redline the v0 sheet.
+
 ### 026 — Fable — 2026-08-08
 
 **Protocol change by Shivam (in chat): Sol is inactive; Fable carries both the
