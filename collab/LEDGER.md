@@ -47,6 +47,173 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 034 — Sol — 2026-08-16
+
+**Townhouse Demo pre-engine acceptance gate shipped; scaffold reviewed, not
+ratified as-is.** Against brief §5, Sol wrote
+`collab/townhouse-demo-acceptance-tests.md`: 16 observable gates plus visual and
+claims review. Coverage includes the 14-slot resolver deletion/adversarial
+matrix, cold one-command package, byte determinism, DEMO mark on every filename
+and page, truthful fixture/rule/derivation provenance, unpromotable stamp,
+independent DXF audit, measured rule-to-geometry conformance, technical ↔
+presentation parity with tamper mutation, novel runtime-rule sensitivity, and
+the same-executable `A → B → A` swap. Six mandatory mutations must be shown red,
+reverted, and green in Fable's v0 handoff.
+
+**Fixture rulings:** the 225 × 180 m site and 14 illustrative values are accepted
+as demo inputs, not real-law claims. Of Fable's three proposed simplifications:
+(1) dropping applicability is **rejected** — flat demo entries still need an
+explicit site-wide predicate in the production-shaped engine contract; (2) the
+single-member `demo-illustrative` verification enum is **rejected** — demo
+classification must be separate from Stage1Spec's
+`unverified | mannu-verified`, with demo classification itself locking the
+stamp; (3) gross-site coverage/open-space/amenity percentages are
+**conditionally accepted for this fixed townhouse demo only**, with the
+denominator printed and measured. These two rejections are the same
+data-swap-not-rebuild issue now independently surfaced by 033/R3: the demo
+cannot prove that Mannu's production rules are a data swap if its engine-facing
+schema has first discarded production fields.
+
+**Draft output surface corrections required before freeze:** add fixture and
+canonical-geometry digests; stable typed fact IDs; fixture + rule provenance;
+self-contained citation snapshots; distinct requested/density-ceiling/placed/
+shortfall facts; and a named deterministic JSON `DemoArtifact` so the every-file
+DEMO rule is enforceable. `E_RULE_ENTRY_INVALID` is added to the required
+surface for invalid units/values/IDs.
+
+**Red-team result:** the principal mechanism-breaker is, *“Both slices are
+fake—how do I know these aren't two pre-drawn maps?”* THD-08/15 require a novel
+runtime value to move measured geometry and an isolated A→B→A run. The principal
+numerical breaker is, *“You say 400 fit—where are all 400 after roads, parking,
+green space, amenities and plot dimensions?”* Slice A's **400 is only its
+density ceiling**. It may be called “400 legally fit” only if 400 canonical
+townhouses independently pass every other constraint; otherwise v0 must report
+the actual placed reference-layout count and shortfall. Without a completeness
+proof, it may not claim a global maximum.
+
+The scaffold remains correctly red at `E_NOT_IMPLEMENTED`; no demo engine code
+was reviewed or accepted. Entry 033 landed while Sol was completing the
+already-assigned 032 turn and moved the global ledger ball to Shivam. Sol does
+not overwrite that move. Once Shivam resolves 033, the Townhouse Demo's queued
+next action is Fable revising the surface and building v0 against this frozen
+gate, then handing the ball to Sol for independent artifacts and stage review.
+
+**BALL: Shivam** — unchanged from 033 (R1/R3 blocking; R2/R4/R5/R6 may be ruled
+in the same goal-chat pass).
+
+### 033 — Fable — 2026-08-16
+
+**Research sprint (market + technical) complete at v1 —
+`collab/ResearchSprint-Stage1.md`. Three findings outrank the rest; one of
+them lands directly on Stage 1's only plot type. No code, no decisions
+taken — six recommendations escalate to Shivam.**
+
+- **F1 — S+4 is suspended.** Punjab & Haryana HC interim order 2026-04-02
+  stayed the Stilt+4 policy; DTCP memorandum 2026-07-21 suspended all
+  **fresh** S+4 approvals across HSVP/HSIIDC/ULB and told the IT wing to
+  disable S+4 submissions on HOBPAS. `Stage1Spec` §3 fixes v1 to exactly
+  this plot type; `BusinessThesis` customer #1 is the S+4 floor-selling
+  cycle. **R1** offers three routes (hold and reframe / shift plot type /
+  compute both, S+4 marked suspended); I lean on computing both. Mannu
+  owns ground reality, Shivam owns scope.
+- **F2 — Haryana already auto-checks drawings.** ULB and HSVP OBPAS both run
+  a "Quick DCR" engine that scrutinises submitted AutoCAD against the
+  Haryana Building Code and emits deviation reports. It checks at
+  submission; we generate before design. Position holds — but **R6**: never
+  lead a pitch with compliance *checking*, which is owned free by the State
+  and commercially by SoftTech/AutoDCR (35+ authorities, listed).
+- **F3 — HSVP publishes Layer Guidelines + Sample Building Plan DWGs.**
+  Free authoritative input to **M-S4** (site sheet standard). **R4**: hand
+  Mannu a draft to rule on instead of a blank page.
+
+Also carried into the artifact: **R2** — if the Low-Risk self-certification
+thresholds hold (<15 m, <1000 sqm), the liability-carrying self-certifying
+architect is a sharper answer to `BusinessThesis` OQ1 than the thesis
+currently has. **R3** — a **schema gap**: `Stage1Spec` §5 models
+supersession but cannot express "in force, but stayed/suspended by court
+order or executive memo"; F1 is a live instance and this is cheap to fix
+before build-order step A freezes the store. **R5** — two standing licence
+rules proposed.
+
+Technical track, licence-critical: 🚩 the npm `straight-skeleton` package is
+**MIT-labelled over a GPL-3+ CGAL WebAssembly build** (verified against
+CGAL's own `Straight_skeleton_2` licence file) — banned. Recommendation is
+to **build** the setback offset in-kernel and use **Clipper2 (Boost)** /
+**JSTS (EDL)** as external test oracles only, keeping third-party geometry
+out of the stamped artifact. Presentation maps: MapLibre + PMTiles (both
+BSD-3). Google Maps excluded on **terms** — its ToS forbid tracing building
+outlines. Data rule: no ODbL geometry (OSM/Overture) inside the owned
+database; Google Open Buildings taken under CC BY 4.0, context only.
+
+The scan also **confirmed the moat premise the hard way**: with full web
+access I could not assemble a citable, current, slab-by-slab Haryana table —
+three secondary sources, three different numbers. Every value in the
+artifact stays [TO-LOAD]. Mannu's physical circular collection is not
+redundant.
+
+Track 3 (repo licence + quality passes) is open and awaiting Shivam's
+GitHub links. Six items the scan could not close are registered in the
+artifact's O-table; O1–O3 are Mannu's.
+
+Note: this is a research artifact, not a spec change. Nothing in
+`Stage1Spec.md` or `BusinessThesis.md` was edited. Townhouse-demo work from
+032 is untouched and Sol's harness gate still stands.
+
+**BALL: Shivam** — R1 (scope) and R3 (schema) are the two that block; R2/R4/R5/R6 can be ruled in the same pass. O1–O3 need routing to Mannu.
+
+### 032 — Fable — 2026-08-16
+
+**Townhouse demo workstream opened: fixture + DEMO slices + red scaffold
+delivered; engine code correctly blocked on Sol's harness.** Per 031's
+parallel opening moves, Fable's build-side groundwork is done without
+touching engine logic (the tests-first gate holds:
+`collab/townhouse-demo-acceptance-tests.md` does not exist yet, so no
+engine code was written).
+
+Delivered:
+
+- **`townhouse-demo/`** — standalone package (kernel conventions: strict TS,
+  zero imports across `../kernel` / `../unitplan` / frozen `../src` in either
+  direction; `src/` Fable's, `tests/` reserved for Sol including the runner).
+  Public surface deliberately RED: `resolveDemoRulebook` and
+  `buildCommunityPackage` throw `E_NOT_IMPLEMENTED`. Error codes, the locked
+  stamp string, `DEMO_FILENAME_TAG`, and `REQUIRED_DEMO_SLOTS` (14) are
+  exported so the harness can assert against stable names. Output types are
+  marked v0-draft — Sol may demand changes before freeze; brief §3 guardrails
+  are not negotiable.
+- **Fixture + slices as data, never engine constants:**
+  `src/data/community-one-site.ts` (225 × 180 m = 40,500 m² = 10.0078 acres,
+  south access road 24 m, north declared, client ask 500 DU) and
+  `src/data/demo-slice-a.ts` / `demo-slice-b.ts` — 14 slots each, every value
+  `demo-illustrative` with the fixed never-verified source string. The store's
+  verification enum has exactly one member, so the package is
+  **type-incapable of claiming a verified rule** — that is what locks the
+  stamp at "Research Draft — Not for Construction · DEMO".
+- **`collab/TownhouseDemoFixture.md`** — human-readable mirror (data files
+  authoritative), including three proposed simplifications vs Stage1Spec §5
+  for Sol to accept/reject (flat applicability, single-member verification,
+  site-level percentages).
+
+Verified, not assumed: typecheck clean under the house strict settings, and a
+smoke run (executed, not just compiled — the 012 lesson) confirms both entry
+points throw `E_NOT_IMPLEMENTED`, both slices are complete/duplicate-free/
+pure on all 14 slots, and **all 14 values differ between A and B**, so the
+§5.6 swap moment has real material. Deliberate story choice for review:
+slice-A density (40 du/acre) caps Community One at **400 DU against the
+500 asked** — the demo leads with a first-class negative verdict, per
+Stage1Spec §1.
+
+Sol: write `collab/townhouse-demo-acceptance-tests.md` against brief §5 and
+this surface; you own `townhouse-demo/tests/` and the runner. Also rule on
+the three proposed simplifications and the v0-draft output types in
+`src/pipeline.ts`. Red-team question to carry: "which question breaks this
+demo in a meeting?"
+
+Your turn. Check the ledger.
+
+**BALL: Sol** — acceptance tests + surface review; Mannu items from 029
+unchanged.
+
 ### 031 — Fable — 2026-08-16
 
 **Paired-seat protocol (Shivam's ruling, goal chat) + Sol seat revived.**
