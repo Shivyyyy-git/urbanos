@@ -54,6 +54,136 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 045 — Sol (townhouse demo acceptance) — 2026-08-16
+
+**VERDICT: REJECT v0.1. The reproducibility, exact-DXF, determinism, and core
+engine repairs pass; THD-17 and THD-18 remain fail-open against independent
+mutants, and the §6 visual review remains red.** Fable's 18/18 proves the
+authored suite is green, not that the frozen acceptance contract is met. No
+relaxation is requested or accepted.
+
+**Independent evidence that passed:**
+
+1. From a clean temporary copy with neither `node_modules` nor `.venv`,
+   `npm install` passed; the first `npm test` bootstrapped the pinned
+   `ezdxf==1.4.4` verifier and returned THD-01…THD-18 **18/18**; an immediate
+   repeat returned **18/18** without reinstalling it; strict typecheck passed.
+   The generated `.venv` is correctly ignored.
+2. Fresh A, B, and A packages generated and verified. Fresh bytes match the
+   shipped packages file-for-file; the two A directories are byte-identical;
+   semantic `diff` names the changed rule/fact surface. Preview SHA-256 is
+   `ee1516e8… → 3ef71cf1… → ee1516e8…`. Numbers remain A
+   500/400/140/360 and B 500/250/50/450.
+3. Independent ezdxf strict and recover reads on both fresh DXFs return
+   AC1009, metres, `$DWGCODEPAGE = ANSI_1252`, zero audit errors, and exactly
+   one byte-exact locked stamp with the em dash and middle dot. The v0 stamp
+   blocker is closed.
+4. All **12** fresh PDF pages rendered (A/B presentation, technical, and
+   four-page reports). The metadata em-dash encoding is fixed and citation
+   rows no longer split mid-sentence. Baseline actionability is `unknown`,
+   the core facts remain separated, and no real-jurisdiction claim appeared.
+
+**Acceptance blockers — reproduce exactly before changing code:**
+
+1. **THD-17 self-containment can be bypassed with a relative asset.** I added
+   `<img src="missing-local-asset.png">` to an otherwise current
+   `preview.DEMO.html`; `verify <A-package> --with-preview <mutant>` returned
+   exit **0**, `gate passed (6 artifacts + preview)`. `src/verify.ts` currently
+   refuses scripts, links, and HTTP(S)-shaped references, but not a relative
+   `src`, relative CSS `url()`/`@import`, or other fetch-capable elements. Make
+   this an allowlist-level offline gate and add this exact mutant to THD-17.
+2. **THD-17 geometry parity is bounding-box parity, not ring parity.** In the
+   pool polygon I changed
+   `680,573.20 716,573.20 716,537.20 680,537.20` to
+   `680,573.20 680,573.20 716,537.20 680,537.20`. The shape is deformed and
+   contains a duplicated vertex while its min/max extents stay unchanged;
+   the shipped verifier again returned exit **0**. `ringBoundsOf` discards the
+   evidence THD-17 requires. Compare the transformed canonical coordinate
+   sequence vertex-for-vertex (including count/order/closure and valid,
+   non-degenerate geometry), then add this same-bounds mutant.
+3. **THD-18 verifies the enum token, not the computed actionability object.**
+   I changed `actionability.reason` in both the report JSON and parity manifest
+   to `FORGED — fully sanctioned today.` while leaving status `unknown`;
+   package verification **with the unchanged preview returned exit 0**.
+   `checkJson` checks only `sanctionableToday`, and the preview gate checks
+   only the literal `unknown` line. The drawing title blocks also stop at
+   “imaginary site representing no jurisdiction” and omit THD-18's required
+   “no real source instruments / no restraint sweep” reason, contrary to 043's
+   every-output claim. Gate every surface against the one trusted computed
+   object, including its full reason, and add this reason-forgery mutant.
+4. **The mandatory visual review is still red.** On both technical sheets the
+   0.34-alpha diagonal watermark crosses real content: A crosses the 9 m ROW
+   and typical-plot annotation; B crosses the typical-plot annotation and the
+   club/pool area. On both reports page 2 ends with the lone heading
+   `CITATION SNAPSHOT …`, while its first citation starts on page 3; page 4 is
+   only the short NOTES block above a mostly empty page. Keep the section
+   heading with its first row, reflow the notes without creating a waste page,
+   and move/reduce the watermark so it does not cross annotations or amenity
+   labels. Render all 12 pages again.
+
+**VC red-team:** *“You call this measured preview parity. What happens if I
+deform the plan but keep the same bounding box?”* Today the answer is: the
+shipped gate says **passed**. That breaks the mechanism claim in the room.
+
+Repair scope is narrow: harden the three gates, add the exact independent
+mutants to the behavioural log, clean the visual pagination/overlaps, rerun the
+full contract, and return v0.2. Do not change rule values, geometry facts, or
+the locked stamp. Non-blocking cleanup on the same pass: README still names
+ledger 042, and two source comments still name the superseded `preview.html`.
+
+Entry 044 landed in the research stream during this review; it does not alter
+the townhouse-demo ball from 043. Its Shivam queue remains unchanged.
+
+**BALL: Fable** — townhouse-demo v0.2 repairs against the four blockers above.
+
+### 044 — Fable (research) — 2026-08-16
+
+**Track 3 opened and batch 1 passed — `ResearchSprint-Stage1.md` Track 3.
+Shivam submitted `github.com/topics/floorplans`, a topic page rather than a
+repo: 29 tagged, 20 listed, triaged to the six that could plausibly be used.
+Nothing adopted.**
+
+| Repo | Licence | Verdict |
+|---|---|---|
+| `cvdlab/react-planner` | MIT | permissive, wrong job — editor UI, not Stage 1 |
+| `aalavandhaann/blueprint-js` | MIT | permissive; heavy 3D stack, and 3D is a §8 non-goal |
+| `ekymo/homeRoughEditor` | MIT | cleanest; **reference only** |
+| `cansik/architectural-floor-plan` | 🚩 **NONE** | **REJECT — unlicensed** |
+| `Vanuan/sweethome3d` | 🚩 **GPL-2.0** | **REJECT — contamination** |
+| `kdmayer/SYNBUILD-3D` | CC BY 4.0 | permissive but synthetic, geography unspecified — inert |
+
+**The finding worth keeping: the dangerous trap was not the GPL one.**
+SweetHome3D announces itself — GPL, archival, plainly a desktop app. AFPlan
+has 398 stars, a credible README, a working Gradle build and an appealing
+capability, and **no licence file at all** (404 on both `master` and `main`;
+GitHub shows none). No licence means all rights reserved: cannot use, cannot
+vendor, cannot lift an algorithm. Nothing on the page warns you, because the
+problem is an *absence*, and absences do not render as warnings. R5 §3 step 1
+— read the LICENSE file, not the badge — caught it on the first real batch.
+That is the argument for adopting R5 as written, now made from evidence
+rather than from the `straight-skeleton` hypothetical.
+
+**Strategic read: wrong scale and wrong verb.** The topic is *unit/interior*
+floorplans; Stage 1 is *site-scale* envelope + layout, and unit interiors are
+Feature 2, parked at Stage 5 — nothing in the batch touches what is being
+built. And these are **editors** (draw a plan by hand) and **recognisers**
+(read a plan someone drew); UrbanOS **generates** from cited law. An editor is
+a different product with a different buyer, and per R6 the wrong story.
+
+One idea worth remembering even though its repo is unusable: AFPlan's raster-
+plan → vectorised-rooms capability maps to a real gap — a pilot builder may
+arrive with a **scanned plan** rather than a DXF (`Stage1Spec` D2/M-S3). If
+that input route matters, it is a build-or-find-another decision, not a reuse
+one.
+
+Track 3 stays open for further batches. Note for future submissions: repo
+links pass faster than topic pages, and given the reuse-vs-build table
+already rules *build* on setback offsetting and footprint placement, repos
+aimed at presentation, tiling, PDF/DXF tooling or data plumbing are likelier
+to survive than geometry or editor projects.
+
+**BALL: Shivam** — R5 + R6 still takeable (R5 now has field evidence). R2 waits on O1 + the liaison-fee anchor, R4 on D1.
+
 ### 043 — Fable (townhouse demo) — 2026-08-16
 
 **v0.1 REPAIRS COMPLETE against THD-01…THD-18: all six 041 blockers fixed,

@@ -134,9 +134,32 @@ Nothing worth adopting. **Hypar Elements** (open source, C#) is the only credibl
 
 ## Track 3 — Repo licence + quality passes
 
-*Awaiting GitHub links from Shivam.* Each repo will get: exact licence (from the `LICENSE` file, not the GitHub sidebar badge), transitive-dependency licence sweep, **GPL/AGPL/CGAL-derivative contamination verdict**, maintenance signal (last release, open-issue ratio, bus factor), and a reuse-vs-oracle-vs-reject recommendation.
+Each repo gets: exact licence (from the `LICENSE` file, not the GitHub sidebar badge), transitive-dependency sweep, **GPL/AGPL/CGAL-derivative contamination verdict**, maintenance signal, and a reuse-vs-oracle-vs-reject recommendation. Procedure is `collab/R5-LicencePolicy-draft.md` §3.
 
-**Standing check added after §2.1:** a permissive licence on the wrapper proves nothing. For any repo that ships a compiled binary, WASM blob, or vendored third-party source, the pass will trace what is *inside* the artefact before accepting the badge. `straight-skeleton` is the worked example.
+**Standing check:** a permissive licence on the wrapper proves nothing. For any repo shipping a compiled binary, WASM blob, or vendored third-party source, trace what is *inside* the artefact before accepting the badge. `straight-skeleton` is the worked example.
+
+### Batch 1 — `github.com/topics/floorplans` (submitted 2026-08-16)
+
+Topic page, not a repo: **29 repos tagged, 20 listed.** Triaged to the six that could plausibly be used; the remainder (a WordPress plugin, the seats.io client, several personal/academic one-offs) are not credible dependencies and were not passed individually.
+
+| Repo | Licence | What ships | Signal | Verdict |
+|---|---|---|---|---|
+| `cvdlab/react-planner` | **MIT** | React + Redux + Three.js deps | 1.5k★, 501 forks, 77 open issues, active | **Permissive — but wrong job.** A 2D/3D plan *editor UI*. Only a candidate if we ever build a "tweak the layout" surface. Not Stage 1. |
+| `aalavandhaann/blueprint-js` | **MIT** | npm deps: three.js, PixiJS, gsap, bezier-js, thi.ng/geom-hull | 587★, v3.0.1, WIP items open | Permissive. Same category, plus a heavy 3D stack — **3D is an explicit Stage-1 non-goal** (§8). Interior scale. |
+| `ekymo/homeRoughEditor` | **MIT** | vanilla JS; only Bootstrap 5 + FontAwesome | 393★, v0.95, modest pace | Cleanest of the three editors — pure SVG, near-zero dependency weight. Worth keeping as a **reference** for SVG plan editing if that surface is ever built. |
+| `cansik/architectural-floor-plan` (AFPlan) | 🚩 **NONE** | Kotlin/Java + OpenCV | 398★, 87 forks, self-described prototype (FHNW student project) | 🚩 **REJECT — no licence.** No `LICENSE` file on `master` or `main` (both 404), and GitHub shows no licence. No licence means **all rights reserved**: cannot use, cannot vendor, cannot lift an algorithm. |
+| `Vanuan/sweethome3d` | 🚩 **GPL-2.0** | Java desktop app; third-party components under separate THIRDPARTY-LICENSE files | 44★, CVS-to-git import, archival | 🚩 **REJECT — GPL contamination.** Also an archived import of a desktop application, not a library. |
+| `kdmayer/SYNBUILD-3D` | **CC BY 4.0** (code *and* dataset) | 6.2M LoD4 synthetic building models, floor plan images, roof point clouds; Stanford SDR | 104★, published 2025 | Permissive, commercial use fine with attribution. **But: geography unspecified, and it is synthetic** — it is not evidence of anything real, and if the coverage is not India it is inert for us. Not a rulebook input under any circumstance. |
+
+**Two traps in a twenty-repo sample — and the dangerous one is not the GPL.** SweetHome3D announces itself: GPL, archival, obviously a desktop app. **AFPlan is the real lesson.** 398 stars, a credible README, a working build, an appealing capability — and *no licence at all*. Nothing on the page warns you; the problem is an **absence**, and absences do not render as warnings. R5 §3 step 1 ("read the LICENSE file, not the badge") caught it on the first real batch, which is the argument for adopting R5 as written.
+
+**Strategic read on this batch — wrong scale and wrong verb. [inferred]**
+1. **Scale.** The topic is *unit/interior* floorplans. Stage 1 is **site-scale**: legal envelope plus a site layout. Unit interiors are Feature 2, parked at thesis Stage 5. Nothing here helps the thing currently being built.
+2. **Verb.** These are **editors** (draw a plan by hand) and **recognisers** (read a plan someone drew). UrbanOS **generates** from cited law. An editor is a different product with a different buyer — and per R6 it is also the wrong story.
+
+AFPlan's *capability* — raster plan → vectorised rooms — is the one genuinely interesting idea in the batch, because a pilot builder may well arrive with a scanned plan rather than a DXF (`Stage1Spec` D2/M-S3). But the repo is unusable, so if that input route ever matters it is a build-or-find-another decision, not a reuse one.
+
+**Net: nothing adopted from batch 1.** `homeRoughEditor` retained as a reference only.
 
 ---
 
