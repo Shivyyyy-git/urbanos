@@ -54,6 +54,72 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 042 — Fable (research) — 2026-08-16
+
+**R5 and R6 finished as standalone adoptable policies:
+`collab/R5-LicencePolicy-draft.md` and `collab/R6-ClaimsRule-draft.md`. Both
+need only Shivam's word — no new information, nothing blocked on Mannu. R5
+ships with a completed dependency audit; the repo is clean.**
+
+**R5 — licence and provenance.** Drop-in Protocol §6 text for all three
+rules. Adds the vetting procedure that makes "traced" operational (read the
+package's own LICENSE file, not the badge; ask what actually ships; enumerate
+transitives; classify runtime vs build-only; reject GPL/AGPL/CGAL-derived/
+unstated/ingested-share-alike; record the verdict) — the same instrument
+Track 3's repo passes will run.
+
+**Current-state audit, run this session — clean.** Shipping path:
+`polygon-clipping` 0.15.7 **MIT** (+ `splaytree` MIT, `robust-predicates`
+Unlicense), `react`/`react-dom` MIT. Build-only: typescript Apache-2.0,
+esbuild/vite/@types MIT. PDF uses base-14 Type1 fonts **referenced, not
+embedded** — no font exposure, and deliberate. `townhouse-demo` carries
+**zero** runtime dependencies. **No GPL, no LGPL, no share-alike, no unstated
+licence anywhere that ships.**
+
+**Correction to my own scan.** `ResearchSprint-Stage1.md` §2.1 recommended
+keeping third-party geometry "out of the artefact that carries our stamp" —
+**the kernel already ships one**, `polygon-clipping`, for boolean difference
+in `geom.ts`. It is fine (MIT, pure JS, passes every vetting step), but the
+policy is therefore worded **permissive-and-traced, not none**, so we do not
+adopt a rule we are already breaking.
+
+Two watch items, neither live: embedding any font becomes a vetting event,
+and the first basemap tile in a PDF engages rules (b) and (c). One open
+question flagged rather than guessed — **are we entitled to store and
+redistribute scans of government circulars?** The moat is built on serving
+them as citation evidence; citing, storing, and serving-to-a-paying-customer
+are three different questions and this is a lawyer's, not mine. Blocks
+nothing now (pilots unpaid, volume small); answer before commercial scale.
+
+**R6 — the generation rule.** Adoptable claims rule with the commercial
+argument leading: **our price ceiling for checking is zero**, because the
+State gives it away via Quick DCR and the market above that is held by an
+incumbent with relationships we do not have — so a checking pitch competes
+with free at the bottom and SoftTech at the top, in a segment where we have
+no structural advantage. Proposes **merging with the existing claims
+discipline into one two-clause policy** (never imply approval · always lead
+with generation), because they fail together: "we check your plan for
+compliance" adopts the checking frame *and* edges toward implying an
+outcome. Includes surface-by-surface coverage (deck, site, report cover, demo
+script, sales conversation, Stage 2 framing), an expanded say/don't-say
+table, and the hard case — when the customer offers the checking frame
+themselves, **reframe rather than avoid**, since never engaging with checking
+makes us unintelligible to someone whose workflow is deviation reports.
+
+**One boundary stated explicitly in R6:** it is a **positioning rule, not a
+product restriction.** It does not forbid a feature that measures a supplied
+drawing against a computed envelope — §9.5 already measures containment, so
+the capability is largely there. R6 governs how such a thing is described and
+sold, not whether it may exist. The opposite reading would rule out a
+capability on the strength of a marketing rule.
+
+Noted: 040 ratified D5 + R1 into `Stage1Spec` v1.2 (compute-both), and the
+Townhouse Demo v0 was committed this session at Shivam's request after
+independent verification (16/16 THD green, typecheck clean, no credentials,
+`node_modules` ignored) — commit `72b81ed`.
+
+**BALL: Shivam** — R5 + R6 both takeable now. Remaining sprint items wait on Mannu: R2 (O1 thresholds + liaison-fee anchor), R4 (D1 authority). Track 3 idle, awaiting repo links.
+
 ### 041 — Sol (townhouse demo acceptance) — 2026-08-16
 
 **VERDICT: REJECT v0. The rule-driven engine core clears independent review;
