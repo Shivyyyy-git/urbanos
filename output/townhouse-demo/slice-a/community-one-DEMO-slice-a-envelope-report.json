@@ -1,0 +1,664 @@
+{
+  "title": "Community One — DEMO envelope report",
+  "slice": "DEMO-SLICE-A",
+  "stamp": "Research Draft — Not for Construction · DEMO",
+  "classification": "demo-illustrative",
+  "fixtureDigest": "b7a5c46d9e58a3dd5758556734e0899eba970296514be7e4ffbe7d079f82e2de",
+  "rulebookDigest": "fd6c579f1d7fb32b244e192d3021f1eb608804f93a898418b6037c69a36e203f",
+  "geometryDigest": "1182bdecd34e9d8592db3089f4ad9862c4a9d60ba8d716e52e4c081bc3ae0973",
+  "facts": [
+    {
+      "id": "fact.site-width",
+      "kind": "fixture-input",
+      "name": "Site width (E-W)",
+      "value": 225,
+      "unit": "m",
+      "fixtureRefs": [
+        "site.widthM"
+      ],
+      "ruleRefs": []
+    },
+    {
+      "id": "fact.site-depth",
+      "kind": "fixture-input",
+      "name": "Site depth (N-S)",
+      "value": 180,
+      "unit": "m",
+      "fixtureRefs": [
+        "site.depthM"
+      ],
+      "ruleRefs": []
+    },
+    {
+      "id": "fact.north-bearing",
+      "kind": "fixture-input",
+      "name": "Declared north bearing",
+      "value": 0,
+      "unit": "deg",
+      "fixtureRefs": [
+        "site.northBearingDeg"
+      ],
+      "ruleRefs": []
+    },
+    {
+      "id": "fact.access-road-width",
+      "kind": "fixture-input",
+      "name": "External access road width (south)",
+      "value": 24,
+      "unit": "m",
+      "fixtureRefs": [
+        "site.accessRoad.widthM"
+      ],
+      "ruleRefs": []
+    },
+    {
+      "id": "fact.requested-du",
+      "kind": "fixture-input",
+      "name": "Requested dwelling units (client intent)",
+      "value": 500,
+      "unit": "DU",
+      "fixtureRefs": [
+        "site.requestedDwellingUnits"
+      ],
+      "ruleRefs": [],
+      "note": "Intent only — never a result."
+    },
+    {
+      "id": "fact.site-area",
+      "kind": "derived",
+      "name": "Gross site area",
+      "value": 40500,
+      "unit": "sqm",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [],
+      "note": "width x depth"
+    },
+    {
+      "id": "fact.site-area-acres",
+      "kind": "derived",
+      "name": "Gross site area",
+      "value": 10.007768,
+      "unit": "acre",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [],
+      "note": "site area / 4046.8564224 sqm-per-acre (physical constant)"
+    },
+    {
+      "id": "fact.rule.site-coverage-max",
+      "kind": "rule-value",
+      "name": "Max ground coverage (of gross site area)",
+      "value": 40,
+      "unit": "percent",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-SITE-COVERAGE-MAX"
+      ]
+    },
+    {
+      "id": "fact.rule.density-max",
+      "kind": "rule-value",
+      "name": "Max density",
+      "value": 40,
+      "unit": "du-per-acre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-DENSITY-MAX"
+      ]
+    },
+    {
+      "id": "fact.rule.height-max",
+      "kind": "rule-value",
+      "name": "Max height",
+      "value": 12,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-HEIGHT-MAX"
+      ]
+    },
+    {
+      "id": "fact.rule.storeys-max",
+      "kind": "rule-value",
+      "name": "Max storeys",
+      "value": 3,
+      "unit": "storeys",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-STOREYS-MAX"
+      ]
+    },
+    {
+      "id": "fact.rule.setback-periphery",
+      "kind": "rule-value",
+      "name": "Periphery setback",
+      "value": 9,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-SETBACK-PERIPHERY"
+      ]
+    },
+    {
+      "id": "fact.rule.setback-front",
+      "kind": "rule-value",
+      "name": "Front (access-road) setback",
+      "value": 12,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-SETBACK-FRONT"
+      ]
+    },
+    {
+      "id": "fact.rule.road-width-primary",
+      "kind": "rule-value",
+      "name": "Primary internal road width",
+      "value": 12,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-ROAD-WIDTH-PRIMARY"
+      ]
+    },
+    {
+      "id": "fact.rule.road-width-secondary",
+      "kind": "rule-value",
+      "name": "Secondary internal road width",
+      "value": 9,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-ROAD-WIDTH-SECONDARY"
+      ]
+    },
+    {
+      "id": "fact.rule.open-space-min",
+      "kind": "rule-value",
+      "name": "Min open space (of gross site area)",
+      "value": 15,
+      "unit": "percent",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-OPEN-SPACE-MIN"
+      ]
+    },
+    {
+      "id": "fact.rule.parking-ecs-per-du",
+      "kind": "rule-value",
+      "name": "Parking norm",
+      "value": 2,
+      "unit": "ecs-per-du",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-PARKING-ECS-PER-DU"
+      ]
+    },
+    {
+      "id": "fact.rule.amenity-share-min",
+      "kind": "rule-value",
+      "name": "Min amenity share (of gross site area)",
+      "value": 5,
+      "unit": "percent",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-AMENITY-SHARE-MIN"
+      ]
+    },
+    {
+      "id": "fact.rule.unit-plot-frontage-min",
+      "kind": "rule-value",
+      "name": "Min townhouse plot frontage",
+      "value": 6,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-UNIT-PLOT-FRONTAGE-MIN"
+      ]
+    },
+    {
+      "id": "fact.rule.unit-plot-depth-min",
+      "kind": "rule-value",
+      "name": "Min townhouse plot depth",
+      "value": 15,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-UNIT-PLOT-DEPTH-MIN"
+      ]
+    },
+    {
+      "id": "fact.rule.row-length-max",
+      "kind": "rule-value",
+      "name": "Max unbroken row length",
+      "value": 72,
+      "unit": "metre",
+      "fixtureRefs": [],
+      "ruleRefs": [
+        "DEMO-A-ROW-LENGTH-MAX"
+      ]
+    },
+    {
+      "id": "fact.envelope-width",
+      "kind": "derived",
+      "name": "Buildable envelope width",
+      "value": 207,
+      "unit": "m",
+      "fixtureRefs": [
+        "site.widthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-SETBACK-PERIPHERY"
+      ]
+    },
+    {
+      "id": "fact.envelope-depth",
+      "kind": "derived",
+      "name": "Buildable envelope depth",
+      "value": 159,
+      "unit": "m",
+      "fixtureRefs": [
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-SETBACK-FRONT",
+        "DEMO-A-SETBACK-PERIPHERY"
+      ]
+    },
+    {
+      "id": "fact.coverage-cap-area",
+      "kind": "derived",
+      "name": "Ground-coverage cap",
+      "value": 16200,
+      "unit": "sqm",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-SITE-COVERAGE-MAX"
+      ],
+      "note": "coverage % x gross site area"
+    },
+    {
+      "id": "fact.density-ceiling",
+      "kind": "derived",
+      "name": "Density ceiling",
+      "value": 400,
+      "unit": "DU",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-DENSITY-MAX"
+      ],
+      "note": "floor(site acres x density). A ceiling only — NOT a geometric capacity."
+    },
+    {
+      "id": "fact.placed-du",
+      "kind": "derived",
+      "name": "Townhouses placed in this reference layout",
+      "value": 140,
+      "unit": "DU",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-SETBACK-PERIPHERY",
+        "DEMO-A-SETBACK-FRONT",
+        "DEMO-A-ROAD-WIDTH-PRIMARY",
+        "DEMO-A-ROAD-WIDTH-SECONDARY",
+        "DEMO-A-OPEN-SPACE-MIN",
+        "DEMO-A-AMENITY-SHARE-MIN",
+        "DEMO-A-UNIT-PLOT-FRONTAGE-MIN",
+        "DEMO-A-UNIT-PLOT-DEPTH-MIN",
+        "DEMO-A-ROW-LENGTH-MAX",
+        "DEMO-A-SITE-COVERAGE-MAX",
+        "DEMO-A-DENSITY-MAX"
+      ],
+      "note": "Counted from canonical geometry. Not a claimed maximum: no completeness search over the layout space was performed."
+    },
+    {
+      "id": "fact.shortfall-du",
+      "kind": "derived",
+      "name": "Shortfall against request",
+      "value": 360,
+      "unit": "DU",
+      "fixtureRefs": [
+        "site.requestedDwellingUnits",
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-SETBACK-PERIPHERY",
+        "DEMO-A-SETBACK-FRONT",
+        "DEMO-A-ROAD-WIDTH-PRIMARY",
+        "DEMO-A-ROAD-WIDTH-SECONDARY",
+        "DEMO-A-OPEN-SPACE-MIN",
+        "DEMO-A-AMENITY-SHARE-MIN",
+        "DEMO-A-UNIT-PLOT-FRONTAGE-MIN",
+        "DEMO-A-UNIT-PLOT-DEPTH-MIN",
+        "DEMO-A-ROW-LENGTH-MAX",
+        "DEMO-A-SITE-COVERAGE-MAX",
+        "DEMO-A-DENSITY-MAX"
+      ],
+      "note": "requested - placed"
+    },
+    {
+      "id": "fact.built-footprint",
+      "kind": "derived",
+      "name": "Built footprint (plots + club)",
+      "value": 12780,
+      "unit": "sqm",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-UNIT-PLOT-FRONTAGE-MIN",
+        "DEMO-A-UNIT-PLOT-DEPTH-MIN",
+        "DEMO-A-AMENITY-SHARE-MIN",
+        "DEMO-A-SETBACK-PERIPHERY",
+        "DEMO-A-SETBACK-FRONT",
+        "DEMO-A-ROAD-WIDTH-PRIMARY",
+        "DEMO-A-ROAD-WIDTH-SECONDARY",
+        "DEMO-A-OPEN-SPACE-MIN",
+        "DEMO-A-AMENITY-SHARE-MIN",
+        "DEMO-A-UNIT-PLOT-FRONTAGE-MIN",
+        "DEMO-A-UNIT-PLOT-DEPTH-MIN",
+        "DEMO-A-ROW-LENGTH-MAX",
+        "DEMO-A-SITE-COVERAGE-MAX",
+        "DEMO-A-DENSITY-MAX"
+      ],
+      "note": "Conservative demo convention: each townhouse plot counted fully as footprint."
+    },
+    {
+      "id": "fact.green-required",
+      "kind": "derived",
+      "name": "Green/open space required",
+      "value": 6075,
+      "unit": "sqm",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-OPEN-SPACE-MIN"
+      ]
+    },
+    {
+      "id": "fact.green-provided",
+      "kind": "derived",
+      "name": "Green/open space provided (measured)",
+      "value": 6084,
+      "unit": "sqm",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-OPEN-SPACE-MIN",
+        "DEMO-A-SETBACK-PERIPHERY",
+        "DEMO-A-SETBACK-FRONT",
+        "DEMO-A-ROAD-WIDTH-PRIMARY"
+      ]
+    },
+    {
+      "id": "fact.amenity-required",
+      "kind": "derived",
+      "name": "Amenity parcel required",
+      "value": 2025,
+      "unit": "sqm",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-AMENITY-SHARE-MIN"
+      ]
+    },
+    {
+      "id": "fact.amenity-provided",
+      "kind": "derived",
+      "name": "Amenity parcel provided (measured)",
+      "value": 2025,
+      "unit": "sqm",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-AMENITY-SHARE-MIN",
+        "DEMO-A-UNIT-PLOT-DEPTH-MIN"
+      ]
+    },
+    {
+      "id": "fact.parking-required",
+      "kind": "derived",
+      "name": "Required parking",
+      "value": 280,
+      "unit": "ECS",
+      "fixtureRefs": [
+        "site.widthM",
+        "site.depthM"
+      ],
+      "ruleRefs": [
+        "DEMO-A-PARKING-ECS-PER-DU",
+        "DEMO-A-SETBACK-PERIPHERY",
+        "DEMO-A-SETBACK-FRONT",
+        "DEMO-A-ROAD-WIDTH-PRIMARY",
+        "DEMO-A-ROAD-WIDTH-SECONDARY",
+        "DEMO-A-OPEN-SPACE-MIN",
+        "DEMO-A-AMENITY-SHARE-MIN",
+        "DEMO-A-UNIT-PLOT-FRONTAGE-MIN",
+        "DEMO-A-UNIT-PLOT-DEPTH-MIN",
+        "DEMO-A-ROW-LENGTH-MAX",
+        "DEMO-A-SITE-COVERAGE-MAX",
+        "DEMO-A-DENSITY-MAX"
+      ],
+      "note": "placed DU x parking norm, rounded up. Parking is on-plot (stilt) in v0 and not drawn."
+    }
+  ],
+  "citations": [
+    {
+      "entryId": "DEMO-A-SITE-COVERAGE-MAX",
+      "slot": "site-coverage-max",
+      "value": 40,
+      "unit": "percent",
+      "basis": "Built footprint may cover at most 40% of gross site area (denominator: gross site area).",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-SITE-COVERAGE-MAX#v1"
+    },
+    {
+      "entryId": "DEMO-A-DENSITY-MAX",
+      "slot": "density-max",
+      "value": 40,
+      "unit": "du-per-acre",
+      "basis": "At most 40 dwelling units per acre of gross site area.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-DENSITY-MAX#v1"
+    },
+    {
+      "entryId": "DEMO-A-HEIGHT-MAX",
+      "slot": "height-max",
+      "value": 12,
+      "unit": "metre",
+      "basis": "No structure exceeds 12 m above finished ground level.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-HEIGHT-MAX#v1"
+    },
+    {
+      "entryId": "DEMO-A-STOREYS-MAX",
+      "slot": "storeys-max",
+      "value": 3,
+      "unit": "storeys",
+      "basis": "Townhouses of at most three storeys (G+2).",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-STOREYS-MAX#v1"
+    },
+    {
+      "entryId": "DEMO-A-SETBACK-PERIPHERY",
+      "slot": "setback-periphery",
+      "value": 9,
+      "unit": "metre",
+      "basis": "A 9 m setback from every site boundary that does not face the access road.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-SETBACK-PERIPHERY#v1"
+    },
+    {
+      "entryId": "DEMO-A-SETBACK-FRONT",
+      "slot": "setback-front",
+      "value": 12,
+      "unit": "metre",
+      "basis": "A 12 m setback from the boundary facing the external access road.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-SETBACK-FRONT#v1"
+    },
+    {
+      "entryId": "DEMO-A-ROAD-WIDTH-PRIMARY",
+      "slot": "road-width-primary",
+      "value": 12,
+      "unit": "metre",
+      "basis": "The internal spine road is 12 m wide, right-of-way.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-ROAD-WIDTH-PRIMARY#v1"
+    },
+    {
+      "entryId": "DEMO-A-ROAD-WIDTH-SECONDARY",
+      "slot": "road-width-secondary",
+      "value": 9,
+      "unit": "metre",
+      "basis": "Internal secondary/row roads are 9 m wide, right-of-way.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-ROAD-WIDTH-SECONDARY#v1"
+    },
+    {
+      "entryId": "DEMO-A-OPEN-SPACE-MIN",
+      "slot": "open-space-min",
+      "value": 15,
+      "unit": "percent",
+      "basis": "At least 15% of gross site area is green/open space (denominator: gross site area).",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-OPEN-SPACE-MIN#v1"
+    },
+    {
+      "entryId": "DEMO-A-PARKING-ECS-PER-DU",
+      "slot": "parking-ecs-per-du",
+      "value": 2,
+      "unit": "ecs-per-du",
+      "basis": "Two equivalent car spaces per dwelling unit.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-PARKING-ECS-PER-DU#v1"
+    },
+    {
+      "entryId": "DEMO-A-AMENITY-SHARE-MIN",
+      "slot": "amenity-share-min",
+      "value": 5,
+      "unit": "percent",
+      "basis": "At least 5% of gross site area is the community amenity parcel, club + pool (denominator: gross site area).",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-AMENITY-SHARE-MIN#v1"
+    },
+    {
+      "entryId": "DEMO-A-UNIT-PLOT-FRONTAGE-MIN",
+      "slot": "unit-plot-frontage-min",
+      "value": 6,
+      "unit": "metre",
+      "basis": "Each townhouse plot has at least 6 m of road frontage.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-UNIT-PLOT-FRONTAGE-MIN#v1"
+    },
+    {
+      "entryId": "DEMO-A-UNIT-PLOT-DEPTH-MIN",
+      "slot": "unit-plot-depth-min",
+      "value": 15,
+      "unit": "metre",
+      "basis": "Each townhouse plot is at least 15 m deep.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-UNIT-PLOT-DEPTH-MIN#v1"
+    },
+    {
+      "entryId": "DEMO-A-ROW-LENGTH-MAX",
+      "slot": "row-length-max",
+      "value": 72,
+      "unit": "metre",
+      "basis": "One unbroken townhouse row is at most 72 m long.",
+      "authority": "DEMO AUTHORITY (illustrative)",
+      "classification": "demo-illustrative",
+      "verification": "unverified",
+      "sourceDocumentRef": "demo — illustrative (no real-world document)",
+      "versionId": "DEMO-A-ROW-LENGTH-MAX#v1"
+    }
+  ],
+  "verdict": {
+    "requestedDuFactId": "fact.requested-du",
+    "densityCeilingFactId": "fact.density-ceiling",
+    "placedDuFactId": "fact.placed-du",
+    "shortfallFactId": "fact.shortfall-du",
+    "bindingEntryIds": [
+      "DEMO-A-SETBACK-PERIPHERY",
+      "DEMO-A-SETBACK-FRONT",
+      "DEMO-A-ROAD-WIDTH-PRIMARY",
+      "DEMO-A-ROAD-WIDTH-SECONDARY",
+      "DEMO-A-OPEN-SPACE-MIN",
+      "DEMO-A-AMENITY-SHARE-MIN",
+      "DEMO-A-UNIT-PLOT-FRONTAGE-MIN",
+      "DEMO-A-UNIT-PLOT-DEPTH-MIN",
+      "DEMO-A-ROW-LENGTH-MAX"
+    ],
+    "bindingDescription": "Geometric fill of this reference layout under the cited setback, road, open-space, amenity, plot-dimension and row-length entries.",
+    "narrative": "The client asked for 500 townhouses. Under the DEMO-SLICE-A entries, the density ceiling is 400 DU and 140 townhouses are placed in this reference layout (shortfall 360). The placed count is what this layout achieves; it is not a claimed legal capacity, because no completeness search over the permitted layout space was performed. All values are illustrative demo entries — this is not a statement about any real jurisdiction."
+  },
+  "notes": [
+    "DEMO: every value is illustrative and unverified; no real authority, document, or jurisdiction is represented.",
+    "Percent rules use gross site area as denominator, stated per entry; provided areas are measured from canonical geometry.",
+    "The requested unit count is client intent and is never copied into any result field.",
+    "Height and storey caps are cited envelope limits; v0 draws no elevations, and no drawing label exceeds them."
+  ]
+}

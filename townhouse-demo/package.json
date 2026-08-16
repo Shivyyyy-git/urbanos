@@ -1,0 +1,16 @@
+{
+  "name": "@urbanos/townhouse-demo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Townhouse Demo 'Community One' — DEMO rulebook slice + real pipeline (rulebook -> envelope -> layout -> outputs). Independent of ../kernel, ../unitplan and the frozen prototype at ../src. Every artifact is DEMO-watermarked; illustrative values only.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node tests/run-tests.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.1",
+    "typescript": "^5.5.3"
+  }
+}

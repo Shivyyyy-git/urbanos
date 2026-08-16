@@ -1,0 +1,708 @@
+%PDF-1.4
+%ту╧╙
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R 5 0 R 7 0 R] /Count 3 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.275591 841.889764] /Resources << /Font << /F1 9 0 R /F2 10 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 7433 >>
+stream
+% URBANOS_WATERMARK
+q
+0.82 0.82 0.82 rg
+BT
+/F2 158.139228 Tf
+0.866025 0.500000 -0.500000 0.866025 133.294688 326.061345 Tm
+(DEMO) Tj
+ET
+Q
+% URBANOS_WATERMARK_STAMP
+q
+0.45 0.45 0.45 rg
+BT
+/F2 10.279050 Tf
+1 0 0 1 17.007874 824.881890 Tm
+(Research Draft Ч Not for Construction ╖ DEMO) Tj
+ET
+Q
+% URBANOS_REPORT_BODY
+q
+0.05 0.05 0.05 rg
+BT
+/F2 8.499984 Tf
+1 0 0 1 42.519685 759.685039 Tm
+(Community One Ч DEMO envelope report) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 748.629921 Tm
+(Slice: DEMO-SLICE-B   Classification: demo-illustrative) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 737.574803 Tm
+(Stamp: Research Draft Ч Not for Construction ╖ DEMO) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 726.519685 Tm
+() Tj
+/F2 8.499984 Tf
+1 0 0 1 42.519685 715.464567 Tm
+(PINNED DIGESTS \(SHA-256\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 704.409449 Tm
+(fixture:  b7a5c46d9e58a3dd5758556734e0899eba970296514be7e4ffbe7d079f82e2de) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 693.354331 Tm
+(rulebook: c7ae502fd0e600774cd77ce3526e6d0a836f3ebf648879930af64b1f7aa06abb) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 682.299213 Tm
+(geometry: 0275a536a4d7da2791e53c979b53b09a186025d73300893380a1ef28c6cb0cb6) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 671.244094 Tm
+() Tj
+/F2 8.499984 Tf
+1 0 0 1 42.519685 660.188976 Tm
+(DECLARED FIXTURE INPUTS) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 649.133858 Tm
+(Site width \(E-W\): 225 m [fact.site-width] <- site.widthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 638.078740 Tm
+(Site depth \(N-S\): 180 m [fact.site-depth] <- site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 627.023622 Tm
+(Declared north bearing: 0 deg [fact.north-bearing] <- site.northBearingDeg) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 615.968504 Tm
+(External access road width \(south\): 24 m [fact.access-road-width] <- site.accessRoad.widthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 604.913386 Tm
+(Requested dwelling units \(client intent\): 500 DU [fact.requested-du] <- site.requestedDwellingUnits) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 593.858268 Tm
+(    note: Intent only Ч never a result.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 582.803150 Tm
+() Tj
+/F2 8.499984 Tf
+1 0 0 1 42.519685 571.748031 Tm
+(PERMITTED VALUES \(DEMO RULE ENTRIES\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 560.692913 Tm
+(Max ground coverage \(of gross site area\): 30 percent [fact.rule.site-coverage-max] cites DEMO-B-SITE-COVERAGE-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 549.637795 Tm
+(Max density: 25 du-per-acre [fact.rule.density-max] cites DEMO-B-DENSITY-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 538.582677 Tm
+(Max height: 9 metre [fact.rule.height-max] cites DEMO-B-HEIGHT-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 527.527559 Tm
+(Max storeys: 2 storeys [fact.rule.storeys-max] cites DEMO-B-STOREYS-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 516.472441 Tm
+(Periphery setback: 12 metre [fact.rule.setback-periphery] cites DEMO-B-SETBACK-PERIPHERY) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 505.417323 Tm
+(Front \(access-road\) setback: 15 metre [fact.rule.setback-front] cites DEMO-B-SETBACK-FRONT) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 494.362205 Tm
+(Primary internal road width: 15 metre [fact.rule.road-width-primary] cites DEMO-B-ROAD-WIDTH-PRIMARY) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 483.307087 Tm
+(Secondary internal road width: 12 metre [fact.rule.road-width-secondary] cites DEMO-B-ROAD-WIDTH-SECONDARY) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 472.251969 Tm
+(Min open space \(of gross site area\): 25 percent [fact.rule.open-space-min] cites DEMO-B-OPEN-SPACE-MIN) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 461.196850 Tm
+(Parking norm: 1.500 ecs-per-du [fact.rule.parking-ecs-per-du] cites DEMO-B-PARKING-ECS-PER-DU) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 450.141732 Tm
+(Min amenity share \(of gross site area\): 8 percent [fact.rule.amenity-share-min] cites DEMO-B-AMENITY-SHARE-MIN) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 439.086614 Tm
+(Min townhouse plot frontage: 8 metre [fact.rule.unit-plot-frontage-min] cites DEMO-B-UNIT-PLOT-FRONTAGE-MIN) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 428.031496 Tm
+(Min townhouse plot depth: 18 metre [fact.rule.unit-plot-depth-min] cites DEMO-B-UNIT-PLOT-DEPTH-MIN) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 416.976378 Tm
+(Max unbroken row length: 48 metre [fact.rule.row-length-max] cites DEMO-B-ROW-LENGTH-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 405.921260 Tm
+() Tj
+/F2 8.499984 Tf
+1 0 0 1 42.519685 394.866142 Tm
+(DERIVED ENVELOPE \(EVERY NUMBER CITES ITS FEEDERS\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 383.811024 Tm
+(Gross site area: 40500 sqm [fact.site-area]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 372.755906 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 361.700787 Tm
+(    cites: \(none Ч fixture-only derivation\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 350.645669 Tm
+(    note: width x depth) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 339.590551 Tm
+(Gross site area: 10.008 acre [fact.site-area-acres]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 328.535433 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 317.480315 Tm
+(    cites: \(none Ч fixture-only derivation\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 306.425197 Tm
+(    note: site area / 4046.8564224 sqm-per-acre \(physical constant\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 295.370079 Tm
+(Buildable envelope width: 201 m [fact.envelope-width]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 284.314961 Tm
+(    from fixture: site.widthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 273.259843 Tm
+(    cites: DEMO-B-SETBACK-PERIPHERY) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 262.204724 Tm
+(Buildable envelope depth: 153 m [fact.envelope-depth]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 251.149606 Tm
+(    from fixture: site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 240.094488 Tm
+(    cites: DEMO-B-SETBACK-FRONT, DEMO-B-SETBACK-PERIPHERY) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 229.039370 Tm
+(Ground-coverage cap: 12150 sqm [fact.coverage-cap-area]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 217.984252 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 206.929134 Tm
+(    cites: DEMO-B-SITE-COVERAGE-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 195.874016 Tm
+(    note: coverage % x gross site area) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 184.818898 Tm
+(Density ceiling: 250 DU [fact.density-ceiling]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 173.763780 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 162.708661 Tm
+(    cites: DEMO-B-DENSITY-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 151.653543 Tm
+(    note: floor\(site acres x density\). A ceiling only Ч NOT a geometric capacity.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 140.598425 Tm
+(Townhouses placed in this reference layout: 50 DU [fact.placed-du]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 129.543307 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 118.488189 Tm
+(    cites: DEMO-B-SETBACK-PERIPHERY, DEMO-B-SETBACK-FRONT, DEMO-B-ROAD-WIDTH-PRIMARY,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 107.433071 Tm
+(    DEMO-B-ROAD-WIDTH-SECONDARY, DEMO-B-OPEN-SPACE-MIN, DEMO-B-AMENITY-SHARE-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 96.377953 Tm
+(    DEMO-B-UNIT-PLOT-FRONTAGE-MIN, DEMO-B-UNIT-PLOT-DEPTH-MIN, DEMO-B-ROW-LENGTH-MAX,) Tj
+ET
+Q
+% URBANOS_REPORT_FOOTER
+q
+0.05 0.05 0.05 rg
+BT
+/F2 10.279050 Tf
+1 0 0 1 42.519685 31.181102 Tm
+(Research Draft Ч Not for Construction ╖ DEMO) Tj
+/F1 10.279050 Tf
+1 0 0 1 490.393701 31.181102 Tm
+(page 1/3) Tj
+ET
+Q
+endstream
+endobj
+5 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.275591 841.889764] /Resources << /Font << /F1 9 0 R /F2 10 0 R >> >> /Contents 6 0 R >>
+endobj
+6 0 obj
+<< /Length 7856 >>
+stream
+% URBANOS_WATERMARK
+q
+0.82 0.82 0.82 rg
+BT
+/F2 158.139228 Tf
+0.866025 0.500000 -0.500000 0.866025 133.294688 326.061345 Tm
+(DEMO) Tj
+ET
+Q
+% URBANOS_WATERMARK_STAMP
+q
+0.45 0.45 0.45 rg
+BT
+/F2 10.279050 Tf
+1 0 0 1 17.007874 824.881890 Tm
+(Research Draft Ч Not for Construction ╖ DEMO) Tj
+ET
+Q
+% URBANOS_REPORT_BODY
+q
+0.05 0.05 0.05 rg
+BT
+/F1 8.499984 Tf
+1 0 0 1 42.519685 759.685039 Tm
+(    DEMO-B-SITE-COVERAGE-MAX, DEMO-B-DENSITY-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 748.629921 Tm
+(    note: Counted from canonical geometry. Not a claimed maximum: no completeness search over) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 737.574803 Tm
+(    the layout space was performed.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 726.519685 Tm
+(Shortfall against request: 450 DU [fact.shortfall-du]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 715.464567 Tm
+(    from fixture: site.requestedDwellingUnits, site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 704.409449 Tm
+(    cites: DEMO-B-SETBACK-PERIPHERY, DEMO-B-SETBACK-FRONT, DEMO-B-ROAD-WIDTH-PRIMARY,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 693.354331 Tm
+(    DEMO-B-ROAD-WIDTH-SECONDARY, DEMO-B-OPEN-SPACE-MIN, DEMO-B-AMENITY-SHARE-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 682.299213 Tm
+(    DEMO-B-UNIT-PLOT-FRONTAGE-MIN, DEMO-B-UNIT-PLOT-DEPTH-MIN, DEMO-B-ROW-LENGTH-MAX,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 671.244094 Tm
+(    DEMO-B-SITE-COVERAGE-MAX, DEMO-B-DENSITY-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 660.188976 Tm
+(    note: requested - placed) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 649.133858 Tm
+(Built footprint \(plots + club\): 7488 sqm [fact.built-footprint]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 638.078740 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 627.023622 Tm
+(    cites: DEMO-B-UNIT-PLOT-FRONTAGE-MIN, DEMO-B-UNIT-PLOT-DEPTH-MIN, DEMO-B-AMENITY-SHARE-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 615.968504 Tm
+(    DEMO-B-SETBACK-PERIPHERY, DEMO-B-SETBACK-FRONT, DEMO-B-ROAD-WIDTH-PRIMARY,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 604.913386 Tm
+(    DEMO-B-ROAD-WIDTH-SECONDARY, DEMO-B-OPEN-SPACE-MIN, DEMO-B-AMENITY-SHARE-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 593.858268 Tm
+(    DEMO-B-UNIT-PLOT-FRONTAGE-MIN, DEMO-B-UNIT-PLOT-DEPTH-MIN, DEMO-B-ROW-LENGTH-MAX,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 582.803150 Tm
+(    DEMO-B-SITE-COVERAGE-MAX, DEMO-B-DENSITY-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 571.748031 Tm
+(    note: Conservative demo convention: each townhouse plot counted fully as footprint.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 560.692913 Tm
+(Green/open space required: 10125 sqm [fact.green-required]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 549.637795 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 538.582677 Tm
+(    cites: DEMO-B-OPEN-SPACE-MIN) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 527.527559 Tm
+(Green/open space provided \(measured\): 10137 sqm [fact.green-provided]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 516.472441 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 505.417323 Tm
+(    cites: DEMO-B-OPEN-SPACE-MIN, DEMO-B-SETBACK-PERIPHERY, DEMO-B-SETBACK-FRONT,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 494.362205 Tm
+(    DEMO-B-ROAD-WIDTH-PRIMARY) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 483.307087 Tm
+(Amenity parcel required: 3240 sqm [fact.amenity-required]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 472.251969 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 461.196850 Tm
+(    cites: DEMO-B-AMENITY-SHARE-MIN) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 450.141732 Tm
+(Amenity parcel provided \(measured\): 3240 sqm [fact.amenity-provided]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 439.086614 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 428.031496 Tm
+(    cites: DEMO-B-AMENITY-SHARE-MIN, DEMO-B-UNIT-PLOT-DEPTH-MIN) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 416.976378 Tm
+(Required parking: 75 ECS [fact.parking-required]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 405.921260 Tm
+(    from fixture: site.widthM, site.depthM) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 394.866142 Tm
+(    cites: DEMO-B-PARKING-ECS-PER-DU, DEMO-B-SETBACK-PERIPHERY, DEMO-B-SETBACK-FRONT,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 383.811024 Tm
+(    DEMO-B-ROAD-WIDTH-PRIMARY, DEMO-B-ROAD-WIDTH-SECONDARY, DEMO-B-OPEN-SPACE-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 372.755906 Tm
+(    DEMO-B-AMENITY-SHARE-MIN, DEMO-B-UNIT-PLOT-FRONTAGE-MIN, DEMO-B-UNIT-PLOT-DEPTH-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 361.700787 Tm
+(    DEMO-B-ROW-LENGTH-MAX, DEMO-B-SITE-COVERAGE-MAX, DEMO-B-DENSITY-MAX) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 350.645669 Tm
+(    note: placed DU x parking norm, rounded up. Parking is on-plot \(stilt\) in v0 and not drawn.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 339.590551 Tm
+() Tj
+/F2 8.499984 Tf
+1 0 0 1 42.519685 328.535433 Tm
+(VERDICT Ч REQUEST vs CEILING vs PLACED) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 317.480315 Tm
+(requested [fact.requested-du]  ceiling [fact.density-ceiling]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 306.425197 Tm
+(placed [fact.placed-du]  shortfall [fact.shortfall-du]) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 295.370079 Tm
+(binding: Geometric fill of this reference layout under the cited setback, road, open-space,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 284.314961 Tm
+(amenity, plot-dimension and row-length entries. \(DEMO-B-SETBACK-PERIPHERY, DEMO-B-SETBACK-FRONT,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 273.259843 Tm
+(DEMO-B-ROAD-WIDTH-PRIMARY, DEMO-B-ROAD-WIDTH-SECONDARY, DEMO-B-OPEN-SPACE-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 262.204724 Tm
+(DEMO-B-AMENITY-SHARE-MIN, DEMO-B-UNIT-PLOT-FRONTAGE-MIN, DEMO-B-UNIT-PLOT-DEPTH-MIN,) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 251.149606 Tm
+(DEMO-B-ROW-LENGTH-MAX\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 240.094488 Tm
+(The client asked for 500 townhouses. Under the DEMO-SLICE-B entries, the density ceiling is 250) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 229.039370 Tm
+(DU and 50 townhouses are placed in this reference layout \(shortfall 450\). The placed count is) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 217.984252 Tm
+(what this layout achieves; it is not a claimed legal capacity, because no completeness search) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 206.929134 Tm
+(over the permitted layout space was performed. All values are illustrative demo entries Ч this) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 195.874016 Tm
+(is not a statement about any real jurisdiction.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 184.818898 Tm
+() Tj
+/F2 8.499984 Tf
+1 0 0 1 42.519685 173.763780 Tm
+(CITATION SNAPSHOT \(SELF-CONTAINED Ч VALID WITHOUT THE RULEBOOK FILES\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 162.708661 Tm
+(DEMO-B-SITE-COVERAGE-MAX  slot=site-coverage-max  value=30 percent  version=DEMO-B-SITE-COVERAGE-MAX#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 151.653543 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 140.598425 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: Built footprint may cover at) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 129.543307 Tm
+(    most 30% of gross site area \(denominator: gross site area\).) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 118.488189 Tm
+(DEMO-B-DENSITY-MAX  slot=density-max  value=25 du-per-acre  version=DEMO-B-DENSITY-MAX#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 107.433071 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 96.377953 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: At most 25 dwelling units per) Tj
+ET
+Q
+% URBANOS_REPORT_FOOTER
+q
+0.05 0.05 0.05 rg
+BT
+/F2 10.279050 Tf
+1 0 0 1 42.519685 31.181102 Tm
+(Research Draft Ч Not for Construction ╖ DEMO) Tj
+/F1 10.279050 Tf
+1 0 0 1 490.393701 31.181102 Tm
+(page 2/3) Tj
+ET
+Q
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.275591 841.889764] /Resources << /Font << /F1 9 0 R /F2 10 0 R >> >> /Contents 8 0 R >>
+endobj
+8 0 obj
+<< /Length 7836 >>
+stream
+% URBANOS_WATERMARK
+q
+0.82 0.82 0.82 rg
+BT
+/F2 158.139228 Tf
+0.866025 0.500000 -0.500000 0.866025 133.294688 326.061345 Tm
+(DEMO) Tj
+ET
+Q
+% URBANOS_WATERMARK_STAMP
+q
+0.45 0.45 0.45 rg
+BT
+/F2 10.279050 Tf
+1 0 0 1 17.007874 824.881890 Tm
+(Research Draft Ч Not for Construction ╖ DEMO) Tj
+ET
+Q
+% URBANOS_REPORT_BODY
+q
+0.05 0.05 0.05 rg
+BT
+/F1 8.499984 Tf
+1 0 0 1 42.519685 759.685039 Tm
+(    acre of gross site area.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 748.629921 Tm
+(DEMO-B-HEIGHT-MAX  slot=height-max  value=9 metre  version=DEMO-B-HEIGHT-MAX#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 737.574803 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 726.519685 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: No structure exceeds 9 m above) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 715.464567 Tm
+(    finished ground level.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 704.409449 Tm
+(DEMO-B-STOREYS-MAX  slot=storeys-max  value=2 storeys  version=DEMO-B-STOREYS-MAX#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 693.354331 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 682.299213 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: Townhouses of at most two) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 671.244094 Tm
+(    storeys \(G+1\).) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 660.188976 Tm
+(DEMO-B-SETBACK-PERIPHERY  slot=setback-periphery  value=12 metre  version=DEMO-B-SETBACK-PERIPHERY#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 649.133858 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 638.078740 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: A 12 m setback from every site) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 627.023622 Tm
+(    boundary that does not face the access road.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 615.968504 Tm
+(DEMO-B-SETBACK-FRONT  slot=setback-front  value=15 metre  version=DEMO-B-SETBACK-FRONT#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 604.913386 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 593.858268 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: A 15 m setback from the) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 582.803150 Tm
+(    boundary facing the external access road.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 571.748031 Tm
+(DEMO-B-ROAD-WIDTH-PRIMARY  slot=road-width-primary  value=15 metre  version=DEMO-B-ROAD-WIDTH-PRIMARY#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 560.692913 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 549.637795 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: The internal spine road is 15 m) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 538.582677 Tm
+(    wide, right-of-way.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 527.527559 Tm
+(DEMO-B-ROAD-WIDTH-SECONDARY  slot=road-width-secondary  value=12 metre  version=DEMO-B-ROAD-WIDTH-SECONDARY#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 516.472441 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 505.417323 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: Internal secondary/row roads) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 494.362205 Tm
+(    are 12 m wide, right-of-way.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 483.307087 Tm
+(DEMO-B-OPEN-SPACE-MIN  slot=open-space-min  value=25 percent  version=DEMO-B-OPEN-SPACE-MIN#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 472.251969 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 461.196850 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: At least 25% of gross site area) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 450.141732 Tm
+(    is green/open space \(denominator: gross site area\).) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 439.086614 Tm
+(DEMO-B-PARKING-ECS-PER-DU  slot=parking-ecs-per-du  value=1.5 ecs-per-du  version=DEMO-B-PARKING-ECS-PER-DU#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 428.031496 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 416.976378 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: One and a half equivalent car) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 405.921260 Tm
+(    spaces per dwelling unit.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 394.866142 Tm
+(DEMO-B-AMENITY-SHARE-MIN  slot=amenity-share-min  value=8 percent  version=DEMO-B-AMENITY-SHARE-MIN#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 383.811024 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 372.755906 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: At least 8% of gross site area) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 361.700787 Tm
+(    is the community amenity parcel, club + pool \(denominator: gross site area\).) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 350.645669 Tm
+(DEMO-B-UNIT-PLOT-FRONTAGE-MIN  slot=unit-plot-frontage-min  value=8 metre  version=DEMO-B-UNIT-PLOT-FRONTAGE-MIN#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 339.590551 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 328.535433 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: Each townhouse plot has at) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 317.480315 Tm
+(    least 8 m of road frontage.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 306.425197 Tm
+(DEMO-B-UNIT-PLOT-DEPTH-MIN  slot=unit-plot-depth-min  value=18 metre  version=DEMO-B-UNIT-PLOT-DEPTH-MIN#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 295.370079 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 284.314961 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: Each townhouse plot is at least) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 273.259843 Tm
+(    18 m deep.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 262.204724 Tm
+(DEMO-B-ROW-LENGTH-MAX  slot=row-length-max  value=48 metre  version=DEMO-B-ROW-LENGTH-MAX#v1) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 251.149606 Tm
+(    demo-illustrative / unverified  authority: DEMO AUTHORITY \(illustrative\)) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 240.094488 Tm
+(    source: demo Ч illustrative \(no real-world document\). basis: One unbroken townhouse row is) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 229.039370 Tm
+(    at most 48 m long.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 217.984252 Tm
+() Tj
+/F2 8.499984 Tf
+1 0 0 1 42.519685 206.929134 Tm
+(NOTES) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 195.874016 Tm
+(DEMO: every value is illustrative and unverified; no real authority, document, or jurisdiction is) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 184.818898 Tm
+(represented.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 173.763780 Tm
+(Percent rules use gross site area as denominator, stated per entry; provided areas are measured) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 162.708661 Tm
+(from canonical geometry.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 151.653543 Tm
+(The requested unit count is client intent and is never copied into any result field.) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 140.598425 Tm
+(Height and storey caps are cited envelope limits; v0 draws no elevations, and no drawing label) Tj
+/F1 8.499984 Tf
+1 0 0 1 42.519685 129.543307 Tm
+(exceeds them.) Tj
+ET
+Q
+% URBANOS_REPORT_FOOTER
+q
+0.05 0.05 0.05 rg
+BT
+/F2 10.279050 Tf
+1 0 0 1 42.519685 31.181102 Tm
+(Research Draft Ч Not for Construction ╖ DEMO) Tj
+/F1 10.279050 Tf
+1 0 0 1 490.393701 31.181102 Tm
+(page 3/3) Tj
+ET
+Q
+endstream
+endobj
+9 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+10 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+11 0 obj
+<< /Title (Community One Ч DEMO envelope report) /Subject (Research Draft Ч Not for Construction ╖ DEMO; DEMO-SLICE-B) /Creator (UrbanOS) /Producer (UrbanOS townhouse-demo exporter) >>
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000133 00000 n 
+0000000284 00000 n 
+0000007769 00000 n 
+0000007920 00000 n 
+0000015828 00000 n 
+0000015979 00000 n 
+0000023867 00000 n 
+0000023964 00000 n 
+0000024067 00000 n 
+trailer
+<< /Size 12 /Root 1 0 R /Info 11 0 R >>
+startxref
+24268
+%%EOF
