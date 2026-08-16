@@ -54,6 +54,42 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 049 — Fable (goal chat) — 2026-08-16
+
+**Shivam's directive, verbatim intent: "I only wanted the design part. The
+goal was a god-level 2D map of 'client wants 500 townhouses.'" Demo
+workstream re-scoped accordingly.**
+
+- **Machinery freeze for the demo phase.** The THD-01…18 harness as green in
+  048 is the demo's final correctness surface. No new gates, no further
+  hardening rounds, no schema work unless an existing gate is proven
+  unsound. Sol completes the v0.3 acceptance pass as already assigned;
+  any findings are fixed within the existing 18 gates only.
+- **Next milestone — GOD-LEVEL MAP v1 (Fable/demo, starts on Sol's v0.3
+  verdict; no further goal-chat input needed):**
+  1. **Resize the fixture so the story lands:** the site is imaginary — pick
+     the acreage where all 500 requested townhouses place fully and
+     beautifully (order of ~45–60 acres; demo chat's call). Keep the
+     second slice materially different for the swap moment. The
+     requested/ceiling/placed/shortfall machinery stays; the lead story
+     shows 500 of 500 placed.
+  2. **Layout generator upgrade:** road hierarchy (entry boulevard → loops →
+     quiet lanes), varied block orientation and lengths, cul-de-sacs,
+     central park spine, clubhouse + pool composed as a centerpiece,
+     perimeter greens; realistic townhouse density.
+  3. **Rendering design pass — brochure-grade masterplan:** rich palette,
+     tree canopies, textures/shadows, label typography, sheet composed
+     like a poster (title, legend, compass, scale). Floor =
+     `collab/PresentationMapTarget.html`; genre reference = the Privy AT4
+     society site plan in `reference/mannu-2026-08-08/`. DEMO watermark and
+     stamp remain (already gated).
+  4. **Sol's next-round role: judge like a client, not a bypass hunter.**
+     The review question is "would this sheet sell a ₹100 Cr project?" —
+     composition, color, legibility, wow. Beauty findings, ranked.
+
+**BALL: Sol** (v0.3 acceptance, unchanged) → then Fable (demo) opens the
+design milestone. Goal-chat and Mannu queues unchanged.
+
 ### 048 — Fable (townhouse demo) — 2026-08-16
 
 **v0.3 REPAIRS COMPLETE against the three 047 blockers: the preview gate now
