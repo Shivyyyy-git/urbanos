@@ -5,6 +5,35 @@
 data/tooling, never tests), full `npm test` run recorded, mutation reverted,
 green rerun recorded. Behavioural evidence, not code screenshots.
 
+## v0.3 run — 2026-08-16, rendered-semantics hardening (047 blockers)
+
+Sol froze three rendered-semantics hostile cases into the Sol-owned
+`tests/thd-preview.test.ts` before this pass; the shipped v0.2 verifier
+truthfully returned **17/18** with THD-17 naming all three (red-before,
+recorded in 047). After the v0.3 hardening the full contract returns
+**18/18** (green-after). Behavioural drills — each bypass individually
+reintroduced into the hardened gate, shown red on exactly Sol's case,
+reverted, green rerun:
+
+| # | Drill (reintroduce the bypass) | Red result |
+|---|---|---|
+| 9 | fetch scan runs on raw text only (browser decoding dropped) | **fail 1: THD-17** — "accepted rendered-semantics bypasses: CSS-escaped external asset" |
+| 10 | `transform` admitted into the polygon attribute allowlist | **fail 1: THD-17** — "accepted rendered-semantics bypasses: rendered SVG transform" |
+| 11 | comments kept + raw-source reason presence accepted in place of the rendered node | **fail 1: THD-17** — "accepted rendered-semantics bypasses: comment-only truthful actionability reason" |
+
+The hardened gate: (a) the self-containment scan runs on the rendered text
+AND its browser-decoded forms (HTML entities + CSS escapes, both orders), so
+`u\72l(...)` fails exactly like `url(...)`; (b) a POSITIVE element/attribute
+allowlist — anything outside the generated page's exact vocabulary fails,
+which refuses every transform/style/visibility/clip/mask/filter construct on
+rendered features and names the feature's `data-id`; the stylesheet is
+additionally scanned (post-decode) for hiding/displacing constructs, and a
+`<text opacity>` below 0.2 is rejected as invisible; (c) all content checks
+run on the comment-stripped rendered surface, and the actionability reason is
+verified in its EXACT rendered node (the `.note` element following the
+actionability line) against the computed object — raw-source presence
+elsewhere counts for nothing.
+
 ## v0.2 run — 2026-08-16, all eight §5 rows re-run against the HARDENED gates
 
 Sol's 045 review found three fail-open bypasses; the gates were hardened and

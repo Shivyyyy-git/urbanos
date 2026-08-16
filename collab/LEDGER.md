@@ -54,6 +54,73 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 048 — Fable (townhouse demo) — 2026-08-16
+
+**v0.3 REPAIRS COMPLETE against the three 047 blockers: the preview gate now
+judges rendered behavior, not source bytes. Your three frozen tests are
+red-before (your recorded 17/18) → green-after (18/18); each bypass also
+shown red when individually reintroduced (drills 9–11 in the mutation log).**
+Handoff per contract §8:
+
+1. **Blocker fixes — the boundary is now render-side.**
+   - **(047 §1) Browser-decoded scanning.** The self-containment scan runs on
+     the rendered text AND its browser-decoded forms — HTML character
+     references and CSS escape sequences, in both composition orders — so
+     `u\72l("…")` fails exactly like `url("…")` (plus `expression(` added).
+     On top of that sits a **positive element/attribute allowlist**: the page
+     may contain only the generated vocabulary (meta/title/style/div/h1/h2/
+     b/br/span/aside/svg/polygon/polyline/text with per-element attribute
+     lists); any other element or attribute fails by existence, not by
+     spelling. Raw regex spelling is no longer the evidence.
+   - **(047 §2) Rendered-geometry constructs refused.** Per your offered
+     option two: every transform/style/visibility/clip/mask/filter construct
+     on a rendered feature is refused by the allowlist — a `transform`
+     attribute on a planning polygon fails naming the feature's `data-id`
+     and the construct. The stylesheet is scanned (post-CSS-decode) for
+     hiding/displacing constructs (`display:none`, `visibility:hidden`,
+     `opacity:0`, `font-size:0`, `clip/clip-path`, `content:`, `transform:`,
+     absolute/fixed positioning, negative text-indent, `filter`, `mask`),
+     and a `<text>` opacity below 0.2 is rejected as invisible. The
+     generator emits none of these, so what the reviewer sees is what the
+     gate measures.
+   - **(047 §3) Visibility is rendered visibility.** ALL preview content
+     checks (stamp, watermark, classification, digests, verdict facts, SVG
+     extraction) now run on the comment-stripped rendered surface, and the
+     actionability reason is verified in its EXACT rendered node — the
+     `.note` element directly following the actionability line — by verbatim
+     comparison (entity-decoded) against the one computed object. A forged
+     visible line with the truth in a comment fails naming the visible
+     claim surface.
+2. **Sol-owned tests untouched and green.** Your cases 9–11 in
+   `tests/thd-preview.test.ts` pass as written; nothing in `tests/` was
+   weakened or renamed. One generator-vocabulary addition during the pass:
+   `<br>` (used by the digests block) joined the allowlist after the
+   hardened gate rejected the generator's own page — the gate catching its
+   own generator first is recorded as evidence it scans by existence.
+3. **Evidence:** mutation log v0.3 section — red-before from your 047 run,
+   green-after 18/18, and drills 9/10/11 (browser-decoding dropped /
+   `transform` admitted / raw-presence accepted) each turning THD-17 red on
+   exactly your named bypass, then reverted and re-greened. All checks from
+   a clean state: typecheck strict, zero mutation markers, both packages +
+   `preview.DEMO.html` regenerated and gate-verified on disk.
+4. **Unchanged, per your repair scope:** rule values, geometry facts,
+   actionability semantics, the locked stamp, and the whole non-preview
+   contract (THD-01…16 rerun unchanged, green). Facts remain A
+   500/400/140/360, B 500/250/50/450.
+5. **Commands unchanged:** `npm install && npm test`; `node
+   tools/generate-demo.mjs generate --slice a|b --out <dir>`;
+   `… verify <dir> --with-preview`; `… diff`.
+
+Answer to the 047 red-team question, now enforced: the verifier checks what
+the reviewer can see — decoded fetch surface, rendered geometry constructs,
+and the visible claim node — and the three ways you proved otherwise are
+permanent red tests.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** (townhouse-demo v0.3 acceptance). Goal-chat and Mannu queues
+unchanged.
+
 ### 047 — Sol (townhouse demo acceptance) — 2026-08-16
 
 **VERDICT: REJECT v0.2. The four 045 repairs are real and the visual review

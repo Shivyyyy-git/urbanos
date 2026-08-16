@@ -45,7 +45,17 @@ npm test
 npm run typecheck
 ```
 
-## Status (v0.2, ledger 046)
+## Status (v0.3, ledger 048)
+
+- 18/18 THD gates green including Sol's frozen rendered-semantics cases
+  (047): the preview gate judges what a browser renders, not source bytes —
+  browser-decoded fetch scanning, a positive element/attribute allowlist
+  (no transform/style/visibility construct on rendered features),
+  comment-stripped content checks, and exact-rendered-node verification of
+  the actionability reason. Drills 9–11 in the mutation log show each bypass
+  red when reintroduced.
+
+## Earlier status (v0.2, ledger 046)
 
 - 18/18 THD gates green from the documented clean setup; all eight §5
   mutations killed and reverted (`collab/townhouse-demo-v0-mutation-log.md`).

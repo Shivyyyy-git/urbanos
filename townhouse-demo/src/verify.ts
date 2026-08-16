@@ -271,6 +271,109 @@ function ringBoundsOf(points: readonly (readonly [number, number])[]): {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Rendered-semantics helpers (047): the gate must judge what a browser
+// RENDERS, not which strings happen to sit in the source bytes.
+// ---------------------------------------------------------------------------
+
+/** Strip HTML comments: commented-out content is not rendered content. */
+function stripHtmlComments(html: string): string {
+  return html.replace(/<!--[\s\S]*?-->/g, '')
+}
+
+/** Decode CSS escape sequences the way a browser does before resolution. */
+function decodeCssEscapes(value: string): string {
+  return value
+    .replace(/\\([0-9a-fA-F]{1,6})[ \t\n]?/g, (_match, hex: string) =>
+      String.fromCodePoint(Number.parseInt(hex, 16)),
+    )
+    .replace(/\\([^0-9a-fA-F])/g, '$1')
+}
+
+/** Decode HTML character references (numeric + the named ones we emit). */
+function decodeHtmlEntities(value: string): string {
+  return value
+    .replace(/&#x([0-9a-fA-F]+);/g, (_match, hex: string) => String.fromCodePoint(Number.parseInt(hex, 16)))
+    .replace(/&#(\d+);/g, (_match, dec: string) => String.fromCodePoint(Number(dec)))
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&middot;/g, '·')
+    .replace(/&times;/g, '×')
+    .replace(/&amp;/g, '&')
+}
+
+/**
+ * The POSITIVE allowlist (047 §1/§2): every element and every attribute the
+ * generated page may contain. Anything else — including any transform, style,
+ * visibility, clip, mask, or filter construct on a planning feature — fails.
+ */
+const ELEMENT_ATTRIBUTE_ALLOWLIST: Readonly<Record<string, readonly string[]>> = {
+  meta: ['charset'],
+  title: [],
+  style: [],
+  div: ['class'],
+  h1: [],
+  h2: [],
+  b: [],
+  br: [],
+  aside: [],
+  span: ['class', 'style'],
+  svg: ['viewbox', 'xmlns', 'role', 'aria-label'],
+  polygon: ['data-id', 'points', 'fill', 'stroke', 'stroke-width', 'stroke-dasharray'],
+  polyline: ['data-id', 'points', 'fill', 'stroke', 'stroke-width', 'stroke-dasharray'],
+  text: ['data-id', 'x', 'y', 'font-size', 'text-anchor', 'fill', 'font-weight', 'letter-spacing', 'opacity'],
+}
+
+/** The only inline style the page uses: the legend swatch colour chips. */
+const SWATCH_STYLE = /^background:#[0-9a-f]{6};border-color:#[0-9a-f]{6}$/i
+
+/** CSS that hides or displaces rendered content is a visibility forgery. */
+const HIDING_CSS =
+  /display\s*:\s*none|visibility\s*:\s*hidden|opacity\s*:\s*0(?![.\d])|font-size\s*:\s*0(?![.\d])|clip-path|(?<![-\w])clip\s*:|(?<![-\w])content\s*:|transform\s*:|position\s*:\s*(absolute|fixed)|text-indent\s*:\s*-|filter\s*:|(?<![-\w])mask/i
+
+function checkElementAllowlist(visibleHtml: string, findings: VerifyFinding[]): void {
+  const tagPattern = /<([a-zA-Z][\w-]*)((?:"[^"]*"|'[^']*'|[^"'>])*)>/g
+  let tagMatch: RegExpExecArray | null
+  while ((tagMatch = tagPattern.exec(visibleHtml)) !== null) {
+    const element = tagMatch[1]!.toLowerCase()
+    const allowedAttributes = ELEMENT_ATTRIBUTE_ALLOWLIST[element]
+    if (allowedAttributes === undefined) {
+      findings.push({
+        message: `Preview contains element <${element}>, which is outside the positive allowlist.`,
+        detail: `${PREVIEW_NAME}: element <${element}>`,
+      })
+      continue
+    }
+    const attributePattern = /([\w:-]+)\s*=\s*("([^"]*)"|'([^']*)')/g
+    const attributes: [string, string][] = []
+    let attributeMatch: RegExpExecArray | null
+    while ((attributeMatch = attributePattern.exec(tagMatch[2] ?? '')) !== null) {
+      attributes.push([attributeMatch[1]!.toLowerCase(), attributeMatch[3] ?? attributeMatch[4] ?? ''])
+    }
+    const dataId = attributes.find(([name]) => name === 'data-id')?.[1]
+    const where = dataId ? `${PREVIEW_NAME}: ${dataId}` : PREVIEW_NAME
+    for (const [attribute, value] of attributes) {
+      if (!allowedAttributes.includes(attribute)) {
+        findings.push({
+          message: `Preview element <${element}${dataId ? ` data-id="${dataId}"` : ''}> carries attribute "${attribute}", outside the positive allowlist — no transform/style/visibility construct may alter rendered geometry.`,
+          detail: `${where}: <${element} ${attribute}> render/geometry construct`,
+        })
+      } else if (element === 'span' && attribute === 'style' && !SWATCH_STYLE.test(value.trim())) {
+        findings.push({
+          message: 'Preview swatch style deviates from the fixed colour-chip form.',
+          detail: `${PREVIEW_NAME}: <span style> render construct`,
+        })
+      } else if (element === 'text' && attribute === 'opacity' && !(Number(value) >= 0.2)) {
+        findings.push({
+          message: `Preview text opacity ${value} renders as invisible; visibility is rendered visibility.`,
+          detail: `${where}: <text opacity> visibility construct`,
+        })
+      }
+    }
+  }
+}
+
 export function verifyDemoPreview(
   previewBytes: Uint8Array | null,
   files: readonly NamedBytes[],
@@ -279,7 +382,11 @@ export function verifyDemoPreview(
   if (previewBytes === null || previewBytes.length === 0) {
     return [{ message: 'One-click preview is missing or empty.', detail: PREVIEW_NAME }]
   }
-  const html = new TextDecoder().decode(previewBytes)
+  // Every content check runs on the RENDERED surface: comments are stripped
+  // first, so a truthful string hidden in a comment can never stand in for a
+  // forged visible one (047 §3), and fetch/allowlist scans additionally run
+  // on browser-decoded (entity/CSS-escape) forms (047 §1).
+  const html = stripHtmlComments(new TextDecoder().decode(previewBytes))
   const reference = packageReference(files)
   if (!reference) {
     return [{ message: 'Package lacks the manifest/report needed to verify the preview.', detail: PREVIEW_NAME }]
@@ -288,20 +395,40 @@ export function verifyDemoPreview(
   if (!PREVIEW_NAME.split(/[^A-Za-z0-9]+/).includes('DEMO')) {
     findings.push({ message: 'Preview basename lacks the DEMO token.', detail: PREVIEW_NAME })
   }
-  // Self-containment as an ALLOWLIST-level offline gate (041 §1): the page
-  // is inline text + inline SVG only. ANY fetch-capable construct — element
-  // (script/link/img/iframe/…), attribute (src/href/srcset/xlink:href), CSS
-  // url()/@import, or meta refresh — fails, whether its target is remote,
-  // relative, or missing. A relative `src` is exactly as disqualifying as an
-  // https one: the page may not reference anything outside itself.
+  // Self-containment: the fetch-capable scan runs on the rendered text AND
+  // on its browser-decoded forms — a CSS-escaped `u\72l(...)` decodes to a
+  // real url() fetch and must fail exactly like the literal spelling.
   const fetchCapable =
-    /<\s*(script|link|img|iframe|frame|embed|object|video|audio|source|track|use|base|form|input|applet)\b|\b(src|href|srcset|xlink:href|data|poster|action|formaction)\s*=|url\s*\(|@import|http-equiv/i
-  const fetchMatch = fetchCapable.exec(html)
-  if (fetchMatch) {
-    findings.push({
-      message: `Preview is not self-contained: fetch-capable construct "${fetchMatch[0]}" found (allowlist is inline text + inline SVG only).`,
-      detail: `${PREVIEW_NAME}: external dependency`,
-    })
+    /<\s*(script|link|img|iframe|frame|embed|object|video|audio|source|track|use|base|form|input|applet)\b|\b(src|href|srcset|xlink:href|data|poster|action|formaction)\s*=|url\s*\(|@import|expression\s*\(|http-equiv/i
+  const decodedForms = [
+    html,
+    decodeHtmlEntities(html),
+    decodeCssEscapes(html),
+    decodeCssEscapes(decodeHtmlEntities(html)),
+  ]
+  for (const form of decodedForms) {
+    const fetchMatch = fetchCapable.exec(form)
+    if (fetchMatch) {
+      findings.push({
+        message: `Preview is not self-contained: fetch-capable construct "${fetchMatch[0]}" found after browser decoding (allowlist is inline text + inline SVG only).`,
+        detail: `${PREVIEW_NAME}: external dependency`,
+      })
+      break
+    }
+  }
+  // Positive element/attribute allowlist (kills transform/style/visibility
+  // constructs on rendered features).
+  checkElementAllowlist(html, findings)
+  // Stylesheet content may not hide, displace, or synthesise rendered text.
+  for (const styleMatch of html.matchAll(/<style>([\s\S]*?)<\/style>/gi)) {
+    const css = decodeCssEscapes(styleMatch[1]!)
+    const hiding = HIDING_CSS.exec(css)
+    if (hiding) {
+      findings.push({
+        message: `Preview stylesheet contains a hiding/displacing construct "${hiding[0]}".`,
+        detail: `${PREVIEW_NAME}: stylesheet visibility construct`,
+      })
+    }
   }
   if (!html.includes(DEMO_STAMP)) {
     findings.push({ message: 'Preview lacks the exact locked stamp.', detail: `${PREVIEW_NAME}: stamp` })
@@ -312,16 +439,23 @@ export function verifyDemoPreview(
   if (!html.includes('demo-illustrative')) {
     findings.push({ message: 'Preview lacks the demo classification.', detail: `${PREVIEW_NAME}: classification` })
   }
+  // THD-18 visibility (047 §3): the reason is verified in its EXACT rendered
+  // node — the .note element directly following the actionability line — and
+  // must equal the one computed object verbatim. Raw-source presence
+  // elsewhere (comments, metadata) does not count.
+  const reasonNode =
+    /Sanctionable today:<\/b> unknown<\/div>\s*<div class="note">([^<]*)<\/div>/.exec(html)
   if (!/Sanctionable today:<\/b> unknown/.test(html)) {
     findings.push({
       message: 'Preview lacks the computed actionability line (sanctionable-today: unknown).',
       detail: `${PREVIEW_NAME}: actionability`,
     })
   }
-  if (!normalizeText(html).includes(normalizeText(DEMO_ACTIONABILITY_REASON))) {
+  if (!reasonNode || decodeHtmlEntities(reasonNode[1]!).trim() !== DEMO_ACTIONABILITY_REASON) {
     findings.push({
-      message: 'Preview does not carry the full computed actionability reason verbatim.',
-      detail: `${PREVIEW_NAME}: actionability reason`,
+      message:
+        'Preview visible actionability reason node does not equal the computed object verbatim (hidden/comment/metadata substitutes do not count).',
+      detail: `${PREVIEW_NAME}: visible actionability reason`,
     })
   }
   // Currency: pinned digests and slice must equal THIS package's.
@@ -352,7 +486,8 @@ export function verifyDemoPreview(
       })
     }
   }
-  // Measured inline-SVG parity against the package's canonical rings.
+  // Measured inline-SVG parity against the package's canonical rings, read
+  // from the rendered (comment-stripped) surface.
   const svgFeatures = new Map<string, [number, number][]>()
   const polygonPattern = /<polygon data-id="f\.([^"]+)" points="([^"]+)"/g
   let match: RegExpExecArray | null
