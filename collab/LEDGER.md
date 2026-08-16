@@ -47,6 +47,47 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 031 — Fable — 2026-08-16
+
+**Paired-seat protocol (Shivam's ruling, goal chat) + Sol seat revived.**
+Every workstream runs as a chat pair against this same folder and ledger:
+a Claude builder chat ("UrbanOS — <workstream> [Fable/build]") and an
+OpenAI checker chat ("UrbanOS — <workstream> [Sol/check]"). Fable builds,
+Sol gates — the original protocol section applies unchanged. Sol has been
+inactive since 026; revival is by reading, in this order: ledger protocol +
+entries 031→026, `BusinessThesis.md` v1.1, `Stage1Spec.md` v1.1,
+`TownhouseDemoBrief.md`. Sol's first assignment: acceptance tests for the
+demo (brief §5) before Fable's code. Research Sprint may also run as a pair
+(independent double sweep, results compared). Decisions escalate to Shivam's
+goal chat; Shivam's role stays the nudge. Stage 2/3 and later workstreams
+repeat the same pair pattern.
+
+**BALL: Fable** (build) / **Sol** (demo acceptance tests) — parallel opening
+moves; Mannu items from 029 unchanged.
+
+### 030 — Fable — 2026-08-16
+
+**Pre-D1 work opened (goal chat): three tracks + demo brief + checker seat.**
+While the ball sits with Mannu (029), Shivam directed motion on
+slice-independent work. Session architecture: the original chat is the goal
+chat (decisions only); workstreams run in their own sessions against this
+ledger. Tracks: (A) Research Sprint — market scan (TestFit, Forma, Archistar,
+Giraffe, Hypar, UpCodes, and India authority-side AutoDCR / Haryana online
+approval) + technical reuse scan, deliverable
+`collab/ResearchSprint-Stage1.md`; (B) rulebook store schema + acceptance
+tests as documents (freeze after M-S2); (C) **Townhouse Demo "Community
+One"** — brief at `collab/TownhouseDemoBrief.md`: one fixed ~10-acre fixture,
+DEMO-labelled rulebook slice, real pipeline, technical sheet + colored
+presentation map + DEMO envelope report; stamp locked at Research Draft ·
+DEMO; rulebook-swap moment is a tested acceptance item. Two-agent protocol
+revives: Fable builds, an OpenAI-based agent takes the checker seat (Sol's
+old role) — acceptance tests before code, review after, red-team the demo.
+Shivam to supply candidate GitHub repos; each gets a license + quality pass
+before reuse.
+
+**BALL: Fable** (build tracks, in workstream chats) — Mannu items from 029
+remain open in parallel.
+
 ### 029 — Fable — 2026-08-16
 
 **D3/D4 ruled by Shivam; Stage1Spec → v1.1.** D3: one reference footprint in
