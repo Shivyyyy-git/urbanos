@@ -25,16 +25,17 @@ new work until the ball comes back.
    reference; no jurisdiction rules; no live-form changes; spec and tests
    before code. Two-stamp honesty system applies to everything we produce.
 
-## Current workstream: Feature 2 — 2BHK unit-plan module (opened 2026-08-08)
+## Current workstream: Stage 1 — The Base (opened 2026-08-16)
 
-Ruled by Shivam 2026-08-08: Phase 1 = simple input → 2D output; 2BHK first.
-Target: validated unit-plan input → canonical geometry → deterministic
-dimensioned DXF R12 + vector PDF, same fail-closed discipline as the site
-kernel. v0 = parametric replica of the Privy AT4 2BHK for Mannu to redline.
+Business Thesis v1.1 (`collab/BusinessThesis.md`, ratified by Shivam
+2026-08-15/16) reframed the product as five stages; Stage 1 = legal envelope +
+draft layout for the plot-scale builder, Gurgaon/Haryana. Spec at
+`collab/Stage1Spec.md` v1.1; D3/D4 ruled (one footprint; saleable math in,
+declared-factor only); ratification blocked on D1/D2 + M-S register (Mannu). Build order on ratification: rulebook store → envelope calculator →
+layout sheet, on the existing kernel.
 
-- **Fable:** drafted `collab/UnitPlanBrief.md` (v1, awaiting Sol review).
-- **Sol:** review the brief; draft `collab/unit-plan-acceptance-tests.md`.
-- **Then:** mutual review, ratification entry, tests-first implementation.
+Feature 2 (2BHK module) is complete at v0 and parked at thesis Stage 5;
+Mannu's redline (M-U5) remains the open acceptance item.
 
 Prior workstream (survey-boundary foundation / Feature 1) closed at 10.0/10 as
 bounded — see entries 020–024. Still open from it: A5 (archive frozen
@@ -45,6 +46,44 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 ---
 
 ## Entries (newest first)
+
+### 029 — Fable — 2026-08-16
+
+**D3/D4 ruled by Shivam; Stage1Spec → v1.1.** D3: one reference footprint in
+v1, placement variants later. D4: saleable math included — total/per-floor
+built-up from the envelope plus DU count; super area only via a user-declared
+loading factor printed as an assumption (never defaulted; no factor ⇒ no super
+line; "indicative — not a valuation"; no pricing). Acceptance criterion 10
+added (mutation-tested factor provenance). Remaining before code: D1 (slice),
+D2 (boundary-data reality), M-S1–M-S5; M-U5 redline still open (now gates the
+Stage-5 drawing bar). Relay package for Mannu handed to Shivam in chat.
+
+**BALL: Mannu** (via Shivam) — D1, D2, M-S1–M-S5, M-U5.
+
+### 028 — Fable — 2026-08-16
+
+**Realignment session → Business Thesis v1.1 → Stage 1 spec.** Shivam opened
+with "not happy, need to align on end goals." Outcome, ratified in chat:
+
+- `collab/BusinessThesis.md` v1.1 — one sentence, five-stage product (Base /
+  Compliance Roadmap / Tracker / Finalize+Submit / Deep Planning), boundary
+  rule ("UrbanOS informs, designs, and tracks; people decide, sign, and
+  submit"), customer order (plot builder → townhouse dev → bigger), one
+  geography (Gurgaon/Haryana), two-shelf rulebook moat (Rules + Procedures,
+  Mannu = user zero), pricing parked with Mannu (~5 free pilots → premium),
+  Dubai = pitch demo now / market #2 later.
+- `collab/Stage1Spec.md` v1 draft — envelope + draft layout for one
+  jurisdiction slice; rulebook Shelf-1 schema with fail-closed TO-LOAD values;
+  computed stamp logic; acceptance criteria; build order A (rulebook store) →
+  B (envelope calculator) → C (layout sheet on kernel).
+
+Open before any code: D1 (slice — Mannu), D2 (boundary-data reality — Mannu),
+D3 (one footprint vs variants — Shivam), D4 (saleable-area math in/out —
+Shivam), M-S1–M-S5. M-U5 (Feature 2 redline) still pending; it now gates the
+Stage-5 drawing bar, not Stage 1.
+
+**BALL: Shivam** — rule D3/D4, send thesis + spec to Mannu (D1/D2, M-S
+register, M-U5).
 
 ### 027 — Fable — 2026-08-08
 
