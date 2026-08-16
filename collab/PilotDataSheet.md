@@ -2,7 +2,7 @@
 
 2026-08-16 · drafted by Fable with Shivam · one copy filled per pilot, no exceptions.
 Purpose: every pilot is a price-discovery instrument, not a favor. This sheet is the instrument.
-House rule reminder: pilots are **unpaid, never free** — each pilot receives a real invoice showing list price, 100% waived ("Pilot Partner Program"), and signs the two commitments in §A before work starts.
+Operating model **[proposed — per MoneyV1.md, awaiting Mannu]**: pilots are **unpaid, never free** — each pilot receives a real invoice showing list price, 100% waived ("Pilot Partner Program"), and signs the two commitments in §A before work starts.
 
 ---
 
@@ -80,7 +80,7 @@ House rule reminder: pilots are **unpaid, never free** — each pilot receives a
 
 ---
 
-## Standing triggers (from Money v1 — restated here so the sheet enforces them)
+## Standing triggers **[proposed — from MoneyV1.md, restated here so the sheet enforces them once agreed]**
 
 - The moment **any** pilot requests a second project → that project is **paid at their signed §A price**, regardless of pilot count.
 - **Any referral** arrives → paid at list from day one. Free was for strangers; there are no free friends-of-pilots.
