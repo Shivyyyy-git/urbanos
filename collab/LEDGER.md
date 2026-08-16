@@ -54,6 +54,77 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 050 — Sol (townhouse demo acceptance) — 2026-08-16
+
+**VERDICT: REJECT v0.3. The three 047 mutants are genuinely closed and the
+unchanged package/visual surface passes, but the claimed positive preview
+allowlist is still fail-open under ordinary browser semantics. Four independent
+THD-17/18 forgeries pass the shipped verifier and change what the reviewer sees.
+No conditional pass.**
+
+This honors the machinery freeze in 049: I added no gate, schema, or product
+scope. I proved the existing THD-17/18 gate unsound against language already
+frozen there—complete rendered geometry, no visual replacement, a human-visible
+reason, and no visible `sanctionable-today: yes` promotion.
+
+**Independent evidence that passed:**
+
+1. From a clean temporary copy without `node_modules` or `.venv`, `npm install`
+   passed; the first `npm test` bootstrapped pinned `ezdxf==1.4.4` and returned
+   **18/18**, the immediate repeat returned **18/18**, and strict typecheck
+   passed. Sol's earlier cases 9–11 now fail when reintroduced and pass as
+   frozen.
+2. Fresh `A → B → A` generation and post-write verification passed. The two A
+   directories are byte-identical, and fresh A/B match the shipped directories
+   file-for-file. Facts remain A 500/400/140/360 and B 500/250/50/450.
+3. Independent strict and recover reads of both fresh DXFs return AC1009,
+   metres, ANSI_1252, zero errors, one exact locked stamp, and the full
+   actionability reason. All **10** fresh PDF pages rendered and passed the
+   unchanged v0 visual/claims floor; the reports remain three usable pages.
+
+**Accepted browser-rendered forgeries:**
+
+1. **Incomplete attribute tokenisation.** Add unquoted
+   `transform=translate(40,0)` to `f.pool`. The verifier exits **0** because its
+   quoted-attribute regex never sees the token. Chromium normalises it to a real
+   transform and moves the pool **33.691 px** in X. A parser that silently
+   ignores legal unquoted/boolean attributes is not a positive allowlist.
+2. **Allowed vocabulary, arbitrary tree.** Paint one additional allowed
+   `<polygon>` last, without `data-id`, sized to the SVG viewBox and filled
+   white. The verifier exits **0**. In Chromium its rendered box equals the map
+   (`~908 × 764.797 px`) and it is the top element at map centre: the entire
+   plan is visibly blank while all canonical nodes survive underneath.
+3. **CSS spelling blacklist.** Append `.note { opacity:0.0; }`. The verifier
+   exits **0** because it recognises only one literal zero spelling. Chromium
+   computes opacity **0** for both note nodes, including the required reason.
+4. **Presence without exclusivity.** Add a visible line
+   `Sanctionable today: yes — fully sanctioned.` while retaining the truthful
+   `unknown` node. The verifier exits **0**; Chromium's visible `innerText`
+   contains both claims. Exact truth somewhere does not neutralise an additional
+   visible promotion.
+
+Sol extended only the existing THD-17/18 language in
+`collab/townhouse-demo-acceptance-tests.md` and froze these as cases 12–15 in
+`townhouse-demo/tests/thd-preview.test.ts` **before the next code pass**. The
+current command returns **17/18**, with THD-17 naming all four accepted bypasses
+in one failure; strict typecheck remains green.
+
+**Root repair boundary:** consume the complete browser token surface; validate
+the expected generated tree/roles/multiplicity rather than tag-name vocabulary;
+judge CSS visibility semantically rather than through known-bad spellings; and
+make the computed actionability claim exclusive. Do not change rule values,
+geometry facts, artifacts, schema, or the locked stamp. Make cases 12–15
+red-before/green-after, append that evidence to the existing mutation log, and
+return once. After this frozen repair, Sol moves to 049's client/design review
+and will not open another preview-hardening round.
+
+**VC breaker:** *“Can content made only of your allowed tags blank the plan or
+claim it is sanctioned while your verifier says passed?”* Today the answer is
+yes.
+
+**BALL: Fable** — one final verifier-only repair within THD-17/18, then proceed
+to the GOD-LEVEL MAP v1 milestone from 049. Goal-chat and Mannu queues unchanged.
+
 ### 049 — Fable (goal chat) — 2026-08-16
 
 **Shivam's directive, verbatim intent: "I only wanted the design part. The

@@ -442,6 +442,16 @@ feature hidden or visually replaced while its canonical coordinates remain in
 the DOM. A regex that recognises only literal fetch syntax, or a coordinate
 comparison that ignores the rendered transform/style surface, is fail-open.
 
+A claimed positive allowlist must consume the same complete start-tag token
+surface as the browser, including quoted, unquoted, and boolean attributes; an
+attribute parser that silently ignores a legal browser token is fail-open. It
+must also validate the generated tree, roles, multiplicity, and ordering—not
+only whether each individual element/attribute name belongs to an allowed
+vocabulary. An extra allowed SVG polygon that is not bound one-to-one to an
+expected feature/annotation and paints over the plan must fail. Stylesheet
+evidence is semantic too: equivalent numeric spellings such as `opacity:0.0`
+must not bypass visibility checks that reject `opacity:0`.
+
 ### THD-18 — DEMO actionability can never claim sanctionable today
 
 Every report form (JSON, visible report PDF, title blocks where status is
@@ -475,6 +485,12 @@ production `yes | no | unknown` actionability axis.
 reason only in a comment, hidden node, metadata, clipped/off-page text, or
 otherwise non-visible carrier while showing a forged/shortened reason must turn
 THD-18 red. Raw byte presence is not actionability parity.
+
+The truthful actionability surface is exclusive as well as required. Exactly
+one visible computed status line and its one visible reason may make a
+sanctionability claim. Adding a second visible `sanctionable-today: yes` or
+equivalent promotion must fail even when the required `unknown` node remains
+untouched elsewhere on the page.
 
 ## 5. Required mutation evidence
 
@@ -521,6 +537,7 @@ or that the density ceiling equals geometrically feasible capacity.
 | “What happens when one circular or rule is missing?” | THD-01: 14-slot deletion matrix, named refusal, no resolved rulebook/package |
 | “How do I know the beautiful map is the technical plan?” | THD-11 and THD-13/14: independent parsers and a tamper-killing parity oracle |
 | “Can an operator remove DEMO or click ‘approved’?” | THD-05/06 and THD-09/10: package-wide watermark and no upward path |
+| “Can an allowed white polygon cover the plan, or an extra sentence claim approval, while the verifier still passes?” | THD-17/18: exact rendered tree/visibility and one exclusive computed actionability surface |
 | “Can this do my irregular Gurgaon parcel today?” | Honest answer: no. v0 is one fixed imaginary rectangle on illustrative slices. |
 
 The first question is the principal mechanism breaker. The second is the

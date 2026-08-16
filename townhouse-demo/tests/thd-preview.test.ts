@@ -258,6 +258,65 @@ test('THD-17: one-click preview is current, self-contained, and fail-closed', ()
     else assert.ok(/actionability|reason|visible/i.test(result.output), 'names the visible claim surface')
     writeFileSync(PREVIEW, previewA2)
   }
+  // 12. A positive attribute allowlist must consume every attribute token the
+  //     browser consumes. HTML permits unquoted values; ignoring them lets a
+  //     rendered SVG transform move canonical geometry without being judged.
+  {
+    const tampered = previewA2.toString('utf8').replace(
+      /(<polygon data-id="f\.pool" points="[^"]+")/,
+      '$1 transform=translate(40,0)',
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    if (result.status === 0) adjacentBypasses.push('unquoted rendered SVG transform')
+    else {
+      assert.ok(result.output.includes('pool'), 'names the unquoted transformed feature')
+      assert.ok(/transform|attribute|render|geometry/i.test(result.output), 'names the render construct')
+    }
+    writeFileSync(PREVIEW, previewA2)
+  }
+  // 13. An allowed vocabulary is not an allowed tree. A new, unbound polygon
+  //     painted last can cover the entire map while every canonical feature
+  //     and coordinate remains untouched underneath it.
+  {
+    const tampered = previewA2.toString('utf8').replace(
+      '</svg>',
+      '<polygon points="0,0 1078,0 1078,908 0,908" fill="#ffffff" stroke="#ffffff" stroke-width="1"/>\n</svg>',
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    if (result.status === 0) adjacentBypasses.push('allowed full-map overlay polygon')
+    else assert.ok(/polygon|feature|geometry|render|allowlist/i.test(result.output), 'names the extra rendered node')
+    writeFileSync(PREVIEW, previewA2)
+  }
+  // 14. CSS numeric spellings are semantic. `0.0` computes to the same fully
+  //     transparent value as `0`; a denylist for one literal spelling does not
+  //     prove that the required reason is human-visible.
+  {
+    const tampered = previewA2.toString('utf8').replace(
+      '</style>',
+      '  .note { opacity:0.0; }\n</style>',
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    if (result.status === 0) adjacentBypasses.push('computed-transparent actionability reason')
+    else assert.ok(/opacity|visibility|actionability|reason|render/i.test(result.output), 'names the hidden claim surface')
+    writeFileSync(PREVIEW, previewA2)
+  }
+  // 15. The computed truthful node must be exclusive, not merely present.
+  //     Keeping `unknown` while adding a second visible `yes` claim is still a
+  //     browser-visible promotion and must fail THD-18.
+  {
+    const tampered = previewA2.toString('utf8').replace(
+      '<div><b>Classification:</b> demo-illustrative</div>',
+      '<div>Sanctionable today: yes — fully sanctioned.</div>\n        <div><b>Classification:</b> demo-illustrative</div>',
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    if (result.status === 0) adjacentBypasses.push('additional visible sanctionable-today yes claim')
+    else assert.ok(/sanctionable|actionability|claim|visible/i.test(result.output), 'names the contradictory claim')
+    writeFileSync(PREVIEW, previewA2)
+  }
   assert.deepEqual(
     adjacentBypasses,
     [],
