@@ -1,0 +1,153 @@
+<title>Community One — Map Design Target</title>
+<style>
+  body { background:#e9e7df; margin:0; padding:24px; font-family:Georgia,'Times New Roman',serif; color:#3d3b33; display:flex; justify-content:center; }
+  .sheet { background:#f8f7f2; box-shadow:0 2px 14px rgba(0,0,0,.18); padding:8px; max-width:1100px; width:100%; }
+  svg { width:100%; height:auto; display:block; }
+</style>
+<div class="sheet">
+<svg viewBox="0 0 1080 1060" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Community One presentation map design target">
+  <defs>
+    <pattern id="units" width="24" height="48" patternUnits="userSpaceOnUse">
+      <rect width="24" height="48" fill="#e3a878"/>
+      <rect width="24" height="48" fill="none" stroke="#b07848" stroke-width="1"/>
+      <rect x="2" y="2" width="20" height="10" fill="#eec39a" opacity=".7"/>
+    </pattern>
+    <pattern id="slots" width="14" height="50" patternUnits="userSpaceOnUse">
+      <rect width="14" height="50" fill="#dad7ce"/>
+      <line x1="0" y1="0" x2="0" y2="50" stroke="#f5f4ef" stroke-width="2"/>
+    </pattern>
+  </defs>
+
+  <!-- paper -->
+  <rect width="1080" height="1060" fill="#f8f7f2"/>
+
+  <!-- title block -->
+  <text x="60" y="52" font-size="34" letter-spacing="6" fill="#2f2d26" font-weight="bold">COMMUNITY ONE</text>
+  <text x="60" y="78" font-size="15" fill="#6b675a">Townhouse community · site 225 × 180 m (~10 acres) · presentation map</text>
+  <text x="60" y="100" font-size="13" fill="#a3552f" font-weight="bold" letter-spacing="1">DESIGN TARGET · HAND-DRAWN MOCK — NOT ENGINE OUTPUT · DEMO</text>
+
+  <!-- north arrow -->
+  <g transform="translate(1005,165)">
+    <circle r="26" fill="none" stroke="#8a8778" stroke-width="1.5"/>
+    <path d="M0,-20 L7,10 L0,4 L-7,10 Z" fill="#4a4838"/>
+    <text x="0" y="-32" font-size="14" text-anchor="middle" fill="#4a4838" font-weight="bold">N</text>
+  </g>
+
+  <!-- ===== SITE ===== -->
+  <!-- site base -->
+  <rect x="60" y="130" width="900" height="720" fill="#edefdf"/>
+
+  <!-- corner & central green parcels -->
+  <rect x="185" y="245" width="180" height="85" rx="6" fill="#a9c987"/>
+  <rect x="655" y="245" width="180" height="85" rx="6" fill="#a9c987"/>
+  <rect x="395" y="222" width="230" height="106" rx="6" fill="#93bb74"/>
+  <rect x="185" y="668" width="120" height="70" rx="6" fill="#a9c987"/>
+  <rect x="715" y="668" width="120" height="70" rx="6" fill="#a9c987"/>
+  <!-- green spine flanking central avenue -->
+  <rect x="472" y="336" width="18" height="400" fill="#a9c987"/>
+  <rect x="530" y="336" width="18" height="400" fill="#a9c987"/>
+
+  <!-- inter-row lanes (drawn under main roads) -->
+  <g stroke="#e2e0d6" stroke-width="14">
+    <line x1="200" y1="412" x2="820" y2="412"/>
+    <line x1="200" y1="502" x2="820" y2="502"/>
+    <line x1="200" y1="592" x2="820" y2="592"/>
+    <line x1="200" y1="682" x2="820" y2="682"/>
+  </g>
+
+  <!-- ring road -->
+  <rect x="150" y="210" width="720" height="540" rx="22" fill="none" stroke="#d8d5cc" stroke-width="34"/>
+  <rect x="150" y="210" width="720" height="540" rx="22" fill="none" stroke="#ffffff" stroke-width="2" stroke-dasharray="14 12"/>
+
+  <!-- central avenue -->
+  <line x1="510" y1="748" x2="510" y2="330" stroke="#d8d5cc" stroke-width="26"/>
+  <line x1="510" y1="744" x2="510" y2="334" stroke="#ffffff" stroke-width="2" stroke-dasharray="12 10"/>
+
+  <!-- entry road + access road -->
+  <rect x="60" y="858" width="900" height="46" fill="#cfccc2"/>
+  <line x1="60" y1="881" x2="960" y2="881" stroke="#ffffff" stroke-width="2.5" stroke-dasharray="22 16"/>
+  <rect x="488" y="750" width="44" height="112" fill="#d8d5cc"/>
+  <line x1="510" y1="750" x2="510" y2="862" stroke="#ffffff" stroke-width="2" stroke-dasharray="12 10"/>
+
+  <!-- townhouse rows: 4 rows × 2 columns -->
+  <g stroke="#a5673f" stroke-width="1.5">
+    <rect x="200" y="352" width="264" height="52" fill="url(#units)"/>
+    <rect x="556" y="352" width="264" height="52" fill="url(#units)"/>
+    <rect x="200" y="442" width="264" height="52" fill="url(#units)"/>
+    <rect x="556" y="442" width="264" height="52" fill="url(#units)"/>
+    <rect x="200" y="532" width="264" height="52" fill="url(#units)"/>
+    <rect x="556" y="532" width="264" height="52" fill="url(#units)"/>
+    <rect x="200" y="622" width="264" height="52" fill="url(#units)"/>
+    <rect x="556" y="622" width="264" height="52" fill="url(#units)"/>
+  </g>
+
+  <!-- club + pool -->
+  <rect x="410" y="238" width="118" height="58" rx="4" fill="#c9a26b" stroke="#96713e" stroke-width="1.5"/>
+  <rect x="546" y="244" width="64" height="42" rx="12" fill="#7fc4d8" stroke="#4da3bd" stroke-width="2"/>
+  <text x="469" y="272" font-size="13" text-anchor="middle" fill="#4a3a20" font-weight="bold">CLUB</text>
+  <text x="578" y="269" font-size="11" text-anchor="middle" fill="#1e5b6e" font-weight="bold">POOL</text>
+
+  <!-- parking pockets -->
+  <rect x="330" y="768" width="120" height="52" fill="url(#slots)" stroke="#b5b2a8"/>
+  <rect x="570" y="768" width="120" height="52" fill="url(#slots)" stroke="#b5b2a8"/>
+  <text x="390" y="800" font-size="15" text-anchor="middle" fill="#6b675a" font-weight="bold">P</text>
+  <text x="630" y="800" font-size="15" text-anchor="middle" fill="#6b675a" font-weight="bold">P</text>
+
+  <!-- gate -->
+  <rect x="466" y="838" width="12" height="14" fill="#4a4838"/>
+  <rect x="542" y="838" width="12" height="14" fill="#4a4838"/>
+
+  <!-- trees -->
+  <g fill="#6b9a4e" stroke="#527a39" stroke-width="1">
+    <circle cx="215" cy="270" r="9"/><circle cx="248" cy="298" r="7"/><circle cx="320" cy="268" r="8"/>
+    <circle cx="690" cy="272" r="9"/><circle cx="762" cy="262" r="7"/><circle cx="812" cy="300" r="8"/>
+    <circle cx="212" cy="700" r="8"/><circle cx="262" cy="688" r="6"/>
+    <circle cx="748" cy="700" r="8"/><circle cx="806" cy="690" r="6"/>
+    <circle cx="481" cy="380" r="6"/><circle cx="539" cy="470" r="6"/><circle cx="481" cy="560" r="6"/><circle cx="539" cy="650" r="6"/>
+    <circle cx="430" cy="252" r="7"/><circle cx="612" cy="300" r="7"/>
+  </g>
+
+  <!-- boundary -->
+  <rect x="60" y="130" width="900" height="720" fill="none" stroke="#4a4a42" stroke-width="3" stroke-dasharray="18 8"/>
+
+  <!-- site labels -->
+  <text x="275" y="292" font-size="12" text-anchor="middle" fill="#3f5c28" font-weight="bold" letter-spacing="1">PARK</text>
+  <text x="745" y="292" font-size="12" text-anchor="middle" fill="#3f5c28" font-weight="bold" letter-spacing="1">PARK</text>
+  <text x="510" y="905" font-size="12" text-anchor="middle" fill="#57544a" letter-spacing="2">24 m ACCESS ROAD</text>
+  <text x="510" y="836" font-size="11" text-anchor="middle" fill="#57544a" font-weight="bold">ENTRY</text>
+  <g transform="translate(497,540) rotate(-90)">
+    <text font-size="11" text-anchor="middle" fill="#7a766a" letter-spacing="3">CENTRAL AVENUE</text>
+  </g>
+  <line x1="332" y1="378" x2="292" y2="180" stroke="#8a8778" stroke-width="1"/>
+  <text x="288" y="172" font-size="12" fill="#57544a">TOWNHOUSE ROWS (illustrative count)</text>
+
+  <!-- watermark -->
+  <text x="540" y="520" font-size="92" text-anchor="middle" fill="rgba(120,116,100,0.13)" transform="rotate(-24 540 520)" font-weight="bold" letter-spacing="14">DEMO · MOCK</text>
+
+  <!-- ===== FOOT: legend, scale, stamp ===== -->
+  <g transform="translate(60,930)">
+    <rect x="0" y="0" width="596" height="102" fill="#f2f1ea" stroke="#c9c6ba"/>
+    <text x="14" y="24" font-size="13" fill="#2f2d26" font-weight="bold" letter-spacing="1">LEGEND</text>
+    <rect x="14" y="38" width="26" height="14" fill="url(#units)" stroke="#a5673f"/><text x="48" y="49" font-size="12">Townhouses</text>
+    <rect x="150" y="38" width="26" height="14" fill="#d8d5cc"/><text x="184" y="49" font-size="12">Roads</text>
+    <rect x="252" y="38" width="26" height="14" fill="#a9c987"/><text x="286" y="49" font-size="12">Greens &amp; parks</text>
+    <rect x="404" y="38" width="26" height="14" fill="#7fc4d8"/><text x="438" y="49" font-size="12">Pool</text>
+    <rect x="14" y="66" width="26" height="14" fill="url(#slots)" stroke="#b5b2a8"/><text x="48" y="77" font-size="12">Parking</text>
+    <line x1="150" y1="73" x2="176" y2="73" stroke="#4a4a42" stroke-width="3" stroke-dasharray="10 5"/><text x="184" y="77" font-size="12">Site boundary</text>
+    <line x1="404" y1="73" x2="430" y2="73" stroke="#e2e0d6" stroke-width="8"/><text x="438" y="77" font-size="12">Shared lanes</text>
+  </g>
+  <g transform="translate(700,948)">
+    <text x="0" y="-4" font-size="11" fill="#57544a" letter-spacing="1">SCALE (4 px = 1 m)</text>
+    <rect x="0" y="4" width="100" height="8" fill="#2f2d26"/>
+    <rect x="100" y="4" width="100" height="8" fill="#fff" stroke="#2f2d26"/>
+    <text x="0" y="30" font-size="11" fill="#57544a">0</text>
+    <text x="100" y="30" font-size="11" text-anchor="middle" fill="#57544a">25 m</text>
+    <text x="200" y="30" font-size="11" text-anchor="middle" fill="#57544a">50 m</text>
+  </g>
+  <g transform="translate(700,995)">
+    <rect x="0" y="0" width="320" height="38" fill="none" stroke="#a3552f" stroke-width="2"/>
+    <text x="160" y="16" font-size="11" text-anchor="middle" fill="#a3552f" font-weight="bold" letter-spacing="1">RESEARCH DRAFT — NOT FOR CONSTRUCTION · DEMO</text>
+    <text x="160" y="31" font-size="10" text-anchor="middle" fill="#a3552f">Visual style target only. Layout is not rule-derived.</text>
+  </g>
+</svg>
+</div>

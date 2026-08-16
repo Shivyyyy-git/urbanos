@@ -47,6 +47,95 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 037 — Fable (research) — 2026-08-16
+
+**R1 drafted properly: `collab/R1-Stage1Scope-draft.md`. Decision document,
+not a spec change — `Stage1Spec.md` §3 untouched. Drafting it out killed one
+of my own three routes and surfaced a question bigger than R1.**
+
+**Route A (hold S+4, reframe around the negative verdict) — rejected as
+primary, by me.** In 033 I weighed its honesty and not its pilot value. If
+every run terminates at "restrained", **build steps B and C are never
+exercised on real data**: the calculator computes numbers nobody may rely
+on, the sheet draws an envelope nobody may build, and five pilots that all
+return the same one-line "stayed" verdict teach us nothing about the engine,
+the rulebook loading, or the drawing pipeline. A v1 whose headline is always
+"no" cannot test itself. Route A is a correct sentence, not a testable
+product. Its output shape is still needed for genuinely restrained slots and
+is retained.
+
+**Recommendation: Route C, sequenced to degrade gracefully into Route B.**
+Inside the existing A → B → C order: B computes the **sanctionable** envelope
+and must pass alone, with no reference to S+4 in the calculator; the
+suspended-S+4 comparison is a **composition step gated behind B**, consuming
+the same engine with a second rule set. Short on time ⇒ ship B, lose nothing
+built. This removes the false choice — we do not have to decide today which
+one ships.
+
+Supporting calls:
+
+- **The dependency asymmetry does not favour A.** B/C need Mannu to name the
+  currently-sanctionable regime, but that is the same collection trip as
+  D1/M-S1, which he already owes. Marginal calendar cost ≈ zero.
+- **"S+4 might come back" is not a risk to B.** A returning regime is a data
+  load, not a rebuild — that is the moat's central claim and the demo's A→B→A
+  swap. If it forced a rebuild, the moat claim was never true, and that is a
+  far bigger problem than R1.
+- **C's marginal cost is presentation, not engine.** Running the engine twice
+  against two rule sets is the same operation Sol already gated in 034.
+- **C's real risk is anchoring**, mitigated by R3's actionability block plus a
+  hard guardrail: **the suspended envelope is historical record, never a
+  forecast** — no timeline, no likelihood, no "when the stay lifts".
+  Predicting a court or a department would cross the thesis boundary rule and
+  turn the differentiator into a liability.
+- **Sub-decision from D3:** two envelopes in the report, **one drawing** — of
+  the sanctionable envelope only; the suspended one appears as numbers,
+  citations, and at most a dashed overlay. Otherwise C quietly reverses D3.
+- **Route E (wait for the stay to resolve) rejected on the thesis's own
+  logic:** rule volatility is the moat's justification. Waiting for
+  regulatory stability is the one move that contradicts why the company
+  exists.
+
+**Escalated separately — bigger than R1.** Is the Gurgaon plot-builder market
+actually *transacting* right now? Customer #1's frequency was already
+[inferred]; if S+4 economics drove the cycle and fresh approvals are shut,
+the cycle may be paused, and no §3 scope choice fixes a customer who is not
+buying. Unplanned hedge worth naming: the **Townhouse Demo is a different
+regulatory regime** (group housing, not plotted residential) and is therefore
+untouched by the stay — if the plot market is paused, Community One is not a
+VC prop, it is the live wedge. Recommend this goes to the goal chat as its
+own item rather than riding on R1.
+
+Four questions to Mannu: Q1 what is sanctionable today for Gurgaon plotted
+residential (the hinge — both live routes are undefined without it), Q2 does
+the suspension still stand, Q3 are plot builders transacting, Q4 is
+construction proceeding on already-sanctioned S+4 plans (decides whether
+R3's `occupation-use` scope is live). Flip criteria recorded in §11.
+
+Noted from 036: goal chat holds the R1/D5 queue and is briefing Shivam this
+session. This entry is the artifact that queue was waiting on; no ball is
+taken from it.
+
+**BALL: Shivam** — unchanged (R1 + D5).
+
+### 036 — Fable (goal chat) — 2026-08-16
+
+**Visual bar + local preview ruled (Shivam's "see it locally" ask).**
+`collab/PresentationMapTarget.html` — a hand-drawn MOCK, labelled on-sheet as
+not engine output and not rule-derived — fixes the look the demo presentation
+map must meet or beat (flat cartographic style, unit patterning, legend,
+scale bar, north arrow, DEMO watermark, stamp box). Additional demo
+requirement: a self-contained one-click `townhouse-demo/preview.html`,
+regenerated on every build, so Shivam can double-click a file and see the
+latest map; regeneration joins the acceptance surface (Sol: fold into the
+harness as a gate alongside 034's DemoArtifact surface).
+
+Goal chat acknowledges it now holds the queue from 033/034/035: R1 (S+4
+scope), D5/R3 (Restraint + SourceInstrument + no-third-stamp), R2/R4/R5/R6,
+O1–O3 routing. Shivam is being briefed in the goal chat this session.
+
+**BALL: Shivam** — unchanged (R1 + D5 blocking).
+
 ### 035 — Fable — 2026-08-16
 
 **R3 drafted: the `Restraint` object —
