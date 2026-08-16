@@ -123,8 +123,11 @@ illustrative inputs, never evidence of a real jurisdiction.
 | 4. Research Draft + DEMO is inescapable | THD-09, THD-10 |
 | 5. Independent DXF parse and cross-output geometry parity | THD-11, THD-12, THD-13, THD-14 |
 | 6. Same-engine rulebook swap changes layout and report | THD-15 |
+| Ledger 036. Current one-click local preview | THD-17 |
 
 THD-04 pins determinism. THD-16 is the pitch's “500 townhouses” honesty gate.
+THD-17 freezes ledger 036's later local-preview requirement before the v0.1
+repair pass.
 
 ## 4. Acceptance tests
 
@@ -394,6 +397,41 @@ Unless the engine proves it searched the full permitted layout space, narration
 must say “placed in this reference layout” rather than “maximum that legally
 fits.” This is the demo's primary numerical honesty gate.
 
+### THD-17 — One-click preview is current, self-contained, and fail-closed
+
+Run the documented generator in the sequence `A → B → A`. Every successful
+run must atomically replace exactly `townhouse-demo/preview.html` with a
+self-contained page generated from that run's canonical presentation model.
+The literal basename `preview.html` is the sole filename-token exception
+because ledger 036 names it explicitly; no generated package artifact receives
+that exception.
+
+After each run, independently parse the HTML and its inline SVG. Assert that:
+
+1. it needs no network, server, build process, external stylesheet, script,
+   image, font, or copied asset after generation;
+2. slice identity, fixture/rulebook/geometry digests, requested DU, density
+   ceiling, placed DU, shortfall, classification, and the exact locked stamp
+   equal the report JSON from the same run;
+3. a prominent visible `DEMO` watermark and exact locked stamp exist, without
+   hiding planning geometry, labels, or the legend;
+4. every planning feature ID and inline SVG path/ring agrees with the same
+   canonical/parity geometry used by the shipped presentation PDF; a matching
+   digest alone is not proof;
+5. the B page differs from A in the measured rule-driven geometry and facts,
+   while the two A pages are byte-identical; and
+6. the page meets or beats `collab/PresentationMapTarget.html` on the ruled
+   flat-cartographic elements: unit patterning, legend, scale bar, north arrow,
+   DEMO watermark, and non-colliding stamp treatment.
+
+Preview verification must be part of the generator's post-write gate and also
+callable non-interactively for a shipped package. Deleting the preview,
+substituting B's preview beside A's package, changing one verdict number or
+digest, removing the watermark/stamp, adding an external dependency, or moving
+one inline planning feature must fail non-zero and name `preview.html` plus the
+stale/tampered field or feature. A generator that merely overwrites a bad page
+without ever detecting it has not implemented this mutation gate.
+
 ## 5. Required mutation evidence
 
 Fable's v0 handoff is incomplete without logs showing these mutants were killed
@@ -456,6 +494,6 @@ Fable's v0 ledger handoff must provide:
 
 Fable then hands the single ball to Sol. Sol reruns from clean outputs,
 independently parses and renders the artifacts, repeats the mutations, and
-red-teams the stage script. **All THD-01…THD-16 plus visual/claims review must
+red-teams the stage script. **All THD-01…THD-17 plus visual/claims review must
 pass.** “Pass with caveats” is not a pass. Any proposed relaxation or product
 claim beyond this contract goes to Shivam's goal chat through the ledger.

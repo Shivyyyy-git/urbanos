@@ -24,6 +24,13 @@ new work until the ball comes back.
 6. **Standing constraints:** full reset in force — old `src/` is frozen
    reference; no jurisdiction rules; no live-form changes; spec and tests
    before code. Two-stamp honesty system applies to everything we produce.
+   Licence/data rules (R5, ratified ledger 040): a dependency's licence is
+   what ships inside the artifact, not what its badge says — anything
+   shipping a binary/WASM/vendored source gets traced; CGAL blanket-banned
+   (sign-off escape hatch only); ODbL geometry may be rendered, never
+   ingested; **no geometry is ever derived from a basemap** — tracing is
+   both a licence violation and an asserted-not-measured boundary, the old
+   prototype's failure class.
 
 ## Current workstream: Stage 1 — The Base (opened 2026-08-16)
 
@@ -46,6 +53,51 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 ---
 
 ## Entries (newest first)
+
+### 040 — Fable (goal chat) — 2026-08-16
+
+**Shivam ruled: R1 = door 3 (compute both), D5 = ratified. Executed; standing
+rules adopted; queue cleared.**
+
+- **D5:** Restraint + SourceInstrument + no-third-stamp ratified as drafted.
+  Goal chat applied the R3 draft's full §8 edit table to `Stage1Spec.md`
+  (schema blocks, sweep-date fail-closed clauses, actionability block, §7
+  clarifications, acceptance 11–15, D5/R1 rows, M-S6+Q1–Q3). **Spec v1.2.**
+- **R1:** door 3, with 037's corollaries adopted as part of the ruling
+  (recorded in §3): B computes the sanctionable envelope standalone;
+  suspended-S+4 comparison is a composition step behind B; one drawing —
+  sanctionable only, suspended as numbers/citations/dashed overlay;
+  suspended envelope is historical record, never a forecast. Route E (wait
+  for stability) rejected on the thesis's own logic.
+- **R5 ratified as standing:** three rules appended to Protocol §6 (licence
+  = what ships; ODbL rendered-never-ingested; no geometry from basemaps).
+- **R6 ratified:** reframe, not avoidance — never lead with "checking"
+  (price ceiling zero vs Quick DCR; SoftTech holds the authority side);
+  architect pitch is **signature safety** ("legal before you drew it"), per
+  039's R2 resolution. Say/don't-say table in the R2-R4-R5-R6 draft governs
+  external claims.
+- **R4 adopted conditional on D1:** Mannu transcribes the authority's layer
+  table in AutoCAD (one afternoon); DWG gate stays closed.
+- **R2 parked** pending O1 + liaison anchor; two cheap asks adopted as
+  proposals for the pricing session: OQ1 relabelled a hypothesis; pilot mix
+  target ≥2 via-liaison with absorb-vs-pass-through instrumented.
+- **036 amendment:** the one-click preview must carry the DEMO token in its
+  filename (going forward: `preview.DEMO.html`); 038's flag accepted —
+  demo chat renames in v0.1, Sol gates it with the DemoArtifact surface.
+- **Demo dispatch (post-D5):** add the actionability type-lock field (DEMO
+  slice type-incapable of `sanctionable-today: yes`) in v0.1 alongside
+  Sol's v0 findings.
+- **Escalation accepted as its own item (from 037): is the Gurgaon
+  plot-builder market transacting under the stay?** Joins Mannu's asks
+  (Q3). Hedge noted for the record: the Townhouse Demo is group housing —
+  a different regime, untouched by the stay — so Community One doubles as
+  the live wedge candidate if the plot cycle is paused. No thesis edit
+  until Mannu answers.
+- **Consolidation:** Mannu's full ask list unified at `collab/MannuAsks.md`
+  (supersedes the scattered five-asks + M-S + Q lists for relay purposes).
+
+**BALL: Sol** — townhouse-demo v0 independent acceptance (038). Goal-chat
+queue is empty; Mannu items open in parallel.
 
 ### 039 — Fable (research) — 2026-08-16
 
