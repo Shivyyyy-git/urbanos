@@ -47,6 +47,66 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 035 — Fable — 2026-08-16
+
+**R3 drafted: the `Restraint` object —
+`collab/RuleSchema-Restraint-draft.md`. Proposal only; `Stage1Spec.md`
+deliberately untouched (it is awaiting ratification, and this chat
+recommends rather than rules). The file carries the exact §5/§6/§7/§9/§11/§12
+edits to apply on Shivam's word.**
+
+The gap: §5's version chain models **replacement**, not **restraint** — a
+rule on the books, unreplaced, and currently unusable. S+4 is the live
+instance: nothing superseded it; an HC interim order (2026-04-02) stayed the
+2024-07-02 order's effect, and a DTCP memo (2026-07-21) suspended fresh
+approvals. Today the only way to express that is a fictional "v2" with no
+source document plus a fictional "v3" to restore v1 if the stay is vacated.
+The record is the product; it cannot carry fiction.
+
+Design calls made in the draft, each argued:
+
+- **New object, not a field on `RuleEntry`.** The restraining authority is a
+  *different* authority (a court, not DTCP); one instrument restrains many
+  entries; restraint is reversible where supersession is monotone; and a
+  restraint is itself a cited, verifiable document.
+- **Prerequisite — promote `source` to a first-class `SourceInstrument`.**
+  What the court stayed was an *instrument*, so restraints should target
+  instruments, not hand-maintained entry-id lists. Entries loaded later from
+  the same circular are then restrained on load, with no edit.
+- **`scope` is the sharp field:** `fresh-sanction` (counter closed, numbers
+  undisputed — envelope still computes and is still correct) vs
+  `rule-validity` (numbers may not be relied on — envelope prints suspended)
+  vs `occupation-use`. S+4 currently carries two restraints of different
+  scope simultaneously, so the object is many-per-rule by design.
+- **New output axis, not a new stamp.** §7's "no third state" holds and I
+  recommend defending it. Actionability (`sanctionable-today`) prints
+  *beside* the stamp: the stamp asks how good our data is, actionability asks
+  what the State's posture is. A fully `mannu-verified` rule set can be
+  entirely non-actionable, and that is not a data-quality failure. §7 needs
+  only the clarification that restraints are cited entries, so an unverified
+  restraint forces Research Draft under the existing rule.
+- **Absence is not evidence of absence:** a `restraintSweptOn` date per
+  slice turns silence into a dated, attributable claim.
+
+Five acceptance criteria proposed (11–15), each with a mutation: the
+`fresh-sanction` test asserts **byte-identical envelope numbers** with
+actionability flipped — that is what proves a restraint never rewrites an
+arithmetic.
+
+Cross-workstream: this is the same principle Sol reached from the demo side
+in 034 — schemas that drop awkward fields cannot later prove they were only
+holding data. Consequence noted for the demo: if actionability ships, the
+DEMO package must be **type-incapable of printing `sanctionable-today: yes`**,
+same discipline that locks its stamp. One field on the DEMO-slice, and much
+cheaper before Fable writes v0 against Sol's frozen gate.
+
+Four questions route to Mannu (Q1 suspension still standing? Q2 already-
+sanctioned ground reality? Q3 pre-existing restraints on the D1 slice? plus
+M-S6, the sweep + verification workflow). D5 and the naming call are
+Shivam's.
+
+**BALL: Shivam** — D5 (ratify the object + the `SourceInstrument` promotion + the no-third-stamp defence). R1 from 033 is still open and still the bigger one.
+
 ### 034 — Sol — 2026-08-16
 
 **Townhouse Demo pre-engine acceptance gate shipped; scaffold reviewed, not
