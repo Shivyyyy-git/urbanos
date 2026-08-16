@@ -47,6 +47,149 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 039 — Fable (research) — 2026-08-16
+
+**R2/R4/R5/R6 drafted: `collab/R2-R4-R5-R6-draft.md`. Four independent,
+separately-rulable sections; nothing edited, nothing blocks build. R5 and R6
+are rulable today with no new information — I would take those two now.**
+
+**R2 (self-certifying architect as buyer) — sharpens the hypothesis, does not
+answer OQ1.** The evidence establishes that the risk-carrier on a
+builder-floor file is a *named individual with repeat frequency* — the
+profile intermediary economics needs. It does not establish that they will
+pay: architects have carried this risk for a while and may price it in; the
+builder pays the architect, so a passed-through cost leaves the payer
+unchanged; and willingness is capped by the fee per file (`MoneyV1`'s liaison
+anchor, still Mannu's). **The sharp finding is a tension with R6:** the
+architect's pain is *checking*-shaped, which R6 forbids leading with and
+which Quick DCR does free. Resolution — **sell the architect generation on a
+different pain**: not "we check your drawing before you self-certify" but
+"design inside a cited envelope and the signature is safe, because the
+drawing was legal before you drew it." Same engine, same output; the builder
+buys land certainty, the architect buys signature safety. Costs nothing to
+adopt. Asks: OQ1 relabelled as a hypothesis to test, `MoneyV1` pilot mix
+raised from ≥1 to ≥2 via-liaison, instrumented for *absorb or pass through*.
+
+**R4 (HSVP layer guidelines → M-S4) — three catches.** (i) The standard is
+**authority-specific and we have not picked the authority** — HSVP allots its
+own sectors, DTCP licenses colonies, ULB covers municipal areas, and a Gurgaon
+plot builder sits in any of the three; R4 is conditional on **D1**. (ii) The
+published files are **DWG**, which we gated — but we need the *standard*, not
+a pipeline: **Mannu opens them in AutoCAD and transcribes the layer table**,
+one afternoon, DWG question stays closed. (iii) Matching a submission layer
+standard **strengthens** the boundary rule rather than straining it — it makes
+our output drop into the workflow of the human who submits, which is
+"informs and designs; people decide, sign, submit" working as written.
+
+**R5 — two rules proposed became three.** Generalised (i) from "no CGAL" to
+the rule underneath it: **a dependency's licence is what ships inside the
+artifact, not what the badge says**; anything shipping a binary, WASM blob or
+vendored source gets traced. CGAL stays a blanket ban with a sign-off escape
+hatch — I note openly that it is broader than strictly necessary (kernel is
+LGPL, only the higher-level algorithms are GPL), because a rule requiring
+per-package licence archaeology is not one a busy person or an agent will
+apply, and the algorithms we would reach for are the GPL half. (ii) ODbL
+geometry may be **rendered, never ingested**; operational test is stored-as-
+data vs rendered-to-image. **(iii) NEW — no geometry is ever derived from a
+basemap.** Promoted out of the scan's §2.3 to standing-rule status because it
+is simultaneously a licence obligation (Google's ToS forbid tracing outlines)
+and an engineering rule: a traced boundary is an *asserted* one — the same
+family of failure as the old prototype's setbacks. It is also the rule most
+likely to be broken by accident, by someone being helpful with a screenshot.
+Proposed home: ledger **Protocol §6**, drop-in text in the file.
+
+**R6 — the commercial reason is stronger than the positioning one.** Our
+price ceiling for checking is **zero**: the State gives it away via Quick DCR,
+and above that the authority-side market is held by an incumbent with
+relationships we do not have. A "we check compliance" pitch competes with
+free at the bottom and SoftTech at the top in a segment where we have no
+structural advantage. Includes an operational test (does the sentence
+describe answering a question asked *before a drawing exists*?) and a
+say/don't-say table. R6 is **reframe, not avoidance** — never mentioning
+checking would make us unintelligible to an architect whose world is
+deviation reports.
+
+Noted from 038: demo v0 is green with `verification` separated from
+`classification`, consistent with R3 §11. The demo's actionability
+consequence (must be type-incapable of `sanctionable-today: yes`) stays
+pending on D5 and is unaffected by these four.
+
+**BALL: Shivam** — R5 + R6 takeable now; R2 waits on O1 and the liaison-fee anchor, R4 waits on D1. R1 and D5 still the blocking pair.
+
+### 038 — Fable (townhouse demo) — 2026-08-16
+
+**Townhouse Demo v0 BUILT against Sol's frozen gate (034): 16/16 THD green,
+six mandatory mutants killed, packages shipped, 036's one-click preview
+implemented.** Shivam nudged this workstream after 034; 033/035/036/037's
+goal-chat decisions (R1, D5, etc.) remain with Shivam, untouched here.
+Handoff per contract §8:
+
+1. **Revised surface — 034 rulings implemented.** Entries are
+   production-shaped: explicit applicability predicate (`site-wide` /
+   `not-applicable`; THD-01 proves selection is predicate-driven), structured
+   source with honest demo sentinels, `verification: unverified |
+   mannu-verified` SEPARATE from `classification: demo-illustrative` (the
+   classification locks the stamp; a forged verification is refused at
+   resolution as `E_RULE_ENTRY_NOT_DEMO`, and past even that could not
+   unlock — THD-10), version identity + supersession chains (THD-08 issues a
+   runtime v2). `E_RULE_ENTRY_INVALID` added. The report carries
+   fixture/rulebook/geometry digests, typed fact ids with fixture-field and
+   entry provenance, a self-contained citation snapshot, distinct
+   requested/ceiling/placed/shortfall facts, and ships as a named JSON
+   `DemoArtifact`. Fixture paths:
+   `townhouse-demo/src/data/{community-one-site,demo-slice-a,demo-slice-b}.ts`;
+   `collab/TownhouseDemoFixture.md` corrected per your ruling (the rejected
+   "400 legally fit" sentence now reads ceiling-vs-placed).
+2. **Commands.** Generate (cold, non-interactive, self-gating, non-zero on
+   gate failure): `node tools/generate-demo.mjs generate --slice a|b --out
+   <dir>`. Tests: `npm test` (THD-01…16, coverage preflight). Stage swap
+   diff: `node tools/generate-demo.mjs diff <dirA> <dirB>`; gate re-run:
+   `… verify <dir>`.
+3. **Packages.** `output/townhouse-demo/slice-a/` and `slice-b/`, six
+   artifacts each (technical DXF R12 + PDF, presentation map PDF, envelope
+   report PDF + JSON, parity manifest); every basename DEMO-tagged, every
+   page watermarked + stamped. A: requested 500 / ceiling 400 / placed 140 /
+   shortfall 360. B: 500 / 250 / 50 / 450 — same executable, only the slice
+   input changes; all 14 rule facts and the measured geometry move. Per 036,
+   `townhouse-demo/preview.html` (self-contained, SVG from the same
+   presentation model, stamp + watermark + verdict numbers + digests) is
+   regenerated on every build — gate it as you see fit alongside the
+   DemoArtifact surface; note its Shivam-specified filename carries no DEMO
+   token, flagged for your gate design.
+4. **Green log.** 16/16 THD pass, strict typecheck clean; ezdxf (1.4.4)
+   audits the shipped DXF at 0 errors, AC1009, metres. The parity oracle
+   measures every feature's vector path in DXF + both PDFs against the
+   manifest rings (0.001 m model / 0.25 mm paper); digests corroborate only,
+   THD-14 proves tamper detection.
+5. **Mutation evidence:** `collab/townhouse-demo-v0-mutation-log.md`. All six
+   §5 mutants red on their required gates (M3/M6 surgical; M2 cascades via
+   fail-closed refusal), reverted, green rerun each. Honest findings recorded
+   there: THD-05 could pass vacuously on an empty package (fixed: asserts
+   non-empty), and the page watermark was initially painted UNDER the filled
+   map — structurally present, visually occluded (fixed: painted on top; the
+   automated visibility check still tests size/colour only, so occlusion
+   stays with your §6 rendered pass).
+6. **Known deviations.** (a) DXF R12 TEXT is ASCII: the DXF stamp is
+   ASCII-folded ("Research Draft - Not for Construction - DEMO"); exact
+   string in every PDF page and JSON — rule if folding is unacceptable.
+   (b) THD-03 "every page renders": structural parse + text ops per page in
+   the harness, raster render checked manually on page 1 (sips); no raster
+   toolchain added — full render inspection remains your §6 pass. (c) The
+   THD harness is Fable-authored to your contract (your §8 requires my green
+   log); you own acceptance — rewrite/extend freely; your independent rerun
+   is the verdict. (d) Green/amenity provided areas exceed minima by
+   ceil-to-0.1 m allocation (e.g. 6084 vs 6075 sqm) — minimum rules,
+   measured. (e) 035's actionability type-lock for the DEMO slice is noted
+   and NOT implemented — it is D5-gated; one field to add when Shivam rules.
+
+Sol: rerun from clean outputs, parse and render independently, repeat the
+mutations, red-team the stage script. Digests print on every generate run.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** (townhouse-demo v0 acceptance). Goal-chat queue (R1/D5/R2-R6/
+O1-O3) stays with Shivam, unchanged.
+
 ### 037 — Fable (research) — 2026-08-16
 
 **R1 drafted properly: `collab/R1-Stage1Scope-draft.md`. Decision document,
