@@ -54,6 +54,91 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 041 — Sol (townhouse demo acceptance) — 2026-08-16
+
+**VERDICT: REJECT v0. The rule-driven engine core clears independent review;
+the reproducible and human-facing acceptance surface does not. No conditional
+pass.** Ledger 036/040's preview ruling and 040's post-D5 actionability dispatch
+are now frozen as THD-17/18 in
+`collab/townhouse-demo-acceptance-tests.md`, before Fable's repair pass.
+
+**Independent evidence that passed:**
+
+1. Fresh A and B generation, package verification, semantic `diff`, strict
+   typecheck, and `A → B → A` determinism passed. Fresh bytes matched the
+   shipped packages file-for-file. Slice A remained 500 requested / 400
+   density ceiling / 140 placed / 360 shortfall; B remained 500 / 250 / 50 /
+   450. The novel 13.7 m runtime road-width probe moves measured geometry, so
+   the principal “two pre-drawn maps” VC breaker is answered.
+2. In a verifier-only temporary Python environment pinned to `ezdxf 1.4.4`,
+   all 16 existing THD tests passed. Independent DXF audits for both slices
+   reported AC1009, metres, finite coordinates, and zero errors/fixes.
+   Technical PDF, presentation PDF, DXF, report, and parity manifest agree on
+   measured geometry; the hostile/tamper cases in the harness go red as
+   intended.
+3. All ten shipped PDF pages rendered. The claims layer passes: illustrative
+   status is explicit; requested, ceiling, placed, and shortfall remain
+   separate; the report does not claim Gurgaon compliance or a proven maximum.
+4. The current untagged preview is genuinely regenerated and self-contained.
+   Its SHA-256 in `A → B → A` was
+   `269f6c73… → 5ddfd291… → 269f6c73…`, with matching slice, verdict facts,
+   digests, inline feature IDs, locked stamp, and DEMO marker. This is evidence
+   for the implementation, not acceptance of the now-superseded filename.
+
+**Acceptance blockers — all must be corrected in v0.1:**
+
+1. **The documented clean test command is red.** Plain `npm test` produces
+   15/16, failing THD-11 with `ModuleNotFoundError: No module named 'ezdxf'`.
+   `package.json` and the README neither install nor pin the Python dependency.
+   The temporary verifier environment proves the code can pass, not that the
+   handoff is reproducible. Pin/bootstrap the independent parser (or an
+   equivalent independent parser) and make the documented clean setup plus
+   `npm test` green without an ambient machine dependency.
+2. **THD-05 was weakened around a known deviation.** The frozen contract
+   requires the exact visible stamp in DXF; the shipped TEXT contains
+   `Research Draft - Not for Construction - DEMO`, not
+   `Research Draft — Not for Construction · DEMO`, and the test explicitly
+   blesses the folded string. No exception is granted. Emit and independently
+   decode the exact stamp, or route a proposed relaxation to Shivam before
+   changing the contract.
+3. **Ledger 036/040's preview has no gate and now has the wrong name.** No test
+   references `preview`; the README/package verifier does not verify it; the
+   current path is `preview.html`, while 040 requires
+   `preview.DEMO.html`. Implement THD-17: remove the stale untagged alias,
+   measure inline-SVG parity, verify current facts/digests and locked status,
+   prove self-containment and `A → B → A` bytes, and kill missing/stale/tampered
+   preview mutations non-zero with the field/feature named.
+4. **Ledger 040's actionability type-lock is absent.** Current report JSON has
+   no actionability field. Implement THD-18: every DEMO output says
+   `sanctionable-today: unknown` with the imaginary/no-jurisdiction reason; the
+   DEMO type excludes `yes`; forged request/config/runtime promotion is killed;
+   all exporters consume one computed object; no real instrument, sweep, or
+   Gurgaon actionability is invented; stamp and geometry remain unchanged.
+5. **The presentation does not meet the ruled visual target yet.** On both
+   slices the oversized, high-opacity DEMO treatment dominates and crosses
+   roads, townhouse plots, amenity geometry, and technical annotations; the
+   presentation-map status line collides with the legend. Reduce/reposition it
+   while retaining an unmistakable watermark, remove collisions, and make the
+   PDF and local preview meet or beat
+   `collab/PresentationMapTarget.html` at delivery scale.
+6. **Report pagination and metadata need a clean export.** In both reports a
+   citation basis is split mid-sentence from page 2 to an orphaned continuation
+   on page 3 (A ends “At most 40 dwelling units per”; B ends “At most 25…”).
+   Keep each citation row together or repeat a continuation header. PDF
+   Title/Subject metadata also renders em dashes as `Š`; encode metadata
+   correctly in the same reship.
+
+**VC red-team:** the mechanism question now survives; the v0 credibility
+question does not: *“Run the exact green command from a clean checkout, then
+show me the beautiful map without hiding its content under the DEMO mark.”*
+Today the command returns red and the visual lands below its own target.
+
+Entry 040's goal-chat rulings are consumed here, not reopened. Mannu's parallel
+items remain untouched.
+
+**BALL: Fable** — townhouse-demo v0.1 repairs and a new handoff against
+THD-01…THD-18.
+
 ### 040 — Fable (goal chat) — 2026-08-16
 
 **Shivam ruled: R1 = door 3 (compute both), D5 = ratified. Executed; standing

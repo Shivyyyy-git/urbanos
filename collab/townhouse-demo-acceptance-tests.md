@@ -124,10 +124,12 @@ illustrative inputs, never evidence of a real jurisdiction.
 | 5. Independent DXF parse and cross-output geometry parity | THD-11, THD-12, THD-13, THD-14 |
 | 6. Same-engine rulebook swap changes layout and report | THD-15 |
 | Ledger 036. Current one-click local preview | THD-17 |
+| Ledger 040. DEMO actionability is type-locked below `yes` | THD-18 |
 
 THD-04 pins determinism. THD-16 is the pitch's “500 townhouses” honesty gate.
 THD-17 freezes ledger 036's later local-preview requirement before the v0.1
-repair pass.
+repair pass. THD-18 freezes ledger 040's post-D5 demo dispatch before that
+same pass.
 
 ## 4. Acceptance tests
 
@@ -400,11 +402,11 @@ fits.” This is the demo's primary numerical honesty gate.
 ### THD-17 — One-click preview is current, self-contained, and fail-closed
 
 Run the documented generator in the sequence `A → B → A`. Every successful
-run must atomically replace exactly `townhouse-demo/preview.html` with a
+run must atomically replace exactly `townhouse-demo/preview.DEMO.html` with a
 self-contained page generated from that run's canonical presentation model.
-The literal basename `preview.html` is the sole filename-token exception
-because ledger 036 names it explicitly; no generated package artifact receives
-that exception.
+Per ledger 040, its basename is subject to the same distinct uppercase `DEMO`
+token rule as every other artifact. The superseded untagged `preview.html`
+must not remain as a second, potentially stale page.
 
 After each run, independently parse the HTML and its inline SVG. Assert that:
 
@@ -428,14 +430,43 @@ Preview verification must be part of the generator's post-write gate and also
 callable non-interactively for a shipped package. Deleting the preview,
 substituting B's preview beside A's package, changing one verdict number or
 digest, removing the watermark/stamp, adding an external dependency, or moving
-one inline planning feature must fail non-zero and name `preview.html` plus the
-stale/tampered field or feature. A generator that merely overwrites a bad page
-without ever detecting it has not implemented this mutation gate.
+one inline planning feature must fail non-zero and name `preview.DEMO.html`
+plus the stale/tampered field or feature. A generator that merely overwrites a
+bad page without ever detecting it has not implemented this mutation gate.
+
+### THD-18 — DEMO actionability can never claim sanctionable today
+
+Every report form (JSON, visible report PDF, title blocks where status is
+summarised, parity sidecars, and `preview.DEMO.html`) must carry one computed
+actionability object/line. For a `demo-illustrative` slice its only truthful
+value is `sanctionable-today: unknown`, with a visible reason stating that the
+slice is imaginary, represents no jurisdiction, has no real source instruments
+or restraint sweep, and cannot support a sanctionability claim.
+
+This is a type lock, not a default string:
+
+1. the public DEMO input/output types must exclude `yes` at compile time; a
+   compile-only fixture attempting to construct DEMO actionability with `yes`
+   must fail typecheck;
+2. forged input, a cast/unchecked JSON object, exporter configuration, or a
+   caller-supplied status may not promote the value; it must be refused with a
+   stable named error before artifacts exist or be recomputed to `unknown`;
+3. every exporter consumes the same computed object; independently typed
+   actionability strings fail surface review;
+4. A and B remain `unknown` and cite no invented real authority, instrument,
+   sweep date, restraint, or Gurgaon actionability claim; and
+5. actionability never changes the locked Research Draft + DEMO stamp or any
+   envelope/geometry number.
+
+Mutate the DEMO type to admit `yes`, change the runtime predicate to emit it,
+and inject `yes` through the public request/config surface. Each mutation must
+turn THD-18 red. This demo-only lock does not replace Stage1Spec v1.2's
+production `yes | no | unknown` actionability axis.
 
 ## 5. Required mutation evidence
 
-Fable's v0 handoff is incomplete without logs showing these mutants were killed
-and then reverted:
+Fable's v0.1 handoff is incomplete without logs showing these mutants were
+killed and then reverted:
 
 | Mutation | Test(s) that must turn red |
 |---|---|
@@ -445,6 +476,8 @@ and then reverted:
 | tamper with one presentation-only geometry feature | THD-13/14 |
 | replace runtime primary-road width with a fixed number | THD-08/15 |
 | copy density ceiling into placed-capacity result | THD-12/16 |
+| ship a missing, stale, externally dependent, or geometry-tampered preview | THD-17 |
+| admit or emit `sanctionable-today: yes` for a DEMO slice | THD-18 |
 
 Mutation evidence is behavioural: record the expected red result, restore the
 implementation, and show the green rerun. Code screenshots are not evidence.
@@ -489,11 +522,11 @@ Fable's v0 ledger handoff must provide:
 2. one clean generation command and one test command;
 3. generated package paths;
 4. green test log with THD IDs;
-5. all six mutation red/restore logs;
+5. all eight mutation red/restore logs;
 6. known deviations, if any.
 
 Fable then hands the single ball to Sol. Sol reruns from clean outputs,
 independently parses and renders the artifacts, repeats the mutations, and
-red-teams the stage script. **All THD-01…THD-17 plus visual/claims review must
+red-teams the stage script. **All THD-01…THD-18 plus visual/claims review must
 pass.** “Pass with caveats” is not a pass. Any proposed relaxation or product
 claim beyond this contract goes to Shivam's goal chat through the ledger.
