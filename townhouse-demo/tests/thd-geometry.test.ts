@@ -7,6 +7,7 @@ import assert from 'node:assert/strict'
 import { join } from 'node:path'
 import { test } from 'node:test'
 import {
+  DEMO_STAMP,
   SQUARE_METRES_PER_ACRE,
   communityOneSite,
   demoSliceA,
@@ -64,6 +65,11 @@ test('THD-11: independent DXF audit', () => {
   assert.equal(audit.errors, 0, 'ezdxf audits with zero errors')
   assert.equal(audit.version, 'AC1009', 'DXF R12')
   assert.equal(audit.insunits, 6, 'units resolve to metres')
+  // The EXACT locked stamp, decoded by the fully independent parser (041 §2).
+  assert.ok(
+    audit.texts.includes(DEMO_STAMP),
+    `ezdxf-decoded TEXT entities carry the exact locked stamp; got: ${audit.texts.filter((t) => t.includes('Research')).join(' | ')}`,
+  )
 
   const dxf = parseDxf(latin1(artifact.bytes))
   for (const path of dxf.paths) {

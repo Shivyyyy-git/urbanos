@@ -7,7 +7,10 @@ import { createHash } from 'node:crypto'
 import { copyFileSync, readFileSync, renameSync } from 'node:fs'
 import { join } from 'node:path'
 import { test } from 'node:test'
-import { DEMO_STAMP, DEMO_STAMP_ASCII } from '../src/index.ts'
+import { DEMO_STAMP } from '../src/index.ts'
+
+/** The locked stamp as it sits in the cp1252-encoded DXF byte stream. */
+const DEMO_STAMP_CP1252 = DEMO_STAMP.replace('—', '\x97').replace('·', '\xb7')
 import {
   freshDir,
   latin1,
@@ -112,7 +115,8 @@ test('THD-05: DEMO marker and locked-stamp coverage on every artifact', () => {
     } else if (filename.endsWith('.dxf')) {
       const dxf = parseDxf(latin1(bytes))
       const values = dxf.texts.map((text) => text.value)
-      assert.ok(values.includes(DEMO_STAMP_ASCII), `${filename} has a visible TEXT stamp`)
+      assert.ok(values.includes(DEMO_STAMP), `${filename} has a visible TEXT entity with the EXACT locked stamp`)
+      assert.ok(latin1(bytes).includes('$DWGCODEPAGE'), `${filename} declares its codepage`)
       const demoText = dxf.texts.find((text) => text.value.trim() === 'DEMO')
       assert.ok(demoText && demoText.heightM > 0, `${filename} has a visible DEMO TEXT entity`)
       assert.ok(latin1(bytes).includes('URBANOS_CLASSIFICATION demo-illustrative'))
@@ -160,7 +164,7 @@ test('THD-06: watermark-kill mutations fail the gate, naming the artifact', () =
   {
     const dir = copyPackage(dirA)
     const target = readArtifact(dir, '-technical-sheet.dxf')
-    const mutated = latin1(target.bytes).replace(`\n${DEMO_STAMP_ASCII}\n`, '\nMUTED\n')
+    const mutated = latin1(target.bytes).replace(`\n${DEMO_STAMP_CP1252}\n`, '\nMUTED\n')
     writeBytes(dir, target.filename, Buffer.from(mutated, 'latin1'))
     const result = runVerify(dir)
     assert.notEqual(result.status, 0, 'gate must fail when the DXF stamp entity is gone')

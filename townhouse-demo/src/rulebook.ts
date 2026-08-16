@@ -12,9 +12,6 @@
 /** The one stamp any demo artifact can carry. Locked; no upgrade path exists. */
 export const DEMO_STAMP = 'Research Draft — Not for Construction · DEMO'
 
-/** ASCII form used inside DXF R12 text entities (R12 text is ASCII-folded). */
-export const DEMO_STAMP_ASCII = 'Research Draft - Not for Construction - DEMO'
-
 /** Must appear as an uppercase token in every artifact basename. */
 export const DEMO_FILENAME_TAG = 'DEMO'
 

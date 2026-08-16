@@ -2,6 +2,10 @@
   "kind": "parity-manifest",
   "classification": "demo-illustrative",
   "stamp": "Research Draft — Not for Construction · DEMO",
+  "actionability": {
+    "sanctionableToday": "unknown",
+    "reason": "DEMO — imaginary site representing no jurisdiction: no real source instruments exist and no restraint sweep has been performed, so sanctionability cannot be assessed and no sanctionable-today claim is supportable."
+  },
   "slice": "DEMO-SLICE-A",
   "fixtureDigest": "b7a5c46d9e58a3dd5758556734e0899eba970296514be7e4ffbe7d079f82e2de",
   "rulebookDigest": "fd6c579f1d7fb32b244e192d3021f1eb608804f93a898418b6037c69a36e203f",

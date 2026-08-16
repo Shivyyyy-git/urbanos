@@ -11,7 +11,6 @@ export {
   DEMO_AUTHORITY,
   DEMO_FILENAME_TAG,
   DEMO_STAMP,
-  DEMO_STAMP_ASCII,
   REQUIRED_DEMO_SLOTS,
   SLOT_UNITS,
   SQUARE_METRES_PER_ACRE,
@@ -25,7 +24,13 @@ export {
   type ResolvedDemoRulebook,
 } from './rulebook.ts'
 export { FIXTURE_FIELD_IDS, type DemoSiteFixture, type FixtureFieldId } from './fixture.ts'
-export { resolveDemoRulebook, computeDemoStamp } from './resolve.ts'
+export {
+  DEMO_ACTIONABILITY_REASON,
+  computeDemoActionability,
+  computeDemoStamp,
+  resolveDemoRulebook,
+  type DemoActionability,
+} from './resolve.ts'
 export {
   buildCommunityLayout,
   validateSiteFixture,
@@ -53,7 +58,7 @@ export {
   type DemoLayer,
   type DemoLayerStyle,
 } from './drawing.ts'
-export { asciiFold, communityDrawingToDxf } from './dxf.ts'
+export { communityDrawingToDxf, dxfBytes, dxfText } from './dxf.ts'
 export {
   A2_SHEET,
   communityDrawingToPdf,
@@ -70,7 +75,13 @@ export {
   type DemoArtifact,
   type DemoArtifactRole,
 } from './package.ts'
-export { pdfPageContents, verifyDemoPackage, type VerifyFinding } from './verify.ts'
+export {
+  decodeCp1252,
+  pdfPageContents,
+  verifyDemoPackage,
+  verifyDemoPreview,
+  type VerifyFinding,
+} from './verify.ts'
 export { buildPreviewHtml, communityDrawingToSvg } from './svg.ts'
 export { sha256 } from './hash.ts'
 export { rectRing, roundM, type Point, type Rect } from './geom.ts'

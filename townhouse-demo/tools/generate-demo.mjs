@@ -12,7 +12,15 @@
 // stage command for the live rulebook-swap moment.
 
 import { spawnSync } from 'node:child_process'
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -29,8 +37,21 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const api = await import(join(projectRoot, 'src/index.ts'))
 
 function usage() {
-  console.error('usage: generate-demo.mjs generate --slice a|b --out <dir> | verify <dir> | diff <dirA> <dirB>')
+  console.error(
+    'usage: generate-demo.mjs generate --slice a|b --out <dir> | verify <dir> [--with-preview [path]] | diff <dirA> <dirB>',
+  )
   process.exit(2)
+}
+
+const PREVIEW_PATH = join(projectRoot, 'preview.DEMO.html')
+const STALE_UNTAGGED_PREVIEW = join(projectRoot, 'preview.html')
+
+function readPreview(path) {
+  return existsSync(path) ? new Uint8Array(readFileSync(path)) : null
+}
+
+function reportFindings(findings) {
+  for (const finding of findings) console.error(`GATE FAIL: ${finding.message} [${finding.detail}]`)
 }
 
 function sliceEntries(tag) {
@@ -62,9 +83,17 @@ if (command === 'generate') {
   for (const artifact of pkg.artifacts) {
     writeFileSync(join(out, artifact.filename), artifact.bytes)
   }
-  // Ledger 036: the one-click preview is regenerated on every build.
-  writeFileSync(join(projectRoot, 'preview.html'), pkg.previewHtml)
-  const findings = api.verifyDemoPackage(readDir(out))
+  // Ledger 036/040 + THD-17: atomically replace exactly preview.DEMO.html on
+  // every successful build; the superseded untagged alias must not survive.
+  const previewTmp = `${PREVIEW_PATH}.tmp`
+  writeFileSync(previewTmp, pkg.previewHtml)
+  renameSync(previewTmp, PREVIEW_PATH)
+  if (existsSync(STALE_UNTAGGED_PREVIEW)) rmSync(STALE_UNTAGGED_PREVIEW)
+  const writtenFiles = readDir(out)
+  const findings = [
+    ...api.verifyDemoPackage(writtenFiles),
+    ...api.verifyDemoPreview(readPreview(PREVIEW_PATH), writtenFiles),
+  ]
   console.log(`slice:    ${rulebook.slice}`)
   console.log(`fixture:  ${pkg.fixtureDigest}`)
   console.log(`rulebook: ${pkg.rulebookDigest}`)
@@ -72,20 +101,28 @@ if (command === 'generate') {
   console.log(`placed:   ${pkg.report.facts.find((f) => f.id === 'fact.placed-du').value} DU`)
   console.log(`stamp:    ${pkg.report.stamp}`)
   for (const artifact of pkg.artifacts) console.log(`wrote:    ${join(out, artifact.filename)}`)
+  console.log(`wrote:    ${PREVIEW_PATH}`)
   if (findings.length > 0) {
-    for (const finding of findings) console.error(`GATE FAIL: ${finding.message} [${finding.detail}]`)
+    reportFindings(findings)
     process.exit(1)
   }
-  console.log('verify:   gate passed on written files')
+  console.log('verify:   gate passed on written files + preview.DEMO.html')
 } else if (command === 'verify') {
-  const [dir] = rest
+  const [dir, ...flags] = rest
   if (!dir) usage()
-  const findings = api.verifyDemoPackage(readDir(dir))
+  const files = readDir(dir)
+  const findings = [...api.verifyDemoPackage(files)]
+  const withPreviewIndex = flags.indexOf('--with-preview')
+  if (withPreviewIndex >= 0) {
+    const explicitPath = flags[withPreviewIndex + 1]
+    const previewPath = explicitPath && !explicitPath.startsWith('--') ? explicitPath : PREVIEW_PATH
+    findings.push(...api.verifyDemoPreview(readPreview(previewPath), files))
+  }
   if (findings.length > 0) {
-    for (const finding of findings) console.error(`GATE FAIL: ${finding.message} [${finding.detail}]`)
+    reportFindings(findings)
     process.exit(1)
   }
-  console.log(`verify: gate passed (${readDir(dir).length} artifacts)`)
+  console.log(`verify: gate passed (${files.length} artifacts${withPreviewIndex >= 0 ? ' + preview' : ''})`)
 } else if (command === 'diff') {
   const [dirA, dirB] = rest
   if (!dirA || !dirB) usage()

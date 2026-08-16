@@ -3,8 +3,21 @@
 // visible watermark, or the locked stamp. Used by buildCommunityPackage, by
 // the generation tool (non-zero exit), and by the THD-05/06 mutations.
 
-import { DEMO_STAMP, DEMO_STAMP_ASCII } from './rulebook.ts'
+import { DEMO_STAMP } from './rulebook.ts'
 import { encodeWinAnsi } from './pdf.ts'
+
+/** cp1252 -> string for the bytes our DXF/PDF writers use beyond latin1. */
+const CP1252_REVERSE: Readonly<Record<number, string>> = {
+  0x97: '—', 0x96: '–', 0x91: '‘', 0x92: '’', 0x93: '“', 0x94: '”', 0x85: '…',
+}
+
+export function decodeCp1252(value: string): string {
+  let output = ''
+  for (const character of value) {
+    output += CP1252_REVERSE[character.charCodeAt(0)] ?? character
+  }
+  return output
+}
 
 export interface VerifyFinding {
   readonly message: string
@@ -92,14 +105,18 @@ function checkPdf(file: NamedBytes, findings: VerifyFinding[]): void {
 function checkDxf(file: NamedBytes, findings: VerifyFinding[]): void {
   const raw = latin1(file.bytes)
   const lines = raw.split('\n')
-  // Visible TEXT entities: group code 1 carries the string value.
+  // Visible TEXT entities: group code 1 carries the string value, decoded
+  // per the file's declared ANSI_1252 codepage.
   const textValues: string[] = []
   for (let index = 0; index < lines.length - 1; index += 1) {
-    if (lines[index]!.trim() === '1') textValues.push(lines[index + 1]!)
+    if (lines[index]!.trim() === '1') textValues.push(decodeCp1252(lines[index + 1]!))
   }
-  if (!textValues.some((value) => value === DEMO_STAMP_ASCII)) {
+  if (!raw.includes('$DWGCODEPAGE')) {
+    findings.push({ message: 'DXF does not declare its codepage.', detail: file.filename })
+  }
+  if (!textValues.some((value) => value === DEMO_STAMP)) {
     findings.push({
-      message: 'DXF lacks a visible TEXT entity carrying the (ASCII-folded) locked stamp.',
+      message: 'DXF lacks a visible TEXT entity carrying the exact locked stamp.',
       detail: file.filename,
     })
   }
@@ -128,6 +145,199 @@ function checkJson(file: NamedBytes, findings: VerifyFinding[]): void {
   if (parsed.stamp !== DEMO_STAMP) {
     findings.push({ message: 'JSON artifact lacks the locked stamp.', detail: file.filename })
   }
+  const actionability = (parsed as { actionability?: { sanctionableToday?: unknown } }).actionability
+  if (!actionability || actionability.sanctionableToday !== 'unknown') {
+    findings.push({
+      message:
+        'JSON artifact lacks the computed DEMO actionability (sanctionable-today must be "unknown"; a DEMO slice can never claim yes).',
+      detail: file.filename,
+    })
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Preview gate (THD-17): townhouse-demo/preview.DEMO.html must be current
+// (digests + verdict facts match THIS package), self-contained, watermarked,
+// stamped, and its inline SVG must measure against the package's canonical
+// rings. Called by the generator's post-write gate and by
+// `verify <dir> --with-preview`.
+// ---------------------------------------------------------------------------
+
+const PREVIEW_NAME = 'preview.DEMO.html'
+
+interface PreviewReference {
+  readonly fixtureDigest: string
+  readonly rulebookDigest: string
+  readonly geometryDigest: string
+  readonly slice: string
+  readonly facts: readonly { readonly id: string; readonly value: number }[]
+  readonly features: readonly {
+    readonly id: string
+    readonly ring: readonly (readonly [number, number])[]
+  }[]
+}
+
+function packageReference(files: readonly NamedBytes[]): PreviewReference | null {
+  const manifestFile = files.find((file) => file.filename.endsWith('-parity-manifest.json'))
+  const reportFile = files.find((file) => file.filename.endsWith('-envelope-report.json'))
+  if (!manifestFile || !reportFile) return null
+  try {
+    const manifest = JSON.parse(new TextDecoder().decode(manifestFile.bytes)) as {
+      fixtureDigest: string
+      rulebookDigest: string
+      geometryDigest: string
+      slice: string
+      features: PreviewReference['features']
+    }
+    const report = JSON.parse(new TextDecoder().decode(reportFile.bytes)) as {
+      facts: PreviewReference['facts']
+    }
+    return { ...manifest, facts: report.facts }
+  } catch {
+    return null
+  }
+}
+
+function ringBoundsOf(points: readonly (readonly [number, number])[]): {
+  minX: number
+  minY: number
+  maxX: number
+  maxY: number
+} {
+  const xs = points.map((point) => point[0])
+  const ys = points.map((point) => point[1])
+  return {
+    minX: Math.min(...xs),
+    minY: Math.min(...ys),
+    maxX: Math.max(...xs),
+    maxY: Math.max(...ys),
+  }
+}
+
+export function verifyDemoPreview(
+  previewBytes: Uint8Array | null,
+  files: readonly NamedBytes[],
+): VerifyFinding[] {
+  const findings: VerifyFinding[] = []
+  if (previewBytes === null || previewBytes.length === 0) {
+    return [{ message: 'One-click preview is missing or empty.', detail: PREVIEW_NAME }]
+  }
+  const html = new TextDecoder().decode(previewBytes)
+  const reference = packageReference(files)
+  if (!reference) {
+    return [{ message: 'Package lacks the manifest/report needed to verify the preview.', detail: PREVIEW_NAME }]
+  }
+  // Filename token (the alias name itself carries the DEMO token).
+  if (!PREVIEW_NAME.split(/[^A-Za-z0-9]+/).includes('DEMO')) {
+    findings.push({ message: 'Preview basename lacks the DEMO token.', detail: PREVIEW_NAME })
+  }
+  // Self-containment: no network, scripts, or external assets of any kind.
+  if (/<script|<link\b|\burl\s*\(\s*['"]?https?:|(src|href)\s*=\s*["']?(https?:)?\/\//i.test(html)) {
+    findings.push({
+      message: 'Preview is not self-contained: external script/stylesheet/asset reference found.',
+      detail: `${PREVIEW_NAME}: external dependency`,
+    })
+  }
+  if (!html.includes(DEMO_STAMP)) {
+    findings.push({ message: 'Preview lacks the exact locked stamp.', detail: `${PREVIEW_NAME}: stamp` })
+  }
+  if (!/>DEMO<\/text>/.test(html)) {
+    findings.push({ message: 'Preview lacks the visible DEMO watermark.', detail: `${PREVIEW_NAME}: watermark` })
+  }
+  if (!html.includes('demo-illustrative')) {
+    findings.push({ message: 'Preview lacks the demo classification.', detail: `${PREVIEW_NAME}: classification` })
+  }
+  if (!/Sanctionable today:<\/b> unknown/.test(html)) {
+    findings.push({
+      message: 'Preview lacks the computed actionability line (sanctionable-today: unknown).',
+      detail: `${PREVIEW_NAME}: actionability`,
+    })
+  }
+  // Currency: pinned digests and slice must equal THIS package's.
+  for (const [field, value] of [
+    ['fixtureDigest', reference.fixtureDigest],
+    ['rulebookDigest', reference.rulebookDigest],
+    ['geometryDigest', reference.geometryDigest],
+    ['slice', reference.slice],
+  ] as const) {
+    if (!html.includes(value)) {
+      findings.push({
+        message: `Preview is stale: its ${field} does not match this package.`,
+        detail: `${PREVIEW_NAME}: ${field}`,
+      })
+    }
+  }
+  // Verdict facts must match the report JSON of this package.
+  for (const factId of ['fact.requested-du', 'fact.density-ceiling', 'fact.placed-du', 'fact.shortfall-du']) {
+    const fact = reference.facts.find((candidate) => candidate.id === factId)
+    if (!fact) {
+      findings.push({ message: `Package report lacks ${factId}.`, detail: `${PREVIEW_NAME}: ${factId}` })
+      continue
+    }
+    if (!html.includes(`</b> ${fact.value} DU<`)) {
+      findings.push({
+        message: `Preview verdict number for ${factId} does not match the report (${fact.value}).`,
+        detail: `${PREVIEW_NAME}: ${factId}`,
+      })
+    }
+  }
+  // Measured inline-SVG parity against the package's canonical rings.
+  const svgFeatures = new Map<string, [number, number][]>()
+  const polygonPattern = /<polygon data-id="f\.([^"]+)" points="([^"]+)"/g
+  let match: RegExpExecArray | null
+  while ((match = polygonPattern.exec(html)) !== null) {
+    svgFeatures.set(
+      match[1]!,
+      match[2]!.split(' ').map((pair) => {
+        const [x, y] = pair.split(',')
+        return [Number(x), Number(y)] as [number, number]
+      }),
+    )
+  }
+  const site = reference.features.find((feature) => feature.id === 'site-boundary')
+  const sitePx = svgFeatures.get('site-boundary')
+  if (!site || !sitePx) {
+    findings.push({ message: 'Preview SVG lacks the site boundary.', detail: `${PREVIEW_NAME}: site-boundary` })
+    return findings
+  }
+  const siteWorld = ringBoundsOf(site.ring)
+  const sitePixel = ringBoundsOf(sitePx)
+  const scale = (sitePixel.maxX - sitePixel.minX) / (siteWorld.maxX - siteWorld.minX)
+  const toleranceM = 0.05
+  for (const feature of reference.features) {
+    const pixels = svgFeatures.get(feature.id)
+    if (!pixels || pixels.length === 0) {
+      findings.push({
+        message: `Preview SVG is missing planning feature ${feature.id}.`,
+        detail: `${PREVIEW_NAME}: ${feature.id}`,
+      })
+      continue
+    }
+    const expected = ringBoundsOf(feature.ring)
+    const actual = ringBoundsOf(pixels)
+    // SVG y grows downward; compare via width/height and x/min plus flipped y.
+    const measured = {
+      minX: siteWorld.minX + (actual.minX - sitePixel.minX) / scale,
+      maxX: siteWorld.minX + (actual.maxX - sitePixel.minX) / scale,
+      minY: siteWorld.minY + (sitePixel.maxY - actual.maxY) / scale,
+      maxY: siteWorld.minY + (sitePixel.maxY - actual.minY) / scale,
+    }
+    for (const key of ['minX', 'minY', 'maxX', 'maxY'] as const) {
+      if (Math.abs(measured[key] - expected[key]) > toleranceM) {
+        findings.push({
+          message: `Preview SVG feature ${feature.id} is displaced (${key} off by ${Math.abs(measured[key] - expected[key]).toFixed(3)} m).`,
+          detail: `${PREVIEW_NAME}: ${feature.id}`,
+        })
+        break
+      }
+    }
+  }
+  for (const id of svgFeatures.keys()) {
+    if (!reference.features.some((feature) => feature.id === id)) {
+      findings.push({ message: `Preview SVG has an extra planning feature ${id}.`, detail: `${PREVIEW_NAME}: ${id}` })
+    }
+  }
+  return findings
 }
 
 export function verifyDemoPackage(files: readonly NamedBytes[]): VerifyFinding[] {

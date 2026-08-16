@@ -23,3 +23,6 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Pinned per-package Python verifier env (bootstrapped by townhouse-demo npm test)
+.venv/

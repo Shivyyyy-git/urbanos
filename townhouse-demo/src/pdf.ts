@@ -75,12 +75,29 @@ interface PdfPage {
   readonly content: string
 }
 
+/**
+ * Document-information strings are PDFDocEncoding/UTF-16 — NOT WinAnsi. A
+ * WinAnsi em dash (0x97) renders as 'Š' in viewers (ledger 041 §6), so any
+ * non-ASCII metadata is emitted as UTF-16BE with BOM.
+ */
+function pdfInfoString(value: string): string {
+  const escape = (raw: string): string => raw.replace(/[\\()]/g, (character) => `\\${character}`)
+  if (/^[\x20-\x7e]*$/.test(value)) return `(${escape(value)})`
+  let bytes = '\xFE\xFF'
+  for (const character of value) {
+    const code = character.codePointAt(0)!
+    bytes += String.fromCharCode(code >> 8) + String.fromCharCode(code & 0xff)
+  }
+  return `(${escape(bytes)})`
+}
+
 function buildPdf(pages: readonly PdfPage[], title: string, subject: string): Uint8Array {
   const objects: string[] = []
   const pageObjectIds: number[] = []
-  const objectCount = 2 + pages.length * 2 + 3
-  const fontRegularId = objectCount - 2
-  const fontBoldId = objectCount - 1
+  const objectCount = 2 + pages.length * 2 + 4
+  const fontRegularId = objectCount - 3
+  const fontBoldId = objectCount - 2
+  const extGStateId = objectCount - 1
   const infoId = objectCount
 
   objects.push('<< /Type /Catalog /Pages 2 0 R >>')
@@ -96,14 +113,16 @@ function buildPdf(pages: readonly PdfPage[], title: string, subject: string): Ui
     const heightPt = page.heightMm * POINTS_PER_MM
     objects.push(
       `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${number(widthPt)} ${number(heightPt)}] `
-        + `/Resources << /Font << /F1 ${fontRegularId} 0 R /F2 ${fontBoldId} 0 R >> >> /Contents ${pageId + 1} 0 R >>`,
+        + `/Resources << /Font << /F1 ${fontRegularId} 0 R /F2 ${fontBoldId} 0 R >> `
+        + `/ExtGState << /GS0 ${extGStateId} 0 R >> >> /Contents ${pageId + 1} 0 R >>`,
     )
     objects.push(`<< /Length ${page.content.length} >>\nstream\n${page.content}\nendstream`)
   })
   objects.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>')
   objects.push('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>')
+  objects.push('<< /Type /ExtGState /ca 0.34 /CA 0.34 >>')
   objects.push(
-    `<< /Title (${pdfString(title)}) /Subject (${pdfString(subject)}) `
+    `<< /Title ${pdfInfoString(title)} /Subject ${pdfInfoString(subject)} `
       + '/Creator (UrbanOS) /Producer (UrbanOS townhouse-demo exporter) >>',
   )
 
@@ -139,7 +158,8 @@ function watermarkOps(widthMm: number, heightMm: number, stamp: string, fontMm: 
   return [
     '% URBANOS_WATERMARK',
     'q',
-    '0.82 0.82 0.82 rg',
+    '/GS0 gs',
+    '0.42 0.42 0.42 rg',
     'BT',
     `/F2 ${number(size)} Tf`,
     `${number(cos)} ${number(sin)} ${number(-sin)} ${number(cos)} `
@@ -237,7 +257,7 @@ export interface DemoSheetProfile {
 }
 
 export const A2_SHEET: DemoSheetProfile = {
-  ref: 'A2', widthMm: 594, heightMm: 420, marginMm: 12, titleBlockHeightMm: 52,
+  ref: 'A2', widthMm: 594, heightMm: 420, marginMm: 12, titleBlockHeightMm: 60,
 }
 
 export function drawingTransform(
@@ -303,11 +323,13 @@ function sheetFurniture(model: DemoDrawingModel, profile: DemoSheetProfile): str
     ops.push(`1 0 0 1 ${number(border + pad)} ${number(cursorY)} Tm`, `(${pdfString(line)}) Tj`)
     cursorY -= 4.2 * POINTS_PER_MM
   }
+  // Both stamps sit in the title-block band (bottom-left and bottom-right),
+  // clear of the drawing area and the top-right legend (ledger 041 §5).
   ops.push(
     `/F2 ${number(stampSize)} Tf`,
     `1 0 0 1 ${number(border + pad)} ${number(border + pad)} Tm`,
     `(${pdfString(model.stamp)}) Tj`,
-    `1 0 0 1 ${number(border + innerW - pad - 110 * POINTS_PER_MM)} ${number(heightPt - border - pad - stampSize)} Tm`,
+    `1 0 0 1 ${number(border + innerW - pad - 110 * POINTS_PER_MM)} ${number(border + pad)} Tm`,
     `(${pdfString(model.stamp)}) Tj`,
     'ET',
     'Q',
@@ -364,8 +386,9 @@ export function communityDrawingToPdf(model: DemoDrawingModel): Uint8Array {
     if (text.id === 'anno.watermark-demo') continue
     ops.push(...textOps(text, transform))
   }
-  // Watermark last: painted over the filled map so it can never be occluded.
-  ops.push(...watermarkOps(profile.widthMm, profile.heightMm, model.stamp, 55))
+  // Watermark last (cannot be occluded) but moderate and translucent so it
+  // never dominates or hides planning geometry (ledger 041 §5).
+  ops.push(...watermarkOps(profile.widthMm, profile.heightMm, model.stamp, 34))
   ops.push(...legendOps(model, profile))
   return buildPdf(
     [{ widthMm: profile.widthMm, heightMm: profile.heightMm, content: ops.join('\n') }],
@@ -403,33 +426,47 @@ interface ReportLine {
   readonly bold: boolean
 }
 
-function reportLines(report: CommunityEnvelopeReport): ReportLine[] {
-  const lines: ReportLine[] = []
+/**
+ * The report body as atomic blocks: a block never splits across pages, so a
+ * citation basis cannot orphan mid-sentence onto the next page (041 §6).
+ */
+function reportBlocks(report: CommunityEnvelopeReport): ReportLine[][] {
+  const blocks: ReportLine[][] = []
+  let lines: ReportLine[] = []
+  const open = (): void => { lines = []; blocks.push(lines) }
   const plain = (text: string): void => { lines.push({ text, bold: false }) }
   const bold = (text: string): void => { lines.push({ text, bold: true }) }
+  open()
 
   bold(report.title)
   plain(`Slice: ${report.slice}   Classification: ${report.classification}`)
   plain(`Stamp: ${report.stamp}`)
+  plain(`Sanctionable today: ${report.actionability.sanctionableToday} (status beside the stamp, not a stamp)`)
+  for (const line of wrap(`reason: ${report.actionability.reason}`, 96)) plain(`    ${line}`)
   plain('')
+  open()
   bold('PINNED DIGESTS (SHA-256)')
   plain(`fixture:  ${report.fixtureDigest}`)
   plain(`rulebook: ${report.rulebookDigest}`)
   plain(`geometry: ${report.geometryDigest}`)
   plain('')
+  open()
   bold('DECLARED FIXTURE INPUTS')
   for (const fact of report.facts.filter((candidate) => candidate.kind === 'fixture-input')) {
     plain(`${fact.name}: ${factValue(fact)} ${fact.unit} [${fact.id}] <- ${fact.fixtureRefs.join(', ')}`)
     if (fact.note) for (const line of wrap(`note: ${fact.note}`, 96)) plain(`    ${line}`)
   }
   plain('')
+  open()
   bold('PERMITTED VALUES (DEMO RULE ENTRIES)')
   for (const fact of report.facts.filter((candidate) => candidate.kind === 'rule-value')) {
     plain(`${fact.name}: ${factValue(fact)} ${fact.unit} [${fact.id}] cites ${fact.ruleRefs.join(', ')}`)
   }
   plain('')
+  open()
   bold('DERIVED ENVELOPE (EVERY NUMBER CITES ITS FEEDERS)')
   for (const fact of report.facts.filter((candidate) => candidate.kind === 'derived')) {
+    open()
     plain(`${fact.name}: ${factValue(fact)} ${fact.unit} [${fact.id}]`)
     plain(`    from fixture: ${fact.fixtureRefs.join(', ') || '(none)'}`)
     for (const line of wrap(`cites: ${fact.ruleRefs.join(', ') || '(none — fixture-only derivation)'}`, 92)) {
@@ -437,6 +474,7 @@ function reportLines(report: CommunityEnvelopeReport): ReportLine[] {
     }
     if (fact.note) for (const line of wrap(`note: ${fact.note}`, 92)) plain(`    ${line}`)
   }
+  open()
   plain('')
   bold('VERDICT — REQUEST vs CEILING vs PLACED')
   plain(`requested [${report.verdict.requestedDuFactId}]  ceiling [${report.verdict.densityCeilingFactId}]`)
@@ -446,35 +484,47 @@ function reportLines(report: CommunityEnvelopeReport): ReportLine[] {
   }
   for (const line of wrap(report.verdict.narrative, 96)) plain(line)
   plain('')
+  open()
   bold('CITATION SNAPSHOT (SELF-CONTAINED — VALID WITHOUT THE RULEBOOK FILES)')
   for (const citation of report.citations) {
+    open()
     plain(`${citation.entryId}  slot=${citation.slot}  value=${citation.value} ${citation.unit}  version=${citation.versionId}`)
     plain(`    ${citation.classification} / ${citation.verification}  authority: ${citation.authority}`)
     for (const line of wrap(`source: ${citation.sourceDocumentRef}. basis: ${citation.basis}`, 92)) {
       plain(`    ${line}`)
     }
   }
+  open()
   plain('')
   bold('NOTES')
   for (const note of report.notes) for (const line of wrap(note, 98)) plain(line)
-  return lines
+  return blocks.filter((block) => block.length > 0)
 }
 
 export function reportToPdf(report: CommunityEnvelopeReport): Uint8Array {
-  const lines = reportLines(report)
+  const blocks = reportBlocks(report)
   const bodyTop = A4.heightMm - A4.marginMm - 14
   const bodyBottom = A4.marginMm + 12
   const lineSpacingMm = 3.9
   const perPage = Math.floor((bodyTop - bodyBottom) / lineSpacingMm)
+  // Block-atomic pagination: a block (one citation row, one derived fact)
+  // never splits across a page boundary (041 §6). A lone section header is
+  // pulled to the next page together with its first block.
   const chunks: ReportLine[][] = []
-  for (let index = 0; index < lines.length; index += perPage) {
-    chunks.push(lines.slice(index, index + perPage))
+  let current: ReportLine[] = []
+  for (const block of blocks) {
+    if (current.length > 0 && current.length + block.length > perPage) {
+      chunks.push(current)
+      current = []
+    }
+    current.push(...block.slice(0, perPage))
   }
+  if (current.length > 0) chunks.push(current)
   const fontSize = (2.15 * POINTS_PER_MM) / CAP_HEIGHT_RATIO
   const stampSize = (2.6 * POINTS_PER_MM) / CAP_HEIGHT_RATIO
   const pages: PdfPage[] = chunks.map((chunk, pageIndex) => {
     const ops: string[] = []
-    ops.push(...watermarkOps(A4.widthMm, A4.heightMm, report.stamp, 40))
+    ops.push(...watermarkOps(A4.widthMm, A4.heightMm, report.stamp, 28))
     ops.push('% URBANOS_REPORT_BODY', 'q', '0.05 0.05 0.05 rg', 'BT')
     let y = bodyTop * POINTS_PER_MM
     for (const line of chunk) {

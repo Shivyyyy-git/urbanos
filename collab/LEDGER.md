@@ -54,6 +54,81 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 043 — Fable (townhouse demo) — 2026-08-16
+
+**v0.1 REPAIRS COMPLETE against THD-01…THD-18: all six 041 blockers fixed,
+18/18 green from the documented clean setup, all eight §5 mutants killed.**
+Handoff per contract §8:
+
+1. **Blocker fixes.**
+   - **(041 §1) Reproducible verifier:** `npm test` now bootstraps a
+     project-local `.venv` pinned to `ezdxf==1.4.4` on first run (needs
+     `python3` + network once, same footing as `npm install`); THD-11 runs
+     only against that pinned interpreter. Proven by deleting `.venv` and
+     re-running: bootstrap + 18/18 green.
+   - **(041 §2) Exact stamp in DXF — no relaxation requested:** the file now
+     declares `$DWGCODEPAGE ANSI_1252` and serialises cp1252, so the EXACT
+     locked stamp (em dash, middle dot) round-trips: ezdxf strict + recover
+     both decode it byte-exact (THD-11 asserts via ezdxf's own decoder;
+     THD-05 and the package gate assert it independently). The v0
+     ASCII-folding deviation is withdrawn, `DEMO_STAMP_ASCII` deleted.
+   - **(041 §3 / THD-17):** `preview.DEMO.html` is atomically replaced on
+     every build; the stale untagged `preview.html` is removed and its
+     reappearance impossible (generator deletes it). Preview verification is
+     in the generator's post-write gate AND callable for a shipped package
+     (`verify <dir> --with-preview`): currency (digests + verdict facts vs
+     that package), self-containment, exact stamp, watermark, classification,
+     actionability, and measured inline-SVG parity per feature against the
+     manifest rings. THD-17 proves A→B→A byte-stability and kills the
+     missing/stale/tampered-number/watermark/external-dependency/moved-feature
+     mutations, each named with `preview.DEMO.html` + field/feature.
+   - **(041 §4 / THD-18):** one computed `DemoActionability` object — type
+     admits ONLY `'unknown'` (compile-only expect-error fixture pins it) —
+     threaded to report JSON + PDF, both drawing title blocks, DXF, manifest,
+     and preview, always with the imaginary/no-jurisdiction/no-sweep reason.
+     Forged input is recomputed to unknown; a JSON claiming `yes` is refused
+     by the gate naming the artifact. Stamp and geometry untouched by it.
+     Stage1Spec v1.2's production `yes|no|unknown` axis is NOT replaced.
+   - **(041 §5) Visuals:** watermark now translucent (ExtGState alpha 0.34),
+     moderate (34 mm drawings / 28 mm report), painted above the plan so it
+     can neither be occluded nor hide content; second stamp moved to the
+     title band's bottom-right — no legend or annotation collisions on
+     either slice (rendered and inspected). Preview watermark toned to match.
+   - **(041 §6):** report paginates in atomic blocks — a citation row or
+     derived fact can no longer split mid-sentence across pages; PDF
+     Title/Subject metadata is UTF-16BE with BOM (em dashes render, no 'Š').
+2. **Commands.** Clean setup: `npm install && npm test` (bootstraps the
+   pinned verifier). Generate: `node tools/generate-demo.mjs generate
+   --slice a|b --out <dir>` (also regenerates + gates the preview). Verify a
+   shipped package: `… verify <dir> --with-preview`. Stage diff: `… diff`.
+3. **Packages** regenerated at `output/townhouse-demo/slice-{a,b}/` +
+   `townhouse-demo/preview.DEMO.html`; numbers unchanged (A 500/400/140/360,
+   B 500/250/50/450); all gates pass on the written files.
+4. **Green log:** 18/18 THD (coverage preflight now demands THD-01…18),
+   strict typecheck clean, ezdxf 0 errors both slices.
+5. **Mutation evidence:** `collab/townhouse-demo-v0-mutation-log.md` (v0.1
+   section) — all eight §5 rows red on their required gates and reverted
+   green: M3/M7/M8a/M8c surgical single-gate kills; M2 and M8b cascade
+   through fail-closed refusal (nothing ships when a slot is missing or a
+   `yes` claim exists); M4's duplicate is additionally caught by THD-16's
+   *measured* plot counts.
+6. **Known deviations (reduced):** (a) THD-03 "every page renders" remains
+   structural-per-page + manual page-1 raster; full render inspection stays
+   in your §6 pass — no raster toolchain added. (b) The automated
+   watermark-visibility check still tests size/colour, not occlusion;
+   occlusion is prevented by paint order and judged visually. The v0
+   DXF-folding deviation is gone.
+
+Sol: rerun from a clean checkout (`npm install && npm test` is the whole
+setup), repeat the mutations, render every page, and re-red-team the stage
+script — the 041 credibility question ("run the exact green command from a
+clean checkout, then show me the map") is now the first thing to test.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** (townhouse-demo v0.1 acceptance). Goal-chat queue (R5/R6 with
+Shivam) and Mannu items unchanged.
+
 ### 042 — Fable (research) — 2026-08-16
 
 **R5 and R6 finished as standalone adoptable policies:

@@ -144,7 +144,7 @@ export function parseDxf(raw: string): ParsedDxf {
       while (index < pairs.length && pairs[index]!.code !== 0) {
         const inner = pairs[index]!
         if (inner.code === 8) text.layer = inner.value
-        if (inner.code === 1) text.value = inner.value
+        if (inner.code === 1) text.value = decodePdfText(inner.value)
         if (inner.code === 40) text.heightM = Number(inner.value)
         if (inner.code === 10) text.at[0] = Number(inner.value)
         if (inner.code === 20) text.at[1] = Number(inner.value)
@@ -159,24 +159,43 @@ export function parseDxf(raw: string): ParsedDxf {
   return { paths, texts, markers }
 }
 
-/** Audit the DXF with ezdxf (third-party, not our serializer). */
-export function ezdxfAudit(filePath: string): { errors: number; version: string; insunits: number } {
+/**
+ * Audit the DXF with ezdxf (third-party, not our serializer), from the
+ * project-local pinned .venv the runner bootstraps — never an ambient
+ * interpreter's site-packages. Also returns the decoded TEXT strings so the
+ * exact-stamp check can be made through a fully independent decoder.
+ */
+export function ezdxfAudit(filePath: string): {
+  errors: number
+  version: string
+  insunits: number
+  texts: string[]
+} {
+  const python = join(projectRoot, '.venv', 'bin', 'python')
   const script = [
     'import json, sys',
-    'import ezdxf',
     'from ezdxf import recover',
     'doc, auditor = recover.readfile(sys.argv[1])',
+    'texts = [e.dxf.text for e in doc.modelspace() if e.dxftype() == "TEXT"]',
     'print(json.dumps({',
     '  "errors": len(auditor.errors),',
     '  "version": doc.dxfversion,',
     '  "insunits": doc.header.get("$INSUNITS", -1),',
+    '  "texts": texts,',
     '}))',
   ].join('\n')
-  const result = spawnSync('python3', ['-c', script, filePath], { stdio: ['ignore', 'pipe', 'pipe'] })
+  const result = spawnSync(python, ['-c', script, filePath], { stdio: ['ignore', 'pipe', 'pipe'] })
   if (result.status !== 0) {
-    throw new Error(`ezdxf audit failed: ${result.stderr?.toString() ?? ''}`)
+    throw new Error(
+      `ezdxf audit failed (is the pinned .venv bootstrapped? run npm test): ${result.stderr?.toString() ?? ''}`,
+    )
   }
-  return JSON.parse(result.stdout.toString()) as { errors: number; version: string; insunits: number }
+  return JSON.parse(result.stdout.toString()) as {
+    errors: number
+    version: string
+    insunits: number
+    texts: string[]
+  }
 }
 
 // ---------------------------------------------------------------------------

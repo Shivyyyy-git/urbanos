@@ -14,7 +14,11 @@ import {
   type DemoRuleSlot,
   type ResolvedDemoRulebook,
 } from './rulebook.ts'
-import { computeDemoStamp } from './resolve.ts'
+import {
+  computeDemoActionability,
+  computeDemoStamp,
+  type DemoActionability,
+} from './resolve.ts'
 import { fail } from './errors.ts'
 
 export type FactKind = 'fixture-input' | 'rule-value' | 'derived'
@@ -60,6 +64,9 @@ export interface CommunityEnvelopeReport {
   readonly slice: string
   /** Locked. The only reachable stamp in this package. */
   readonly stamp: string
+  /** THD-18: computed once; type admits only 'unknown'. Beside the stamp,
+   * never a stamp, never touching a number. */
+  readonly actionability: DemoActionability
   readonly classification: 'demo-illustrative'
   readonly fixtureDigest: string
   readonly rulebookDigest: string
@@ -208,6 +215,7 @@ export function buildEnvelopeReport(
     title: `${site.name} — DEMO envelope report`,
     slice: rulebook.slice,
     stamp,
+    actionability: computeDemoActionability(rulebook.entries),
     classification: 'demo-illustrative',
     fixtureDigest,
     rulebookDigest: rulebook.digest,

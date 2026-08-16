@@ -68,10 +68,11 @@ export function communityDrawingToSvg(model: DemoDrawingModel): string {
         + `${escapeXml(text.text)}</text>`,
     )
   }
-  // Watermark on top, never occluded.
+  // Watermark on top so it cannot be occluded, but light and moderate so it
+  // never hides planning geometry, labels, or the legend (ledger 041 §5).
   parts.push(
-    `<text x="${(width / 2).toFixed(2)}" y="${(height / 2).toFixed(2)}" font-size="${(height / 4).toFixed(0)}" `
-      + 'text-anchor="middle" fill="#c9c9c9" opacity="0.55" font-weight="bold" '
+    `<text x="${(width / 2).toFixed(2)}" y="${(height / 2).toFixed(2)}" font-size="${(height / 5.5).toFixed(0)}" `
+      + 'text-anchor="middle" fill="#9a9a9a" opacity="0.28" font-weight="bold" letter-spacing="18" '
       + `transform="rotate(-30 ${(width / 2).toFixed(2)} ${(height / 2).toFixed(2)})">DEMO</text>`,
   )
   parts.push('</svg>')
@@ -133,6 +134,11 @@ ${legendRows}
         <div><b>Placed in this layout:</b> ${fact('fact.placed-du')} DU</div>
         <div><b>Shortfall:</b> ${fact('fact.shortfall-du')} DU</div>
         <div><b>Parking required:</b> ${fact('fact.parking-required')} ECS</div>
+      </div>
+      <div class="nums">
+        <div><b>Classification:</b> ${escapeXml(report.classification)}</div>
+        <div><b>Sanctionable today:</b> ${escapeXml(report.actionability.sanctionableToday)}</div>
+        <div class="note">${escapeXml(report.actionability.reason)}</div>
       </div>
       <div class="digests">
         fixture ${report.fixtureDigest}<br>

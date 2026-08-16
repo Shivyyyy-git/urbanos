@@ -1,47 +1,64 @@
 # @urbanos/townhouse-demo — "Community One"
 
 Demo workstream package per `collab/TownhouseDemoBrief.md`, built against
-Sol's frozen gate `collab/townhouse-demo-acceptance-tests.md` (THD-01…16).
+Sol's frozen gate `collab/townhouse-demo-acceptance-tests.md` (THD-01…18).
 One fixed ~10-acre imaginary site, two DEMO rulebook slices, and the real
 pipeline: rulebook entries → envelope → layout → outputs. **Every value is
 illustrative; every artifact is DEMO-watermarked; the stamp is locked at
-"Research Draft — Not for Construction · DEMO".**
+"Research Draft — Not for Construction · DEMO"; actionability is type-locked
+at `sanctionable-today: unknown`.**
+
+## Clean setup
+
+```
+npm install
+npm test
+```
+
+`npm test` bootstraps the pinned independent DXF verifier on first run
+(project-local `.venv` with `ezdxf==1.4.4`; needs `python3` on PATH and
+network on the first run only — the same footing as `npm install`). No
+ambient site-packages are used.
 
 ## Commands
 
-Generate the full package (non-interactive, deterministic, gate-checked):
+Generate the full package (non-interactive, deterministic, self-gating; also
+atomically regenerates the one-click `preview.DEMO.html` at this package root):
 
 ```
 node tools/generate-demo.mjs generate --slice a --out ../output/townhouse-demo/slice-a
 node tools/generate-demo.mjs generate --slice b --out ../output/townhouse-demo/slice-b
 ```
 
-Re-run the package gate on a directory · live-swap stage diff:
+Re-run the gate on a shipped package (add `--with-preview` to also verify the
+one-click preview against that package) · live-swap stage diff:
 
 ```
-node tools/generate-demo.mjs verify <dir>
+node tools/generate-demo.mjs verify <dir> --with-preview
 node tools/generate-demo.mjs diff <dirA> <dirB>
 ```
 
-Acceptance harness (THD-01…16 with coverage preflight) and typecheck:
+Acceptance harness (THD-01…18 with coverage preflight) and typecheck:
 
 ```
 npm test
 npm run typecheck
 ```
 
-## Status (v0, ledger 035)
+## Status (v0.1, ledger 042)
 
-- Engine + three outputs implemented from ONE canonical geometry model:
-  technical sheet (DXF R12 + vector PDF, A2 1:750), colored presentation map
-  (legend, north arrow, scale bar), envelope report (multi-page PDF + JSON),
-  plus a parity-manifest sidecar. 16/16 THD gates green; six mandatory
+- 18/18 THD gates green from the documented clean setup; all eight §5
   mutations killed and reverted (`collab/townhouse-demo-v0-mutation-log.md`).
-- Sol's 034 schema rulings implemented: production-shaped entries
-  (applicability predicate, structured demo-sentinel source, verification
-  separate from classification, version chains); `E_RULE_ENTRY_INVALID` added.
-- Requested / density-ceiling / placed / shortfall are distinct cited facts;
-  slice A: 500 / 400 / 140 / 360 · slice B: 500 / 250 / 50 / 450.
+- Ledger 041 blockers repaired: pinned bootstrapped verifier; the EXACT
+  locked stamp round-trips through the DXF (cp1252 + `$DWGCODEPAGE
+  ANSI_1252`, verified via ezdxf strict + recover); `preview.DEMO.html` is a
+  gated artifact (THD-17: currency, self-containment, measured inline-SVG
+  parity, stale/tamper kills); THD-18 actionability type-lock threaded to
+  every output from one computed object; watermark translucent (ExtGState
+  0.34) and moderate with no stamp/legend collisions; report paginates in
+  atomic blocks; PDF metadata is UTF-16BE.
+- Slice A: requested 500 / ceiling 400 / placed 140 / shortfall 360.
+  Slice B: 500 / 250 / 50 / 450.
 
 ## House rules
 
@@ -56,15 +73,13 @@ npm run typecheck
    entry ⇒ named refusal. Layout *strategy* dimensions derive from rule
    values, so runtime rule changes move measured geometry (THD-08).
 4. **Determinism:** no timestamps, no randomness, no compression; same
-   fixture + rulebook digest ⇒ byte-identical artifacts (THD-04/15).
+   fixture + rulebook digest ⇒ byte-identical artifacts (THD-04/15/17).
 
-## Known deviations (recorded for Sol, ledger 035)
+## Known deviations (recorded for Sol, ledger 042)
 
-- DXF R12 text is ASCII: the stamp appears ASCII-folded
-  ("Research Draft - Not for Construction - DEMO") in DXF TEXT entities; the
-  exact string (with — and ·) is in every PDF page and JSON artifact.
 - THD-03 "every page renders": the harness proves structural parse + text ops
-  per page; raster rendering is inspected visually (sips renders page 1),
-  full render inspection stays in Sol's §6 pass.
+  per page; raster inspection (page 1 via sips) is manual — full render
+  inspection stays in Sol's §6 pass. No raster toolchain was added.
 - The automated watermark-visibility check tests size and fill colour, not
-  occlusion; the occlusion case found during build is in the mutation log.
+  occlusion (mutation-log finding); occlusion is prevented by paint order and
+  judged in the §6 visual pass.

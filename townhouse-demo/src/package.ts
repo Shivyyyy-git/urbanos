@@ -4,7 +4,7 @@
 // the stamp is computed (resolve.ts) and locked.
 
 import { buildDrawingModels } from './drawing.ts'
-import { communityDrawingToDxf } from './dxf.ts'
+import { communityDrawingToDxf, dxfBytes } from './dxf.ts'
 import { fail } from './errors.ts'
 import type { DemoSiteFixture } from './fixture.ts'
 import { rectRing } from './geom.ts'
@@ -88,6 +88,7 @@ export function buildCommunityPackage(
     kind: 'parity-manifest',
     classification: 'demo-illustrative',
     stamp: report.stamp,
+    actionability: report.actionability,
     slice: rulebook.slice,
     fixtureDigest,
     rulebookDigest: rulebook.digest,
@@ -103,7 +104,7 @@ export function buildCommunityPackage(
   }
 
   const artifacts: readonly DemoArtifact[] = [
-    { filename: roles['technical-sheet-dxf'], bytes: textBytes(communityDrawingToDxf(models.technical)) },
+    { filename: roles['technical-sheet-dxf'], bytes: dxfBytes(communityDrawingToDxf(models.technical)) },
     { filename: roles['technical-sheet-pdf'], bytes: communityDrawingToPdf(models.technical) },
     { filename: roles['presentation-map-pdf'], bytes: communityDrawingToPdf(models.presentation) },
     { filename: roles['envelope-report-pdf'], bytes: reportToPdf(report) },

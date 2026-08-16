@@ -1,9 +1,14 @@
-// Deterministic ASCII DXF R12 writer for the demo technical sheet. Adapted
-// from the unit-plan writer (unitplan/src/dxf.ts), which was adapted from the
-// site kernel's — same conventions: model-space metres at 1:1, group-code 999
+// Deterministic DXF R12 writer for the demo technical sheet. Adapted from the
+// unit-plan writer (unitplan/src/dxf.ts), which was adapted from the site
+// kernel's — same conventions: model-space metres at 1:1, group-code 999
 // markers so the acceptance tests round-trip every path without relying on
-// entity order. R12 TEXT is ASCII; the stamp is emitted ASCII-folded (a
-// recorded deviation: '—'/'·' fold to '-').
+// entity order.
+//
+// Text encoding (v0.1, Sol's blocker 2 in ledger 041): the file declares
+// $DWGCODEPAGE ANSI_1252 and is serialised as cp1252 bytes, so the EXACT
+// locked stamp — em dash and middle dot included — round-trips through
+// independent parsers (verified against ezdxf strict + recover readers).
+// Characters with no cp1252 representation are folded; the stamp needs none.
 
 import {
   DEMO_LAYERS,
@@ -26,21 +31,47 @@ function real(value: number): string {
   return rounded.toFixed(6)
 }
 
-export function asciiFold(value: string): string {
-  return value
-    .normalize('NFKD')
-    .replace(/[₹]/g, 'Rs ')
-    .replace(/[×✕]/g, 'x')
-    .replace(/[·•]/g, '-')
-    .replace(/[–—]/g, '-')
-    .replace(/[…]/g, '...')
-    .replace(/[°]/g, ' deg')
-    .replace(/[²]/g, '2')
-    .replace(/[‘’]/g, "'")
-    .replace(/[“”]/g, '"')
-    .replace(/\s+/g, ' ')
-    .replace(/[^\x20-\x7E]/g, '')
-    .trim()
+/** Characters cp1252 can carry directly (beyond ASCII). */
+const CP1252_SAFE = /[—–·‘’“”…°²]/
+
+/**
+ * Fold a string to what the ANSI_1252 file can carry: cp1252-representable
+ * characters (em dash, middle dot, quotes, …) pass through; everything else
+ * falls back to an ASCII approximation. The locked stamp passes unchanged.
+ */
+export function dxfText(value: string): string {
+  let output = ''
+  for (const character of value) {
+    const code = character.codePointAt(0)!
+    if (code >= 0x20 && code < 0x7f) {
+      output += character
+    } else if (CP1252_SAFE.test(character) || (code >= 0xa0 && code <= 0xff)) {
+      output += character
+    } else if (character === '₹') output += 'Rs '
+    else if (character === '×' || character === '✕') output += 'x'
+    else if (character === '•') output += '-'
+    else output += '?'
+  }
+  return output.replace(/\s+/g, ' ').trim()
+}
+
+/** cp1252 byte values for the non-latin1 characters we allow through. */
+const CP1252_BYTES: Readonly<Record<string, number>> = {
+  '—': 0x97, '–': 0x96, '‘': 0x91, '’': 0x92, '“': 0x93, '”': 0x94, '…': 0x85,
+}
+
+/** Serialise the finished DXF string to cp1252 bytes. */
+export function dxfBytes(content: string): Uint8Array {
+  const bytes = new Uint8Array(content.length)
+  for (let index = 0; index < content.length; index += 1) {
+    const character = content[index]!
+    const mapped = CP1252_BYTES[character]
+    const code = character.charCodeAt(0)
+    if (mapped !== undefined) bytes[index] = mapped
+    else if (code <= 0xff) bytes[index] = code
+    else bytes[index] = 0x3f // '?'
+  }
+  return bytes
 }
 
 function header(model: DemoDrawingModel): string {
@@ -50,6 +81,8 @@ function header(model: DemoDrawingModel): string {
     + group(2, 'HEADER')
     + group(9, '$ACADVER')
     + group(1, 'AC1009')
+    + group(9, '$DWGCODEPAGE')
+    + group(3, 'ANSI_1252')
     + group(9, '$INSUNITS')
     + group(70, 6)
     + group(9, '$MEASUREMENT')
@@ -167,7 +200,7 @@ function textEntity(text: DemoDrawingText, scaleDenominator: number): string {
     + group(20, real(text.at[1]))
     + group(30, real(0))
     + group(40, real(heightM))
-    + group(1, asciiFold(text.text))
+    + group(1, dxfText(text.text))
     + group(50, real(text.rotationDegrees))
     + group(7, 'STANDARD')
     + group(72, horizontal)
@@ -184,7 +217,7 @@ export function communityDrawingToDxf(model: DemoDrawingModel): string {
   output += group(999, 'URBANOS_COORDINATE_UNIT metre')
   output += group(999, `URBANOS_DECLARED_SCALE 1:${real(model.scaleDenominator)}`)
   output += group(999, `URBANOS_CLASSIFICATION demo-illustrative`)
-  output += group(999, `URBANOS_STATUS ${asciiFold(model.stamp)}`)
+  output += group(999, `URBANOS_STATUS ${dxfText(model.stamp)}`)
   output += group(999, `URBANOS_FIXTURE_DIGEST ${model.fixtureDigest}`)
   output += group(999, `URBANOS_RULEBOOK_DIGEST ${model.rulebookDigest}`)
   output += group(999, `URBANOS_GEOMETRY_DIGEST ${model.geometryDigest}`)
