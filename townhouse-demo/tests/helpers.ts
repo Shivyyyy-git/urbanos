@@ -428,19 +428,30 @@ function compareRings(
     findings.push(`${artifact}: feature ${feature.id} (${feature.featureClass}) is missing`)
     return
   }
-  const expected = ringBounds(feature.ring)
-  const actual = ringBounds(measured)
-  for (const key of ['minX', 'minY', 'maxX', 'maxY'] as const) {
-    if (Math.abs(expected[key] - actual[key]) > toleranceM) {
+  // Vertex-for-vertex ring parity (041 §2): count, order, position, and
+  // non-degeneracy. Bounding boxes are never accepted as evidence.
+  if (measured.length !== feature.ring.length) {
+    findings.push(`${artifact}: feature ${feature.id} vertex count ${measured.length} != ${feature.ring.length}`)
+    return
+  }
+  for (let index = 0; index < measured.length; index += 1) {
+    const [measuredX, measuredY] = measured[index]!
+    const [expectedX, expectedY] = feature.ring[index]!
+    const distance = Math.hypot(measuredX - expectedX, measuredY - expectedY)
+    if (distance > toleranceM) {
       findings.push(
-        `${artifact}: feature ${feature.id} (${feature.featureClass}) ${key} off by `
-          + `${Math.abs(expected[key] - actual[key]).toFixed(4)} m`,
+        `${artifact}: feature ${feature.id} (${feature.featureClass}) vertex ${index} off by ${distance.toFixed(4)} m`,
       )
       return
     }
   }
-  if (measured.length !== feature.ring.length) {
-    findings.push(`${artifact}: feature ${feature.id} vertex count ${measured.length} != ${feature.ring.length}`)
+  for (let index = 0; index < measured.length; index += 1) {
+    const current = measured[index]!
+    const next = measured[(index + 1) % measured.length]!
+    if (Math.hypot(current[0] - next[0], current[1] - next[1]) < 1e-9) {
+      findings.push(`${artifact}: feature ${feature.id} has a degenerate (duplicated) vertex at ${index}`)
+      return
+    }
   }
 }
 

@@ -2,7 +2,7 @@
 // locally" requirement). The SVG is generated from the SAME presentation
 // drawing model as the PDF — no separate geometry path — and the page is
 // fully self-contained (inline CSS, inline SVG, no external assets), so
-// double-clicking townhouse-demo/preview.html always shows the latest build.
+// double-clicking townhouse-demo/preview.DEMO.html always shows the latest build.
 // The visual bar it works toward is collab/PresentationMapTarget.html (a
 // hand-drawn mock); this page is engine output and says so.
 
@@ -68,12 +68,25 @@ export function communityDrawingToSvg(model: DemoDrawingModel): string {
         + `${escapeXml(text.text)}</text>`,
     )
   }
-  // Watermark on top so it cannot be occluded, but light and moderate so it
-  // never hides planning geometry, labels, or the legend (ledger 041 §5).
+  // Watermark on top so it cannot be occluded, positioned over the east
+  // green polygon so it crosses no annotation, label, or club/pool geometry
+  // (ledger 045 §4); light so it hides nothing beneath it.
+  const greenEast = model.paths.find((path) => path.id === 'f.green-east')
+  let watermarkX = width / 2
+  let watermarkY = height / 2
+  let watermarkSize = height / 6
+  if (greenEast) {
+    const xs = greenEast.points.map((point) => px(point[0]))
+    const ys = greenEast.points.map((point) => py(point[1]))
+    watermarkX = (Math.min(...xs) + Math.max(...xs)) / 2
+    const bandTop = Math.min(...ys)
+    const bandHeight = Math.max(...ys) - bandTop
+    watermarkSize = Math.min(Math.max(bandHeight * 0.55, 60), 110)
+    watermarkY = bandTop + bandHeight / 2 + watermarkSize * 0.36
+  }
   parts.push(
-    `<text x="${(width / 2).toFixed(2)}" y="${(height / 2).toFixed(2)}" font-size="${(height / 5.5).toFixed(0)}" `
-      + 'text-anchor="middle" fill="#9a9a9a" opacity="0.28" font-weight="bold" letter-spacing="18" '
-      + `transform="rotate(-30 ${(width / 2).toFixed(2)} ${(height / 2).toFixed(2)})">DEMO</text>`,
+    `<text x="${watermarkX.toFixed(2)}" y="${watermarkY.toFixed(2)}" font-size="${watermarkSize.toFixed(0)}" `
+      + 'text-anchor="middle" fill="#8f8f8f" opacity="0.34" font-weight="bold" letter-spacing="14">DEMO</text>',
   )
   parts.push('</svg>')
   return parts.join('\n')

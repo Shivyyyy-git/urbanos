@@ -10,7 +10,7 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 1683.779528 1190.551181] /Resources << /Font << /F1 5 0 R /F2 6 0 R >> /ExtGState << /GS0 7 0 R >> >> /Contents 4 0 R >>
 endobj
 4 0 obj
-<< /Length 18190 >>
+<< /Length 18324 >>
 stream
 % URBANOS_SHEET_FURNITURE
 q
@@ -37,7 +37,7 @@ BT
 1 0 0 1 45.354331 124.844200 Tm
 (PARKING: 75 ECS REQUIRED [DEMO-B-PARKING-ECS-PER-DU] — ON-PLOT \(STILT\), NOT DRAWN IN v0) Tj
 1 0 0 1 45.354331 112.938688 Tm
-(SANCTIONABLE TODAY: UNKNOWN — DEMO — IMAGINARY SITE REPRESENTING NO JURISDICTION) Tj
+(SANCTIONABLE TODAY: UNKNOWN — DEMO — imaginary site representing no jurisdiction: no real source instruments exist and no restraint sweep has been performed, so sanctionability cannot be assessed and no sanctionable-today claim is supportable.) Tj
 1 0 0 1 45.354331 101.033176 Tm
 (ALL RULE VALUES ARE DEMO — ILLUSTRATIVE, UNVERIFIED; NO REAL JURISDICTION IS REPRESENTED) Tj
 1 0 0 1 45.354331 89.127664 Tm
@@ -904,8 +904,8 @@ q
 /GS0 gs
 0.42 0.42 0.42 rg
 BT
-/F2 134.418344 Tf
-0.866025 0.500000 -0.500000 0.866025 702.198123 514.624584 Tm
+/F2 111.576011 Tf
+1 0 0 1 943.274141 495.748031 Tm
 (DEMO) Tj
 ET
 Q
@@ -1024,12 +1024,12 @@ xref
 0000000064 00000 n 
 0000000121 00000 n 
 0000000301 00000 n 
-0000018544 00000 n 
-0000018641 00000 n 
-0000018743 00000 n 
-0000018799 00000 n 
+0000018678 00000 n 
+0000018775 00000 n 
+0000018877 00000 n 
+0000018933 00000 n 
 trailer
 << /Size 9 /Root 1 0 R /Info 8 0 R >>
 startxref
-19093
+19227
 %%EOF

@@ -179,6 +179,43 @@ function watermarkOps(widthMm: number, heightMm: number, stamp: string, fontMm: 
   ]
 }
 
+/**
+ * Positioned drawing-sheet watermark: horizontal DEMO centred at a chosen
+ * point (the east green polygon), plus the small top-left stamp line. Same
+ * marker structure as watermarkOps so the gate's visibility checks apply.
+ */
+function watermarkAtOps(
+  centreX: number,
+  centreY: number,
+  capHeightPt: number,
+  stamp: string,
+  pageHeightMm: number,
+): string[] {
+  const size = capHeightPt / CAP_HEIGHT_RATIO
+  const estimatedWidth = 4 * size * 0.6
+  return [
+    '% URBANOS_WATERMARK',
+    'q',
+    '/GS0 gs',
+    '0.42 0.42 0.42 rg',
+    'BT',
+    `/F2 ${number(size)} Tf`,
+    `1 0 0 1 ${number(centreX - estimatedWidth / 2)} ${number(centreY - capHeightPt / 2)} Tm`,
+    '(DEMO) Tj',
+    'ET',
+    'Q',
+    '% URBANOS_WATERMARK_STAMP',
+    'q',
+    '0.45 0.45 0.45 rg',
+    'BT',
+    `/F2 ${number((2.6 * POINTS_PER_MM) / CAP_HEIGHT_RATIO)} Tf`,
+    `1 0 0 1 ${number(6 * POINTS_PER_MM)} ${number((pageHeightMm - 6) * POINTS_PER_MM)} Tm`,
+    `(${pdfString(stamp)}) Tj`,
+    'ET',
+    'Q',
+  ]
+}
+
 function layerStyle(layer: DemoLayer): DemoLayerStyle {
   const style = DEMO_LAYERS.find((candidate) => candidate.name === layer)
   if (!style) fail('E_GEOMETRY_PARITY', `Unknown drawing layer "${layer}".`)
@@ -386,9 +423,24 @@ export function communityDrawingToPdf(model: DemoDrawingModel): Uint8Array {
     if (text.id === 'anno.watermark-demo') continue
     ops.push(...textOps(text, transform))
   }
-  // Watermark last (cannot be occluded) but moderate and translucent so it
-  // never dominates or hides planning geometry (ledger 041 §5).
-  ops.push(...watermarkOps(profile.widthMm, profile.heightMm, model.stamp, 34))
+  // Watermark last (cannot be occluded), translucent, and positioned over
+  // the east green polygon so it crosses no annotation, label, or club/pool
+  // geometry (ledger 045 §4). Falls back to the page centre only if the
+  // green feature is somehow absent.
+  const greenEast = model.paths.find((path) => path.id === 'f.green-east')
+  if (greenEast) {
+    const xs = greenEast.points.map((point) => point[0])
+    const ys = greenEast.points.map((point) => point[1])
+    const centre = transformPoint(
+      [(Math.min(...xs) + Math.max(...xs)) / 2, (Math.min(...ys) + Math.max(...ys)) / 2],
+      transform,
+    )
+    const bandHeightPt = (Math.max(...ys) - Math.min(...ys)) * transform.pointsPerModelMetre
+    const capHeightPt = Math.min(Math.max(bandHeightPt * 0.55, 46), 80)
+    ops.push(...watermarkAtOps(centre[0], centre[1], capHeightPt, model.stamp, profile.heightMm))
+  } else {
+    ops.push(...watermarkOps(profile.widthMm, profile.heightMm, model.stamp, 30))
+  }
   ops.push(...legendOps(model, profile))
   return buildPdf(
     [{ widthMm: profile.widthMm, heightMm: profile.heightMm, content: ops.join('\n') }],
@@ -463,10 +515,15 @@ function reportBlocks(report: CommunityEnvelopeReport): ReportLine[][] {
     plain(`${fact.name}: ${factValue(fact)} ${fact.unit} [${fact.id}] cites ${fact.ruleRefs.join(', ')}`)
   }
   plain('')
-  open()
-  bold('DERIVED ENVELOPE (EVERY NUMBER CITES ITS FEEDERS)')
+  // Section headings ride in the same block as their first row so a heading
+  // can never orphan at a page bottom (045 §4).
+  let firstDerived = true
   for (const fact of report.facts.filter((candidate) => candidate.kind === 'derived')) {
     open()
+    if (firstDerived) {
+      bold('DERIVED ENVELOPE (EVERY NUMBER CITES ITS FEEDERS)')
+      firstDerived = false
+    }
     plain(`${fact.name}: ${factValue(fact)} ${fact.unit} [${fact.id}]`)
     plain(`    from fixture: ${fact.fixtureRefs.join(', ') || '(none)'}`)
     for (const line of wrap(`cites: ${fact.ruleRefs.join(', ') || '(none — fixture-only derivation)'}`, 92)) {
@@ -484,10 +541,13 @@ function reportBlocks(report: CommunityEnvelopeReport): ReportLine[][] {
   }
   for (const line of wrap(report.verdict.narrative, 96)) plain(line)
   plain('')
-  open()
-  bold('CITATION SNAPSHOT (SELF-CONTAINED — VALID WITHOUT THE RULEBOOK FILES)')
+  let firstCitation = true
   for (const citation of report.citations) {
     open()
+    if (firstCitation) {
+      bold('CITATION SNAPSHOT (SELF-CONTAINED — VALID WITHOUT THE RULEBOOK FILES)')
+      firstCitation = false
+    }
     plain(`${citation.entryId}  slot=${citation.slot}  value=${citation.value} ${citation.unit}  version=${citation.versionId}`)
     plain(`    ${citation.classification} / ${citation.verification}  authority: ${citation.authority}`)
     for (const line of wrap(`source: ${citation.sourceDocumentRef}. basis: ${citation.basis}`, 92)) {
@@ -505,7 +565,7 @@ export function reportToPdf(report: CommunityEnvelopeReport): Uint8Array {
   const blocks = reportBlocks(report)
   const bodyTop = A4.heightMm - A4.marginMm - 14
   const bodyBottom = A4.marginMm + 12
-  const lineSpacingMm = 3.9
+  const lineSpacingMm = 3.7
   const perPage = Math.floor((bodyTop - bodyBottom) / lineSpacingMm)
   // Block-atomic pagination: a block (one citation row, one derived fact)
   // never splits across a page boundary (041 §6). A lone section header is

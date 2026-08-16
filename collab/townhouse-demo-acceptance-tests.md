@@ -434,6 +434,14 @@ one inline planning feature must fail non-zero and name `preview.DEMO.html`
 plus the stale/tampered field or feature. A generator that merely overwrites a
 bad page without ever detecting it has not implemented this mutation gate.
 
+Rendered semantics are the evidence boundary, not raw source text. The gate
+must therefore also kill: (a) an external resource expressed through CSS
+escapes that the browser decodes to `url(...)`; (b) an SVG/CSS transform that
+moves a feature while leaving its raw `points` unchanged; and (c) a planning
+feature hidden or visually replaced while its canonical coordinates remain in
+the DOM. A regex that recognises only literal fetch syntax, or a coordinate
+comparison that ignores the rendered transform/style surface, is fail-open.
+
 ### THD-18 — DEMO actionability can never claim sanctionable today
 
 Every report form (JSON, visible report PDF, title blocks where status is
@@ -462,6 +470,11 @@ Mutate the DEMO type to admit `yes`, change the runtime predicate to emit it,
 and inject `yes` through the public request/config surface. Each mutation must
 turn THD-18 red. This demo-only lock does not replace Stage1Spec v1.2's
 production `yes | no | unknown` actionability axis.
+
+“Visible reason” means rendered, human-visible text. Keeping the truthful
+reason only in a comment, hidden node, metadata, clipped/off-page text, or
+otherwise non-visible carrier while showing a forged/shortened reason must turn
+THD-18 red. Raw byte presence is not actionability parity.
 
 ## 5. Required mutation evidence
 

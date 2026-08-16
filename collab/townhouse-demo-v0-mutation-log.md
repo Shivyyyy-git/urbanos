@@ -5,6 +5,43 @@
 data/tooling, never tests), full `npm test` run recorded, mutation reverted,
 green rerun recorded. Behavioural evidence, not code screenshots.
 
+## v0.2 run — 2026-08-16, all eight §5 rows re-run against the HARDENED gates
+
+Sol's 045 review found three fail-open bypasses; the gates were hardened and
+**Sol's exact independent mutants are now permanent hostile cases inside
+THD-17/THD-18** (they run on every green build, not only in mutation drills):
+
+- 045 §1 — `<img src="missing-local-asset.png">` (relative asset): killed by
+  the new allowlist-level offline gate (any fetch-capable element/attribute/
+  `url()`/`@import` fails, remote or relative).
+- 045 §2 — pool ring deformed with its bounding box preserved (vertex 1
+  duplicated onto vertex 0): killed by vertex-for-vertex ring parity (count,
+  order, position, degeneracy) in both the preview gate and the THD-13
+  cross-artifact oracle — bounding boxes are no longer accepted as evidence
+  anywhere.
+- 045 §3 — `actionability.reason` forged to "FORGED — fully sanctioned
+  today." with the status token left `unknown`, in report JSON + manifest:
+  killed by full-object gating (status AND verbatim reason) on JSON, every
+  PDF, the DXF, and the preview; the drawing title blocks now carry the full
+  computed reason, not a shortening.
+
+Engine-mutation rows, re-run after the hardening (baseline before and after
+each: 18/18 green, typecheck clean, `grep MUTATION` empty, packages + preview
+regenerated and gate-verified):
+
+| # | Mutation | Red result | Required |
+|---|---|---|---|
+| 1 | suppress report-page DEMO marker + neuter gate's PDF watermark check | **fail 2: THD-05, THD-06** | THD-05/06 ✓ |
+| 2 | remove `row-length-max` from slice-A data | **fail 17: THD-01 red** + fail-closed cascade (only THD-02 survives) | THD-01 ✓ |
+| 3 | stamp `any-unverified` → `all-unverified` | **fail 1: THD-10 only** | THD-10 ✓ |
+| 4 | presentation-only drift of `f.plot-w-00-00` | **fail 2: THD-13, THD-15** | THD-13/14 ✓ |
+| 5 | `Wp = 12` hard-coded | **fail 3: THD-08, THD-12, THD-15** | THD-08/15 ✓ |
+| 6 | density ceiling copied into placed fact | **fail 3: THD-12, THD-16, THD-17** | THD-12/16 ✓ |
+| 7 | preview neither regenerated nor gated | **fail 1: THD-17 only** | THD-17 ✓ |
+| 8a | `DemoActionability` type admits `'yes'` | **fail 1: THD-18 only** | THD-18 ✓ |
+| 8b | runtime predicate emits `'yes'` (cast) | **fail 16: THD-18** + cascade (gate refuses to ship any `yes` artifact) | THD-18 ✓ |
+| 8c | report honors caller-injected actionability | **fail 1: THD-18 only** | THD-18 ✓ |
+
 ## v0.1 run — 2026-08-16, against THD-01…THD-18
 
 Baseline before and after every mutation: **18/18 THD gates green**, strict

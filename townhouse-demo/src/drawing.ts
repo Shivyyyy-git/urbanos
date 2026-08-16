@@ -255,7 +255,8 @@ export function buildDrawingModels(
     `PLACED IN THIS REFERENCE LAYOUT: ${m.placedDu} DU  |  REQUESTED (INTENT): ${site.requestedDwellingUnits} DU  |  DENSITY CEILING: ${m.densityCeilingDu} DU`,
     `HEIGHT CAP ${metres(rule('height-max'))} / G+${rule('storeys-max') - 1} [${ruleId('height-max')}, ${ruleId('storeys-max')}] — CITED LIMITS, NO ELEVATIONS DRAWN IN v0`,
     `PARKING: ${m.requiredParkingEcs} ECS REQUIRED [${ruleId('parking-ecs-per-du')}] — ON-PLOT (STILT), NOT DRAWN IN v0`,
-    `SANCTIONABLE TODAY: ${report.actionability.sanctionableToday.toUpperCase()} — ${report.actionability.reason.split(':')[0]!.toUpperCase()}`,
+    // THD-18: the FULL computed reason, verbatim — never a shortened variant.
+    `SANCTIONABLE TODAY: ${report.actionability.sanctionableToday.toUpperCase()} — ${report.actionability.reason}`,
     'ALL RULE VALUES ARE DEMO — ILLUSTRATIVE, UNVERIFIED; NO REAL JURISDICTION IS REPRESENTED',
     'AXIS-ALIGNED v0 REFERENCE LAYOUT — ONE FIXED IMAGINARY SITE, NO GENERAL SITE SOLVER',
     `FIXTURE ${report.fixtureDigest.slice(0, 16)}…  RULEBOOK ${report.rulebookDigest.slice(0, 16)}…  GEOMETRY ${report.geometryDigest.slice(0, 16)}…`,

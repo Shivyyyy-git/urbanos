@@ -155,7 +155,41 @@ test('THD-17: one-click preview is current, self-contained, and fail-closed', ()
     assert.ok(result.output.includes('external dependency'))
     writeFileSync(PREVIEW, previewA2)
   }
-  // 6. One inline planning feature moved.
+  // 6. Sol's 045 §1 bypass: a RELATIVE asset is exactly as disqualifying as
+  //    a remote one — the allowlist gate must refuse any fetch-capable
+  //    construct, not just http(s)-shaped references.
+  {
+    writeFileSync(
+      PREVIEW,
+      previewA2.toString('utf8').replace('<div class="sheet">', '<img src="missing-local-asset.png">\n<div class="sheet">'),
+    )
+    const result = verifyWithPreview(dirA2)
+    assert.notEqual(result.status, 0, 'relative local asset must fail the offline allowlist')
+    assert.ok(result.output.includes('preview.DEMO.html'))
+    assert.ok(/self-contained|fetch-capable/i.test(result.output))
+    writeFileSync(PREVIEW, previewA2)
+  }
+  // 7. Sol's 045 §2 bypass: deform a ring while PRESERVING its bounding box
+  //    (duplicate the second vertex onto the first — every rect extreme
+  //    appears twice, so min/max extents are unchanged). Vertex-level parity
+  //    must still catch it.
+  {
+    const tampered = previewA2.toString('utf8').replace(
+      /<polygon data-id="f\.pool" points="([^"]+)"/,
+      (_match, points: string) => {
+        const vertices = points.split(' ')
+        vertices[1] = vertices[0]!
+        return `<polygon data-id="f.pool" points="${vertices.join(' ')}"`
+      },
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    assert.notEqual(result.status, 0, 'same-bounding-box deformation must fail ring parity')
+    assert.ok(result.output.includes('pool'), 'names the deformed feature')
+    assert.ok(/vertex|degenerate/i.test(result.output), 'reports the vertex-level evidence')
+    writeFileSync(PREVIEW, previewA2)
+  }
+  // 8. One inline planning feature moved.
   {
     const tampered = previewA2.toString('utf8').replace(
       /<polygon data-id="f\.pool" points="([^"]+)"/,
@@ -176,6 +210,59 @@ test('THD-17: one-click preview is current, self-contained, and fail-closed', ()
     assert.ok(result.output.includes('f.pool') || result.output.includes('pool'), 'names the feature')
     writeFileSync(PREVIEW, previewA2)
   }
+  const adjacentBypasses: string[] = []
+  // 9. Sol's v0.2 adjacent bypass: CSS escapes are decoded by the browser
+  //    before resource resolution. `u\\72l(...)` is a real `url(...)` fetch,
+  //    so a raw-string pattern ban is not an offline allowlist.
+  {
+    const tampered = previewA2.toString('utf8').replace(
+      'body { background:#e9e7df;',
+      'body { background:#e9e7df; background-image:u\\72l("missing-local-background.png");',
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    if (result.status === 0) adjacentBypasses.push('CSS-escaped external asset')
+    else assert.ok(/self-contained|fetch-capable|external dependency/i.test(result.output))
+    writeFileSync(PREVIEW, previewA2)
+  }
+  // 10. Sol's v0.2 rendered-geometry bypass: unchanged raw points do not
+  //     prove visual parity when an SVG transform moves the rendered feature.
+  {
+    const tampered = previewA2.toString('utf8').replace(
+      /(<polygon data-id="f\.pool" points="[^"]+")/,
+      '$1 transform="translate(40 0)"',
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    if (result.status === 0) adjacentBypasses.push('rendered SVG transform')
+    else {
+      assert.ok(result.output.includes('pool'), 'names the transformed feature')
+      assert.ok(/transform|render|geometry|vertex/i.test(result.output), 'names rendered-geometry evidence')
+    }
+    writeFileSync(PREVIEW, previewA2)
+  }
+  // 11. THD-18 visibility is rendered visibility, not raw-source presence.
+  //     A truthful reason hidden in a comment cannot excuse a forged visible
+  //     line, even though both strings exist in the HTML bytes.
+  {
+    const html = previewA2.toString('utf8')
+    const reasonMatch = html.match(/<div class="note">(DEMO — imaginary site representing no jurisdiction:[^<]+)<\/div>/)
+    assert.ok(reasonMatch, 'locates the generated visible actionability reason')
+    const tampered = html.replace(
+      reasonMatch[0],
+      `<div class="note">FORGED — fully sanctioned today.</div><!-- ${reasonMatch[1]} -->`,
+    )
+    writeFileSync(PREVIEW, tampered)
+    const result = verifyWithPreview(dirA2)
+    if (result.status === 0) adjacentBypasses.push('comment-only truthful actionability reason')
+    else assert.ok(/actionability|reason|visible/i.test(result.output), 'names the visible claim surface')
+    writeFileSync(PREVIEW, previewA2)
+  }
+  assert.deepEqual(
+    adjacentBypasses,
+    [],
+    `preview gate accepted rendered-semantics bypasses: ${adjacentBypasses.join(', ')}`,
+  )
   // Restored: green again.
   assert.equal(verifyWithPreview(dirA2).status, 0, 'gate green after restoration')
 })

@@ -4,7 +4,13 @@
 // the generation tool (non-zero exit), and by the THD-05/06 mutations.
 
 import { DEMO_STAMP } from './rulebook.ts'
+import { DEMO_ACTIONABILITY_REASON } from './resolve.ts'
 import { encodeWinAnsi } from './pdf.ts'
+
+/** Collapse whitespace so wrapped text can be compared to the trusted object. */
+function normalizeText(value: string): string {
+  return value.replace(/\s+/g, ' ').trim()
+}
 
 /** cp1252 -> string for the bytes our DXF/PDF writers use beyond latin1. */
 const CP1252_REVERSE: Readonly<Record<number, string>> = {
@@ -100,6 +106,34 @@ function checkPdf(file: NamedBytes, findings: VerifyFinding[]): void {
       findings.push({ message: 'Page lacks the visible locked stamp.', detail: where })
     }
   })
+  // THD-18 across every PDF surface (041 §3): the visible text must carry the
+  // FULL computed actionability — status and verbatim reason — not just the
+  // enum token. Wrapping is normalised away before comparison.
+  const allText = normalizeText(
+    pages
+      .map((content) => {
+        const strings: string[] = []
+        const pattern = /\(((?:\\.|[^\\)])*)\) Tj/g
+        let textMatch: RegExpExecArray | null
+        while ((textMatch = pattern.exec(content)) !== null) {
+          strings.push(decodeCp1252(textMatch[1]!.replace(/\\([\\()])/g, '$1')))
+        }
+        return strings.join(' ')
+      })
+      .join(' '),
+  )
+  if (!/sanctionable today: unknown/i.test(allText)) {
+    findings.push({
+      message: 'PDF lacks the visible actionability status (sanctionable-today: unknown).',
+      detail: `${file.filename}: actionability`,
+    })
+  }
+  if (!allText.includes(normalizeText(DEMO_ACTIONABILITY_REASON))) {
+    findings.push({
+      message: 'PDF does not carry the full computed actionability reason verbatim.',
+      detail: `${file.filename}: actionability reason`,
+    })
+  }
 }
 
 function checkDxf(file: NamedBytes, findings: VerifyFinding[]): void {
@@ -126,6 +160,19 @@ function checkDxf(file: NamedBytes, findings: VerifyFinding[]): void {
   if (!raw.includes('URBANOS_CLASSIFICATION demo-illustrative')) {
     findings.push({ message: 'DXF lacks the structured demo classification.', detail: file.filename })
   }
+  const allText = normalizeText(textValues.join(' '))
+  if (!/sanctionable today: unknown/i.test(allText)) {
+    findings.push({
+      message: 'DXF lacks the visible actionability status (sanctionable-today: unknown).',
+      detail: `${file.filename}: actionability`,
+    })
+  }
+  if (!allText.includes(normalizeText(DEMO_ACTIONABILITY_REASON))) {
+    findings.push({
+      message: 'DXF does not carry the full computed actionability reason verbatim.',
+      detail: `${file.filename}: actionability reason`,
+    })
+  }
 }
 
 function checkJson(file: NamedBytes, findings: VerifyFinding[]): void {
@@ -145,12 +192,22 @@ function checkJson(file: NamedBytes, findings: VerifyFinding[]): void {
   if (parsed.stamp !== DEMO_STAMP) {
     findings.push({ message: 'JSON artifact lacks the locked stamp.', detail: file.filename })
   }
-  const actionability = (parsed as { actionability?: { sanctionableToday?: unknown } }).actionability
+  // The FULL computed object is gated, not just the enum token (041 §3): a
+  // forged reason with an untouched status is exactly as disqualifying.
+  const actionability = (parsed as {
+    actionability?: { sanctionableToday?: unknown; reason?: unknown }
+  }).actionability
   if (!actionability || actionability.sanctionableToday !== 'unknown') {
     findings.push({
       message:
         'JSON artifact lacks the computed DEMO actionability (sanctionable-today must be "unknown"; a DEMO slice can never claim yes).',
-      detail: file.filename,
+      detail: `${file.filename}: actionability`,
+    })
+  } else if (actionability.reason !== DEMO_ACTIONABILITY_REASON) {
+    findings.push({
+      message:
+        'JSON actionability reason does not equal the one trusted computed object; a forged reason with an untouched status is refused.',
+      detail: `${file.filename}: actionability reason`,
     })
   }
 }
@@ -231,10 +288,18 @@ export function verifyDemoPreview(
   if (!PREVIEW_NAME.split(/[^A-Za-z0-9]+/).includes('DEMO')) {
     findings.push({ message: 'Preview basename lacks the DEMO token.', detail: PREVIEW_NAME })
   }
-  // Self-containment: no network, scripts, or external assets of any kind.
-  if (/<script|<link\b|\burl\s*\(\s*['"]?https?:|(src|href)\s*=\s*["']?(https?:)?\/\//i.test(html)) {
+  // Self-containment as an ALLOWLIST-level offline gate (041 §1): the page
+  // is inline text + inline SVG only. ANY fetch-capable construct — element
+  // (script/link/img/iframe/…), attribute (src/href/srcset/xlink:href), CSS
+  // url()/@import, or meta refresh — fails, whether its target is remote,
+  // relative, or missing. A relative `src` is exactly as disqualifying as an
+  // https one: the page may not reference anything outside itself.
+  const fetchCapable =
+    /<\s*(script|link|img|iframe|frame|embed|object|video|audio|source|track|use|base|form|input|applet)\b|\b(src|href|srcset|xlink:href|data|poster|action|formaction)\s*=|url\s*\(|@import|http-equiv/i
+  const fetchMatch = fetchCapable.exec(html)
+  if (fetchMatch) {
     findings.push({
-      message: 'Preview is not self-contained: external script/stylesheet/asset reference found.',
+      message: `Preview is not self-contained: fetch-capable construct "${fetchMatch[0]}" found (allowlist is inline text + inline SVG only).`,
       detail: `${PREVIEW_NAME}: external dependency`,
     })
   }
@@ -251,6 +316,12 @@ export function verifyDemoPreview(
     findings.push({
       message: 'Preview lacks the computed actionability line (sanctionable-today: unknown).',
       detail: `${PREVIEW_NAME}: actionability`,
+    })
+  }
+  if (!normalizeText(html).includes(normalizeText(DEMO_ACTIONABILITY_REASON))) {
+    findings.push({
+      message: 'Preview does not carry the full computed actionability reason verbatim.',
+      detail: `${PREVIEW_NAME}: actionability reason`,
     })
   }
   // Currency: pinned digests and slice must equal THIS package's.
@@ -303,7 +374,11 @@ export function verifyDemoPreview(
   const siteWorld = ringBoundsOf(site.ring)
   const sitePixel = ringBoundsOf(sitePx)
   const scale = (sitePixel.maxX - sitePixel.minX) / (siteWorld.maxX - siteWorld.minX)
-  const toleranceM = 0.05
+  // RING parity, not bounding-box parity (041 §2): the transformed canonical
+  // coordinate sequence is compared vertex-for-vertex — count, order, and
+  // position — and the drawn ring must be non-degenerate. A deformation that
+  // preserves min/max extents still fails.
+  const tolerancePx = 0.05 * scale
   for (const feature of reference.features) {
     const pixels = svgFeatures.get(feature.id)
     if (!pixels || pixels.length === 0) {
@@ -313,22 +388,39 @@ export function verifyDemoPreview(
       })
       continue
     }
-    const expected = ringBoundsOf(feature.ring)
-    const actual = ringBoundsOf(pixels)
-    // SVG y grows downward; compare via width/height and x/min plus flipped y.
-    const measured = {
-      minX: siteWorld.minX + (actual.minX - sitePixel.minX) / scale,
-      maxX: siteWorld.minX + (actual.maxX - sitePixel.minX) / scale,
-      minY: siteWorld.minY + (sitePixel.maxY - actual.maxY) / scale,
-      maxY: siteWorld.minY + (sitePixel.maxY - actual.minY) / scale,
+    const expectedPixels = feature.ring.map(([worldX, worldY]) => [
+      sitePixel.minX + (worldX - siteWorld.minX) * scale,
+      sitePixel.maxY - (worldY - siteWorld.minY) * scale,
+    ] as const)
+    if (pixels.length !== expectedPixels.length) {
+      findings.push({
+        message: `Preview SVG feature ${feature.id} has ${pixels.length} vertices; the canonical ring has ${expectedPixels.length}.`,
+        detail: `${PREVIEW_NAME}: ${feature.id}`,
+      })
+      continue
     }
-    for (const key of ['minX', 'minY', 'maxX', 'maxY'] as const) {
-      if (Math.abs(measured[key] - expected[key]) > toleranceM) {
+    let broken = false
+    for (let index = 0; index < pixels.length && !broken; index += 1) {
+      const [pixelX, pixelY] = pixels[index]!
+      const [expectedX, expectedY] = expectedPixels[index]!
+      const distance = Math.hypot(pixelX - expectedX, pixelY - expectedY)
+      if (distance > tolerancePx) {
         findings.push({
-          message: `Preview SVG feature ${feature.id} is displaced (${key} off by ${Math.abs(measured[key] - expected[key]).toFixed(3)} m).`,
+          message: `Preview SVG feature ${feature.id} vertex ${index} is displaced by ${(distance / scale).toFixed(3)} m.`,
           detail: `${PREVIEW_NAME}: ${feature.id}`,
         })
-        break
+        broken = true
+      }
+    }
+    for (let index = 0; index < pixels.length && !broken; index += 1) {
+      const current = pixels[index]!
+      const next = pixels[(index + 1) % pixels.length]!
+      if (Math.hypot(current[0] - next[0], current[1] - next[1]) < 1e-9) {
+        findings.push({
+          message: `Preview SVG feature ${feature.id} has a degenerate (duplicated) vertex at ${index}.`,
+          detail: `${PREVIEW_NAME}: ${feature.id}`,
+        })
+        broken = true
       }
     }
   }

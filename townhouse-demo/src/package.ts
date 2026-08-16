@@ -41,7 +41,7 @@ export interface CommunityPackage {
   /**
    * Self-contained one-click preview page (ledger 036) rendered from the same
    * presentation model as the PDF. The generate tool writes it to
-   * `townhouse-demo/preview.html` on every build.
+   * `townhouse-demo/preview.DEMO.html` on every build.
    */
   readonly previewHtml: string
 }

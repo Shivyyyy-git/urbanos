@@ -45,18 +45,22 @@ npm test
 npm run typecheck
 ```
 
-## Status (v0.1, ledger 042)
+## Status (v0.2, ledger 046)
 
 - 18/18 THD gates green from the documented clean setup; all eight §5
   mutations killed and reverted (`collab/townhouse-demo-v0-mutation-log.md`).
-- Ledger 041 blockers repaired: pinned bootstrapped verifier; the EXACT
-  locked stamp round-trips through the DXF (cp1252 + `$DWGCODEPAGE
-  ANSI_1252`, verified via ezdxf strict + recover); `preview.DEMO.html` is a
-  gated artifact (THD-17: currency, self-containment, measured inline-SVG
-  parity, stale/tamper kills); THD-18 actionability type-lock threaded to
-  every output from one computed object; watermark translucent (ExtGState
-  0.34) and moderate with no stamp/legend collisions; report paginates in
-  atomic blocks; PDF metadata is UTF-16BE.
+- Ledger 045 blockers repaired, with Sol's independent bypass mutants baked
+  into THD-17/18 as permanent hostile cases: preview self-containment is an
+  allowlist-level offline gate (any fetch-capable construct fails, relative
+  or remote); preview and cross-artifact parity are vertex-for-vertex ring
+  comparisons (count, order, position, degeneracy — never bounding boxes);
+  the full computed actionability object (status + verbatim reason) is gated
+  on every surface; the watermark sits over the east green polygon crossing
+  no annotation or club/pool geometry; reports fit three balanced pages with
+  no orphaned headings.
+- Earlier repairs standing: pinned bootstrapped verifier; EXACT locked stamp
+  round-trips through the DXF (cp1252 + `$DWGCODEPAGE ANSI_1252`, ezdxf
+  verified); translucent watermark (ExtGState 0.34); UTF-16BE PDF metadata.
 - Slice A: requested 500 / ceiling 400 / placed 140 / shortfall 360.
   Slice B: 500 / 250 / 50 / 450.
 

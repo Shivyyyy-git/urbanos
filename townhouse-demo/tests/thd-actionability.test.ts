@@ -132,4 +132,50 @@ test('THD-18: DEMO actionability is computed, threaded, and locked below yes', (
     assert.ok(result.output.includes(target.filename))
     assert.ok(/sanctionable/i.test(result.output))
   }
+
+  // 7. Sol's 045 §3 bypass: forge only the REASON, leave the status token
+  //    'unknown' untouched, in both the report JSON and the parity manifest.
+  //    The gate verifies the full computed object, so this must be refused
+  //    naming the artifact.
+  {
+    const dir = freshDir('act-reason')
+    assert.equal(runGenerate('a', dir).status, 0)
+    const forgedDir = freshDir('act-reason-copy')
+    for (const name of listArtifacts(dir)) copyFileSync(join(dir, name), join(forgedDir, name))
+    for (const suffix of ['-envelope-report.json', '-parity-manifest.json'] as const) {
+      const target = readArtifact(forgedDir, suffix)
+      writeBytes(
+        forgedDir,
+        target.filename,
+        Buffer.from(
+          target.bytes
+            .toString('utf8')
+            .replace(new RegExp(DEMO_ACTIONABILITY_REASON.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), 'FORGED — fully sanctioned today.'),
+        ),
+      )
+    }
+    const result = runVerify(forgedDir)
+    assert.notEqual(result.status, 0, 'a forged reason with an untouched status must be refused')
+    assert.ok(/reason/i.test(result.output), 'gate names the forged field')
+    assert.ok(result.output.includes('-envelope-report.json'), 'gate names the artifact')
+  }
+
+  // 8. The drawing surfaces carry the FULL verbatim reason, not a shortening
+  //    (045 §3): verified here through the independent parsers, beyond the
+  //    package gate.
+  {
+    const dir = freshDir('act-full-reason')
+    assert.equal(runGenerate('a', dir).status, 0)
+    const normalize = (value: string): string => value.replace(/\s+/g, ' ')
+    const dxfAll = normalize(
+      parseDxf(latin1(readArtifact(dir, '-technical-sheet.dxf').bytes)).texts.map((text) => text.value).join(' '),
+    )
+    assert.ok(dxfAll.includes(normalize(DEMO_ACTIONABILITY_REASON)), 'DXF carries the full reason verbatim')
+    for (const suffix of ['-technical-sheet.pdf', '-presentation-map.pdf', '-envelope-report.pdf'] as const) {
+      const all = normalize(
+        pdfPages(latin1(readArtifact(dir, suffix).bytes)).flatMap((content) => pageTextStrings(content)).join(' '),
+      )
+      assert.ok(all.includes(normalize(DEMO_ACTIONABILITY_REASON)), `${suffix} carries the full reason verbatim`)
+    }
+  }
 })
