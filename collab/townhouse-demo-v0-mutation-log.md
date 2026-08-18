@@ -5,6 +5,38 @@
 data/tooling, never tests), full `npm test` run recorded, mutation reverted,
 green rerun recorded. Behavioural evidence, not code screenshots.
 
+## v0.4 run — 2026-08-16, the final verifier-only repair (050 blockers)
+
+Sol froze four browser-rendered forgeries as cases 12–15 in the Sol-owned
+test file before this pass; the shipped v0.3 verifier truthfully returned
+**17/18** with THD-17 naming all four in one failure (red-before, recorded in
+050 and reproduced by Fable before any edit). After the root repair the full
+contract returns **18/18** (green-after). Root repairs, matching 050's
+boundary exactly — no rule value, geometry fact, artifact, schema, or stamp
+changed:
+
+1. **Complete browser token surface.** The attribute scanner now tokenises
+   quoted (double/single), unquoted, and boolean attributes — an unquoted
+   `transform=translate(40,0)` is judged exactly like a quoted one and fails
+   naming the feature (case 12).
+2. **Expected generated tree, not tag vocabulary.** Every rendered SVG node
+   must fill a known generated role with known multiplicity: every
+   polygon/polyline bound by `data-id` to a canonical feature (painted in its
+   class palette) or to the exact annotation set {north-arrow, scalebar-0,
+   scalebar-1}; texts to the exact eight labels; exactly one anonymous text
+   and it must be the DEMO watermark. An anonymous white polygon made only of
+   allowed tags fails by existing (case 13).
+3. **Semantic CSS.** The stylesheet is judged by a POSITIVE property
+   allowlist (the generator's exact property set) with numeric value
+   judgement (display value set; font-size ≥ 6px); `opacity:0.0` fails
+   because `opacity` is not a generated property under any spelling
+   (case 14).
+4. **Claim exclusivity.** The rendered text of the preview, every PDF, and
+   the DXF must contain EXACTLY one "sanctionable today:" claim, it must
+   read `unknown`, and any visible yes/no promotion or "sanctioned" wording
+   fails — a surviving truthful node no longer excuses an added lie
+   (case 15).
+
 ## v0.3 run — 2026-08-16, rendered-semantics hardening (047 blockers)
 
 Sol froze three rendered-semantics hostile cases into the Sol-owned

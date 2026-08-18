@@ -5,6 +5,8 @@
 
 import { DEMO_STAMP } from './rulebook.ts'
 import { DEMO_ACTIONABILITY_REASON } from './resolve.ts'
+import { DEMO_LAYERS, LAYER_BY_CLASS, type DemoLayer } from './drawing.ts'
+import type { FeatureClass } from './layout.ts'
 import { encodeWinAnsi } from './pdf.ts'
 
 /** Collapse whitespace so wrapped text can be compared to the trusted object. */
@@ -134,6 +136,7 @@ function checkPdf(file: NamedBytes, findings: VerifyFinding[]): void {
       detail: `${file.filename}: actionability reason`,
     })
   }
+  checkClaimExclusivity(allText, file.filename, findings)
 }
 
 function checkDxf(file: NamedBytes, findings: VerifyFinding[]): void {
@@ -173,6 +176,7 @@ function checkDxf(file: NamedBytes, findings: VerifyFinding[]): void {
       detail: `${file.filename}: actionability reason`,
     })
   }
+  checkClaimExclusivity(allText, file.filename, findings)
 }
 
 function checkJson(file: NamedBytes, findings: VerifyFinding[]): void {
@@ -230,6 +234,11 @@ interface PreviewReference {
   readonly facts: readonly { readonly id: string; readonly value: number }[]
   readonly features: readonly {
     readonly id: string
+    readonly featureClass: FeatureClass
+    readonly ring: readonly (readonly [number, number])[]
+  }[]
+  readonly decor: readonly {
+    readonly id: string
     readonly ring: readonly (readonly [number, number])[]
   }[]
 }
@@ -245,11 +254,12 @@ function packageReference(files: readonly NamedBytes[]): PreviewReference | null
       geometryDigest: string
       slice: string
       features: PreviewReference['features']
+      decor?: PreviewReference['decor']
     }
     const report = JSON.parse(new TextDecoder().decode(reportFile.bytes)) as {
       facts: PreviewReference['facts']
     }
-    return { ...manifest, facts: report.facts }
+    return { ...manifest, decor: manifest.decor ?? [], facts: report.facts }
   } catch {
     return null
   }
@@ -332,6 +342,23 @@ const SWATCH_STYLE = /^background:#[0-9a-f]{6};border-color:#[0-9a-f]{6}$/i
 const HIDING_CSS =
   /display\s*:\s*none|visibility\s*:\s*hidden|opacity\s*:\s*0(?![.\d])|font-size\s*:\s*0(?![.\d])|clip-path|(?<![-\w])clip\s*:|(?<![-\w])content\s*:|transform\s*:|position\s*:\s*(absolute|fixed)|text-indent\s*:\s*-|filter\s*:|(?<![-\w])mask/i
 
+/**
+ * Tokenise a tag's attribute chunk the way a BROWSER does (050 §1): quoted
+ * (double or single), unquoted, and boolean (bare-name) attributes all become
+ * tokens. A construct the browser consumes is a construct the gate judges.
+ */
+function tokenizeAttributes(chunk: string): [string, string][] {
+  const attributes: [string, string][] = []
+  const tokenPattern = /([^\s"'=\/>]+)(?:\s*=\s*("([^"]*)"|'([^']*)'|([^\s>]*)))?/g
+  let token: RegExpExecArray | null
+  while ((token = tokenPattern.exec(chunk)) !== null) {
+    const name = token[1]!.toLowerCase()
+    if (name === '/' || name.length === 0) continue
+    attributes.push([name, token[3] ?? token[4] ?? token[5] ?? ''])
+  }
+  return attributes
+}
+
 function checkElementAllowlist(visibleHtml: string, findings: VerifyFinding[]): void {
   const tagPattern = /<([a-zA-Z][\w-]*)((?:"[^"]*"|'[^']*'|[^"'>])*)>/g
   let tagMatch: RegExpExecArray | null
@@ -345,12 +372,7 @@ function checkElementAllowlist(visibleHtml: string, findings: VerifyFinding[]): 
       })
       continue
     }
-    const attributePattern = /([\w:-]+)\s*=\s*("([^"]*)"|'([^']*)')/g
-    const attributes: [string, string][] = []
-    let attributeMatch: RegExpExecArray | null
-    while ((attributeMatch = attributePattern.exec(tagMatch[2] ?? '')) !== null) {
-      attributes.push([attributeMatch[1]!.toLowerCase(), attributeMatch[3] ?? attributeMatch[4] ?? ''])
-    }
+    const attributes = tokenizeAttributes(tagMatch[2] ?? '')
     const dataId = attributes.find(([name]) => name === 'data-id')?.[1]
     const where = dataId ? `${PREVIEW_NAME}: ${dataId}` : PREVIEW_NAME
     for (const [attribute, value] of attributes) {
@@ -371,6 +393,227 @@ function checkElementAllowlist(visibleHtml: string, findings: VerifyFinding[]): 
         })
       }
     }
+  }
+}
+
+function svgHex(rgb: readonly [number, number, number]): string {
+  return `#${rgb.map((channel) => Math.round(channel * 255).toString(16).padStart(2, '0')).join('')}`
+}
+
+function layerFor(name: DemoLayer) {
+  return DEMO_LAYERS.find((candidate) => candidate.name === name)!
+}
+
+/** The exact annotation vocabulary the generator emits into the preview SVG. */
+const EXPECTED_ANNO_PATH_IDS = ['anno.north-arrow', 'anno.scalebar-0', 'anno.scalebar-1'] as const
+const EXPECTED_TEXT_IDS = [
+  'anno.north-label', 'anno.label-club', 'anno.label-pool', 'anno.label-green-west',
+  'anno.label-gate', 'anno.scalebar-t0', 'anno.scalebar-t50', 'anno.scalebar-t100',
+] as const
+
+/**
+ * Expected-tree validation (050 §2): allowed vocabulary is not an allowed
+ * tree. Every rendered SVG node must fill a known generated role with known
+ * multiplicity — every path bound to a canonical feature or a named
+ * annotation, exactly one anonymous DEMO watermark text, and planning
+ * features painted in their class palette. An extra node made only of
+ * allowed tags fails by existing.
+ */
+function checkSvgTree(
+  html: string,
+  reference: PreviewReference,
+  findings: VerifyFinding[],
+): void {
+  const pathIds: string[] = []
+  const pathTag = /<(polygon|polyline)((?:"[^"]*"|'[^']*'|[^"'>])*)>/g
+  let tag: RegExpExecArray | null
+  while ((tag = pathTag.exec(html)) !== null) {
+    const attributes = new Map(tokenizeAttributes(tag[2] ?? ''))
+    const dataId = attributes.get('data-id')
+    if (dataId === undefined) {
+      findings.push({
+        message: `Preview SVG contains an anonymous rendered <${tag[1]}> bound to no canonical feature or annotation — an unbound node can overlay the plan.`,
+        detail: `${PREVIEW_NAME}: anonymous <${tag[1]}> render node`,
+      })
+      continue
+    }
+    pathIds.push(dataId)
+    if (dataId.startsWith('f.')) {
+      const feature = reference.features.find((candidate) => `f.${candidate.id}` === dataId)
+      if (!feature) continue // reported as an extra feature elsewhere
+      const style = layerFor(LAYER_BY_CLASS[feature.featureClass])
+      const expectedFill = style.fill ? svgHex(style.fill) : 'none'
+      const expectedStroke = svgHex(style.stroke)
+      if (attributes.get('fill') !== expectedFill || attributes.get('stroke') !== expectedStroke) {
+        findings.push({
+          message: `Preview SVG feature ${dataId} is painted outside its class palette (fill=${attributes.get('fill')}, stroke=${attributes.get('stroke')}).`,
+          detail: `${PREVIEW_NAME}: ${feature.id} palette`,
+        })
+      }
+    } else if (dataId.startsWith('deco.')) {
+      if (!reference.decor.some((tree) => `deco.${tree.id}` === dataId)) {
+        findings.push({
+          message: `Preview SVG decor "${dataId}" is not listed in this package's manifest.`,
+          detail: `${PREVIEW_NAME}: ${dataId}`,
+        })
+      }
+    } else if (!(EXPECTED_ANNO_PATH_IDS as readonly string[]).includes(dataId)) {
+      findings.push({
+        message: `Preview SVG path "${dataId}" is outside the generated annotation vocabulary.`,
+        detail: `${PREVIEW_NAME}: ${dataId}`,
+      })
+    }
+  }
+  // Decor multiplicity: every manifest tree exactly once (checked below with
+  // the shared multiplicity pass via pathIds).
+  for (const tree of reference.decor) {
+    if (!pathIds.includes(`deco.${tree.id}`)) {
+      findings.push({
+        message: `Preview SVG lacks manifest decor "deco.${tree.id}".`,
+        detail: `${PREVIEW_NAME}: deco.${tree.id}`,
+      })
+    }
+  }
+  // Multiplicity: no duplicate path roles; every expected annotation exactly once.
+  const seen = new Set<string>()
+  for (const id of pathIds) {
+    if (seen.has(id)) {
+      findings.push({
+        message: `Preview SVG path role "${id}" appears more than once.`,
+        detail: `${PREVIEW_NAME}: ${id} multiplicity`,
+      })
+    }
+    seen.add(id)
+  }
+  for (const id of EXPECTED_ANNO_PATH_IDS) {
+    if (!seen.has(id)) {
+      findings.push({ message: `Preview SVG lacks generated annotation "${id}".`, detail: `${PREVIEW_NAME}: ${id}` })
+    }
+  }
+  // Texts: the eight named labels exactly once each, plus exactly one
+  // anonymous text whose rendered content is the DEMO watermark.
+  const textIds: string[] = []
+  let anonymousTexts = 0
+  const textTag = /<text((?:"[^"]*"|'[^']*'|[^"'>])*)>([^<]*)<\/text>/g
+  while ((tag = textTag.exec(html)) !== null) {
+    const attributes = new Map(tokenizeAttributes(tag[1] ?? ''))
+    const dataId = attributes.get('data-id')
+    if (dataId === undefined) {
+      anonymousTexts += 1
+      if (tag[2]!.trim() !== 'DEMO') {
+        findings.push({
+          message: `Preview SVG contains an anonymous text node "${tag[2]!.slice(0, 40)}" that is not the DEMO watermark.`,
+          detail: `${PREVIEW_NAME}: anonymous <text> render node`,
+        })
+      }
+      continue
+    }
+    textIds.push(dataId)
+    if (!(EXPECTED_TEXT_IDS as readonly string[]).includes(dataId)) {
+      findings.push({
+        message: `Preview SVG text "${dataId}" is outside the generated label vocabulary.`,
+        detail: `${PREVIEW_NAME}: ${dataId}`,
+      })
+    }
+  }
+  if (anonymousTexts !== 1) {
+    findings.push({
+      message: `Preview SVG must contain exactly one anonymous DEMO watermark text; found ${anonymousTexts}.`,
+      detail: `${PREVIEW_NAME}: watermark multiplicity`,
+    })
+  }
+  const textSeen = new Set<string>()
+  for (const id of textIds) {
+    if (textSeen.has(id)) {
+      findings.push({ message: `Preview SVG text role "${id}" appears more than once.`, detail: `${PREVIEW_NAME}: ${id} multiplicity` })
+    }
+    textSeen.add(id)
+  }
+  for (const id of EXPECTED_TEXT_IDS) {
+    if (!textSeen.has(id)) {
+      findings.push({ message: `Preview SVG lacks generated label "${id}".`, detail: `${PREVIEW_NAME}: ${id}` })
+    }
+  }
+}
+
+/**
+ * Semantic stylesheet gate (050 §3): a POSITIVE property allowlist — the
+ * exact properties the generator emits — with numeric value judgement where
+ * a value can hide content. `opacity:0.0` fails because `opacity` is not a
+ * generated property at all; spellings are never consulted.
+ */
+const CSS_PROPERTY_ALLOWLIST = new Set([
+  'background', 'box-shadow', 'margin', 'margin-top', 'margin-bottom', 'padding', 'padding-top',
+  'font-family', 'font-size', 'color', 'display', 'justify-content', 'letter-spacing', 'border',
+  'border-top', 'border-color', 'font-weight', 'width', 'max-width', 'height', 'gap',
+  'align-items', 'flex', 'word-break', 'font-style',
+])
+const CSS_DISPLAY_VALUES = new Set(['flex', 'inline-block', 'block'])
+
+function checkStylesheetSemantics(css: string, findings: VerifyFinding[]): void {
+  const cleaned = decodeCssEscapes(css).replace(/\/\*[\s\S]*?\*\//g, '')
+  for (const block of cleaned.split('}')) {
+    const body = block.includes('{') ? block.slice(block.indexOf('{') + 1) : ''
+    for (const declaration of body.split(';')) {
+      const colon = declaration.indexOf(':')
+      if (colon < 0) continue
+      const property = declaration.slice(0, colon).trim().toLowerCase()
+      const value = declaration.slice(colon + 1).trim().toLowerCase()
+      if (property.length === 0) continue
+      if (!CSS_PROPERTY_ALLOWLIST.has(property)) {
+        findings.push({
+          message: `Preview stylesheet uses property "${property}", outside the generated property allowlist — visibility (opacity/display/clip/transform/…) may not be altered by any spelling.`,
+          detail: `${PREVIEW_NAME}: stylesheet property "${property}" visibility construct`,
+        })
+        continue
+      }
+      if (property === 'display' && !CSS_DISPLAY_VALUES.has(value)) {
+        findings.push({
+          message: `Preview stylesheet computes display:${value}, which can hide rendered content.`,
+          detail: `${PREVIEW_NAME}: stylesheet display visibility construct`,
+        })
+      }
+      if (property === 'font-size') {
+        const pixels = /^(\d+(?:\.\d+)?)px$/.exec(value)
+        if (!pixels || Number(pixels[1]) < 6) {
+          findings.push({
+            message: `Preview stylesheet computes font-size ${value}; below-legibility or non-pixel sizes are refused.`,
+            detail: `${PREVIEW_NAME}: stylesheet font-size visibility construct`,
+          })
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Actionability exclusivity (050 §4): the computed truthful claim must be the
+ * ONLY visible sanctionability claim. A second visible "yes"/"no" promotion
+ * fails even though the truthful node survives beside it.
+ */
+function checkClaimExclusivity(
+  visibleText: string,
+  surface: string,
+  findings: VerifyFinding[],
+): void {
+  const claims = visibleText.match(/sanctionable\s+today\s*:/gi) ?? []
+  if (claims.length !== 1) {
+    findings.push({
+      message: `Surface shows ${claims.length} visible "sanctionable today:" claims; the computed claim must be exclusive (exactly one).`,
+      detail: `${surface}: sanctionable-today claim exclusivity`,
+    })
+  }
+  if (/sanctionable[\s-]*today\s*:?\s*(yes|no)\b/i.test(visibleText)) {
+    findings.push({
+      message: 'Surface visibly promotes sanctionable-today beyond "unknown" — a DEMO output can never claim yes or no.',
+      detail: `${surface}: visible sanctionable-today promotion`,
+    })
+  }
+  if (/\bsanctioned\b/i.test(visibleText)) {
+    findings.push({
+      message: 'Surface visibly claims a sanctioned status; no such claim is computable for a DEMO slice.',
+      detail: `${surface}: visible sanction claim`,
+    })
   }
 }
 
@@ -416,13 +659,18 @@ export function verifyDemoPreview(
       break
     }
   }
-  // Positive element/attribute allowlist (kills transform/style/visibility
-  // constructs on rendered features).
+  // Positive element/attribute allowlist over the COMPLETE browser token
+  // surface (kills transform/style/visibility constructs on rendered
+  // features, quoted or not).
   checkElementAllowlist(html, findings)
-  // Stylesheet content may not hide, displace, or synthesise rendered text.
+  // Expected generated tree: roles, multiplicity, and class palette — an
+  // extra node made only of allowed tags fails by existing.
+  checkSvgTree(html, reference, findings)
+  // Stylesheet judged semantically: positive property allowlist + numeric
+  // value judgement, plus the legacy hiding-construct scan as a belt.
   for (const styleMatch of html.matchAll(/<style>([\s\S]*?)<\/style>/gi)) {
-    const css = decodeCssEscapes(styleMatch[1]!)
-    const hiding = HIDING_CSS.exec(css)
+    checkStylesheetSemantics(styleMatch[1]!, findings)
+    const hiding = HIDING_CSS.exec(decodeCssEscapes(styleMatch[1]!))
     if (hiding) {
       findings.push({
         message: `Preview stylesheet contains a hiding/displacing construct "${hiding[0]}".`,
@@ -430,6 +678,13 @@ export function verifyDemoPreview(
       })
     }
   }
+  // The computed actionability claim must be exclusive in the rendered text.
+  const visibleText = normalizeText(
+    decodeHtmlEntities(
+      html.replace(/<style>[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' '),
+    ),
+  )
+  checkClaimExclusivity(visibleText, PREVIEW_NAME, findings)
   if (!html.includes(DEMO_STAMP)) {
     findings.push({ message: 'Preview lacks the exact locked stamp.', detail: `${PREVIEW_NAME}: stamp` })
   }

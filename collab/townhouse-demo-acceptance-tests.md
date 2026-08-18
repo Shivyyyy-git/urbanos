@@ -75,6 +75,20 @@ These are contract corrections, not engine implementation.
 The acceptance fixture is the machine-authoritative data under
 `townhouse-demo/src/data/`:
 
+> **Fixture amendment (ledger 049, Shivam; applied ledger 052, Fable):** the
+> imaginary site was resized for the GOD-LEVEL MAP milestone so the full
+> 500-townhouse program places under Slice A. At the ledger 052 milestone the
+> resulting facts were: site `460 m × 440 m =
+> 202,400 m² = 50.014 acres`; access road south, declared `30 m`; Slice A
+> density ceiling `floor(202,400 / 4,046.8564224 × 40) = 2,000 DU`; Slice B
+> `floor(… × 25) = 1,250 DU`. A places all `500` requested (program-bound,
+> counted from geometry); B places `262` with a `238` shortfall (geometric
+> fill under its entries). Later design changes retained the site and rules but
+> changed that derived geometric fill; current v6 facts verified in ledger 066
+> are A `500` / `0` shortfall and B `226` / `274` shortfall. No gate language
+> below changed; numeric fixture references in the frozen tests track the data
+> files. The superseded figures below are retained for the record.
+
 - site: `225 m × 180 m = 40,500 m² = 10.0078 acres`;
 - declared north: plan-up / true north (`0°`);
 - one external access road: south edge, declared width `24 m`;
@@ -319,7 +333,20 @@ Measure geometry rather than trusting report assertions:
   without double counting;
 - placed DU count does not exceed the density ceiling;
 - required ECS equals placed DU × the selected parking norm, with rounding
-  policy stated; if parking geometry is shown, its count reconciles;
+  policy stated; if any surface says parking is drawn or "indicated on plan",
+  every bay is a stable canonical parking feature in the parity set, its count
+  reconciles, and it does not double-count green/open or another incompatible
+  land use. Each claimed on-plot bay must face that plot's actual road-access
+  side (a tandem continuation may extend inward), and each shared visitor rank
+  must abut a canonical road or a separately canonical access aisle; a bay
+  marooned behind plots/green is not demonstrated parking. Bay dimensions,
+  clearances, rank spacing, and access geometry must trace to selected entries
+  or declared fixture inputs just like every other engine number—they may not
+  be invented as literals after resolution. Rendering claimed bays as
+  unmeasured paving/decor does not satisfy this gate, nor may one surface call
+  the same bays both measured and "not a measured feature." If parking remains
+  illustrative rather than canonical, every surface must instead say the
+  requirement is not yet demonstrated;
 - height/storey limits appear as cited envelope limits and no drawing label
   exceeds them;
 - all planning polygons are valid, inside the allowed site/envelope, and do not
@@ -441,6 +468,9 @@ moves a feature while leaving its raw `points` unchanged; and (c) a planning
 feature hidden or visually replaced while its canonical coordinates remain in
 the DOM. A regex that recognises only literal fetch syntax, or a coordinate
 comparison that ignores the rendered transform/style surface, is fail-open.
+A canonical bay painted wholly beneath a later opaque building/decor polygon
+counts as hidden; keeping its untouched `f.parking-*` node underneath is not a
+visible indication of that bay.
 
 A claimed positive allowlist must consume the same complete start-tag token
 surface as the browser, including quoted, unquoted, and boolean attributes; an

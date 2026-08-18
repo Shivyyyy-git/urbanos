@@ -54,6 +54,1113 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 070 — Sol (coordination no-op) — 2026-08-17
+
+**NO ACTION: nothing has changed since 069. The latest ledger state still
+assigns the ball to Shivam, and no commit/use/next-milestone decision or new
+Fable artifact has been recorded. Repeating “your turn” does not create a
+verifier task under the single-ball protocol. No product, test, output, or
+acceptance artifact was touched.**
+
+**BALL: Shivam** — choose a decision named in 068, or record a concrete new
+gate and transfer the ball to Sol.
+
+### 069 — Sol (coordination no-op) — 2026-08-17
+
+**NO ACTION: the newest valid entry, 068, explicitly keeps the ball with
+Shivam. The townhouse-demo build loop is closed and accepted; the remaining
+questions — whether to commit, resend, present, or open a next milestone — are
+human decisions, not a new Fable delivery for Sol to gate. A generic nudge does
+not select one of those decisions or transfer a concrete verifier scope.
+Starting another review or changing the accepted tree now would violate the
+single-ball rule. No product, test, output, or acceptance artifact was touched
+in this turn.**
+
+**BALL: Shivam** — unchanged from 066–068. Choose the checkpoint/use/next-
+milestone decision; assign Sol only when there is a concrete new gate.
+
+### 068 — Fable (townhouse demo) — 2026-08-17
+
+**Acceptance received and independently re-confirmed on the shipped tree.
+Closing the demo build loop; the ball stays with Shivam — I am not starting
+new work.** 067's correction to the fixture-amendment paragraph is noted and
+consistent with what the artifacts say.
+
+Re-verified here, on the exact files in the working tree:
+
+- `npm test` **18/18**; both packages pass the post-write gate, A also with
+  `--with-preview`.
+- The refusal line reads, verbatim, in both technical DXFs:
+  `PARKING 1000 ECS REQUIRED AT 2/HOME [DEMO-A-PARKING-ECS-PER-DU] — PARKING
+  STRATEGY NOT YET DEMONSTRATED` (B: `339 ECS AT 1.5/HOME
+  [DEMO-B-PARKING-ECS-PER-DU]`). The rate, the total and the entry id all move
+  with the slice; the refusal does not.
+
+**One state fact Shivam needs:** everything from v0.4 through v6 is
+**uncommitted** — 35 changed paths, the last commit being `0e2edb7` (ledger
+051). That covers the engine, both packages, the preview, the acceptance
+contract, the mutation log and ledger entries 052–068. Nothing is lost, but
+nothing is checkpointed either.
+
+**Decisions that are Shivam's, not mine:**
+
+1. **Commit?** I would commit now, as one labelled checkpoint — the demo is
+   accepted and the tree is large and easy to disturb. I have not committed;
+   say the word and I will.
+2. **Send it to Mannu?** 059's briefing already went out with the A→B swap as
+   the lead proof. The v6 sheets are a strict improvement on what that
+   document describes, so re-sending is optional, not corrective.
+3. **Present it — with one constraint.** Per 066: the demo is proof of *the
+   cited engine and its refusal boundary*. The line that survives a VC is
+   "UrbanOS computed the parking requirement from the active rule and refused
+   to invent a parking design, because this demo rulebook has no sourced bay
+   or aisle standard." The line that reopens the gate is any version of "this
+   plan accommodates parking." Same discipline as never-say-approved.
+4. **Next milestone?** Not started, deliberately. The obvious candidates are
+   (a) a real parking standard sourced from Mannu, promoted through the
+   rulebook, which turns route (i) on with no argument; (b) Stage 1 build-order
+   step A (the rulebook store) once D1 lands; (c) further beauty work on the
+   sheet. That ordering is a goal-chat call.
+
+**BALL: Shivam** — unchanged from 066/067.
+
+### 067 — Sol (acceptance-record correction) — 2026-08-17
+
+**066's PASS stands.** In the final consistency sweep I found one stale label
+in Sol-owned `collab/townhouse-demo-acceptance-tests.md`: the ledger-052
+fixture-amendment note still called B's then-current 262 placed / 238 shortfall
+the “current facts,” although the unchanged site/rules plus later layout design
+now produce the verified v6 result of 226 / 274. I corrected that paragraph to
+preserve the 052 history and name the 066 current result. This is a
+documentation-only correction; no test behavior, fixture data, engine code,
+or shipped artifact changed.
+
+**BALL: Shivam** — unchanged from 066: v6 is accepted as the bounded demo;
+decide whether to commit/use/send it.
+
+### 066 — Sol (townhouse demo v6 final client/design gate) — 2026-08-17
+
+**VERDICT: PASS GOD-LEVEL MAP v6 as the bounded townhouse-demo deliverable.
+All four 064 blockers are closed. Route (ii) is the correct guardrail outcome:
+the package computes and cites the parking requirement, emits no parking
+layout without sourced bay/access standards, and says plainly that the
+strategy is not yet demonstrated. This passes the demo contract; it is not a
+claim that the reference layout solves parking or complies in Gurgaon.**
+
+**Independent acceptance evidence:**
+
+1. From a clean temporary copy without `node_modules` or `.venv`, `npm
+   install` passed; the first `npm test` bootstrapped pinned `ezdxf==1.4.4`
+   and returned **18/18**, the immediate repeat returned **18/18**, and strict
+   typecheck passed. No fixture, test, or acceptance term was weakened.
+2. Fresh `A -> B -> A` generation passed every post-write gate. A geometry is
+   `cec6dc5377c348c3...`, B is `64f4db4362069f4c...`; the two A directories
+   are byte-identical, fresh A/B are byte-identical to the shipped packages,
+   and the final fresh preview is byte-identical to the shipped preview. The
+   swap remains material: A places 500 at the 2,000-DU ceiling; B places 226
+   at the 1,250-DU ceiling.
+3. Independent strict and recover parses of both DXFs return AC1009, metres,
+   zero errors and zero fixes. A has 2,642 entities, B 1,397. Both DXFs contain
+   **zero `PARKING` entities**; both manifests contain zero parking features
+   and no parking feature class. Required parking remains a traced derived
+   fact — A 1,000 ECS at 2/home; B 339 ECS at 1.5/home — with the refusal note
+   on both reports. No hidden, unreachable, or decor-covered parking geometry
+   survives, so 064's topology and visibility claims are withdrawn rather
+   than cosmetically repaired.
+4. The current preview was loaded in a real browser at exactly **1280 x 720**.
+   `scrollWidth = clientWidth = 1280`; no element crosses either horizontal
+   edge; the aside is 285 px wide with `scrollWidth = clientWidth = 285`; and
+   the six hero metrics remain on three distinct rows at y = 152.5 / 194.5 /
+   247.5, with the last cell ending at x = 1,224. Visible copy says “parking
+   strategy not yet demonstrated”; there is no parking legend or parking
+   feature node, and none of the superseded “indicated on plan,” “not a
+   measured feature,” 2.5 m, or 4.8 m claims remains.
+5. All **10** shipped PDF pages were freshly rendered and inspected: A/B
+   presentation maps and technical sheets are one page each; both reports are
+   three pages. There is no clipping, collision, orphaned notes page, hidden
+   bay claim, or parking contradiction. Both presentation insets visibly say
+   `NO ON-PLOT BAY DRAWN`; technical title blocks state the cited requirement
+   and refusal; the restrained map hierarchy, arrival, central green, club,
+   pool, roads, legend, stamps, and DEMO status remain presentation-ready.
+
+**VC red-team:** the question that still bites is, *“Show me where the 1,000
+cars go.”* The defensible answer is now on the artifact before it is asked:
+UrbanOS has computed the requirement from the active entry, but this demo
+rulebook contains no sourced bay, aisle, or access dimensions, so the engine
+refuses to fabricate a parking design. The demo survives only if presented as
+proof of the cited engine and its refusal boundary. Saying that this plan
+“accommodates parking” would exceed the evidence and reopen the gate.
+
+No further demo repair is required under the frozen brief. A future parking
+layout is a new build input: source a parking standard with bay and access
+dimensions, promote those values through the rulebook, then rerun the same
+engine and acceptance surface.
+
+**BALL: Shivam** — v6 is accepted as the bounded demo. Decide whether to
+commit/use/send it; any request for a demonstrated parking solution requires
+the sourced-standard path above. Goal-chat and Mannu queues unchanged.
+
+### 065 — Fable (townhouse demo) — 2026-08-17
+
+**GOD-LEVEL MAP v6: I have taken your route (ii). The demo no longer draws a
+parking layout; it states the requirement, cites the entry behind it, and says
+plainly that the strategy is not yet demonstrated. 18/18 green, including the
+three checks you froze before this pass.**
+
+**Why route (ii) and not (i).** Route (i) asked me to source every bay and
+access dimension from an entry or declared fixture. There is no such entry.
+Bay width, bay length, aisle width and access clearance are real planning
+standards — and inventing four more illustrative numbers to make a picture
+pass a test is precisely the fake precision this project exists to refuse
+(`TownhouseDemoBrief.md` §3.2, and your own point 3: promoting decor to
+measured geometry promotes its numbers into the provenance contract). Your
+064 findings were the evidence, not the cause: 66 bays facing away from their
+lane, 103 unreachable visitor bays and 594 invisible ones were all symptoms of
+depicting a design we had not done. The requirement itself **is** cited and
+true — `placed DU x the active slice's ECS rate` — so that is exactly what the
+package now says, and no more.
+
+- **(1) P0 access topology — resolved by withdrawal.** No canonical parking
+  geometry is emitted, so there are no unreachable rectangles to defend. The
+  `parking` feature class stays defined, unused, for the day a real parking
+  standard arrives as a rulebook entry; the code says so at the point of
+  refusal.
+- **(2) P0 hidden bays — resolved.** Nothing is claimed as indicated, so
+  nothing can be hidden under decor. Your executable occlusion case passes on
+  an empty set, and the client surfaces no longer promise a proof they bury.
+- **(3) P0 contradiction and provenance — resolved.** Both sheets now carry a
+  single line: `PARKING <N> ECS REQUIRED AT <rate>/HOME [<entry id>] —
+  PARKING STRATEGY NOT YET DEMONSTRATED`. The "(ILLUSTRATIVE, NOT A MEASURED
+  FEATURE)" qualifier is gone, so no line calls the same geometry measured and
+  unmeasured. Every invented dimension (2.5, 4.8, 0.5/0.15, 0.3/0.6) is
+  deleted from `layout.ts` and `drawing.ts`. The typical-plot inset now shows
+  the plot and house at their **cited** dimensions and states the requirement
+  plus the refusal; the poster hero reads `PARKING REQUIRED (2/HOME) ·
+  1000 ECS`.
+- **(4) P1 B pagination — resolved.** Both reports are back to **three** pages
+  (A 56/60/60 lines, B 56/62/60); the eleven-page package is ten again. The
+  shorter narration no longer displaces the notes block.
+
+**Browser-verified again at exactly 1280 x 720** (not computed): overflow
+`0 px`, aside `scrollWidth = clientWidth = 285`, the six hero stats on three
+distinct rows (y = 153 / 195 / 248), last cell `HEIGHT · 12 m · G+2` ending at
+x = 1,224. Preview text contains "not yet demonstrated" and never "indicated
+on plan"; the inset renders zero bays.
+
+**Preserved, as instructed:** the passing viewport, green ownership (no carve
+needed now — B's green returns to its uncarved measured value), parity and
+determinism, public-realm restraint from v5, rule values, fixture, stamps,
+A = 500/2,000/500/0 and B = 500/1,250/226/274.
+
+**What this costs and what it buys.** The sheet no longer shows cars. It does
+show a cited requirement and an honest boundary — which is the product's whole
+claim, demonstrated rather than asserted. When Mannu's parking standard lands
+as a rulebook entry with bay and aisle dimensions, route (i) becomes available
+without argument: the class, the layer and the gate are already in place, and
+the demo will draw what an entry actually supports. If you or Shivam would
+rather have pictures of cars before that entry exists, that is a product call
+and belongs in the goal chat, not in my hands.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** — GOD-LEVEL MAP v6 client gate. Goal-chat and Mannu queues
+unchanged.
+
+### 064 — Sol (townhouse demo v5 client/design gate) — 2026-08-17
+
+**VERDICT: REJECT GOD-LEVEL MAP v5. The canonical parking count and green-land
+double-count from 062 are repaired, the exact browser overflow gate now passes,
+and the restrained public-realm treatment is materially better. But the new
+canonical rectangles still do not prove a usable or even visible parking
+layout: Slice B maroons 169 claimed allocations, Slice A hides 594 canonical
+bays under later opaque decor, both technical sheets contradict themselves,
+and the measured bay dimensions are unsourced engine literals. No conditional
+client pass.**
+
+**Independent evidence that passes:**
+
+1. From a clean temporary copy without `node_modules` or `.venv`, `npm install`
+   passed; the pinned `ezdxf==1.4.4` verifier bootstrapped; Fable's delivered
+   harness returned **18/18**, the immediate repeat returned **18/18**, and
+   typecheck passed. Fresh `A -> B -> A` generation passed every delivered
+   post-write gate: A geometry `7c2a9adc874baa51...`, B
+   `33aedb153b498e4f...`; the two A runs are byte-identical, and fresh A/B plus
+   the final A preview are byte-identical to the shipped files.
+2. Independent strict and recover parses of both DXFs return AC1009, metres,
+   zero errors and zero fixes. A has 3,642 entities and B 1,694. The promoted
+   `PARKING` class is genuinely present and parity-carried: A has 1,000 bays;
+   B has 339 = 226 on-plot + 113 visitor. B's green is now **72,835.98 sqm**,
+   exactly equal to its canonical green sum, with no parking/green overlap.
+3. The 062 browser blocker is closed. In a fresh real browser at exactly
+   **1280 x 720**, `scrollWidth = clientWidth = 1280`, no element crosses the
+   viewport, the aside is 285 px, the three stat rows begin at y = 152.5 /
+   194.5 / 236.5, and the last cell ends at x = 1,224. The full page and the
+   frozen target were visually inspected.
+4. All **11** fresh output PDF pages and the Privy AT4 reference page were
+   rendered and inspected. The presentation maps are cleaner: the giant
+   corner pads are gone, the arrival treatment is restrained, the promenade
+   connects, and the enlarged club/pool heart reads more coherently. This
+   substantially closes 062's public-realm styling item; it does not cure the
+   parking proof below.
+
+**Blocking findings, ranked:**
+
+1. **P0 — counted parking has no credible car-access topology.** Independent
+   measurement, without a guessed clearance tolerance, finds **66 of B's 226
+   on-plot bays on the opposite half of their plot from the nearest frontage
+   road**. The cause is visible in the engine: every portrait bay starts from
+   `p.y + 0.5` and every landscape bay from `p.x + 0.5`, regardless of which
+   end faces the road. Of the **113 visitor bays, only 10 touch a canonical
+   road; 103 touch neither a road nor any canonical access aisle** (maximum
+   road gap 12.9 m). Rectangles carved out of green without a route for a car
+   are not demonstrated parking.
+
+   Sol has frozen that pre-code truth in THD-12. On-plot parking must face the
+   actual road-access end (tandem bays may extend inward); a visitor rank must
+   abut a canonical road or separately canonical access aisle. The check is
+   relational/topological, not a new invented planning dimension.
+2. **P0 — the client surface hides the canonical proof it claims to show.** In
+   the shipped A preview, **594 of 1,000 `f.parking-*` polygons are wholly
+   covered by later opaque decor; 500 are wholly inside the later opaque
+   building masses**. Browser `elementFromPoint` at `f.parking-0001` returns
+   `deco.building-0001`, not the parking feature. The page therefore retains
+   perfect hidden coordinates while a human cannot see the bays. That is the
+   exact fail-open class already prohibited by THD-17's rendered-semantics
+   clause. Sol made the baseline occlusion case executable before v6.
+3. **P0 — the parking claim is internally contradictory and its dimensions
+   violate the brief's provenance boundary.** Both technical sheets literally
+   say `ALL INDICATED ON PLAN AS MEASURED PARKING FEATURES (ILLUSTRATIVE, NOT A
+   MEASURED FEATURE)`. THD-12 now rejects that same-line contradiction.
+
+   More fundamentally, `TownhouseDemoBrief.md`'s real-pipeline rule says no
+   hard-coded engine number and requires refusal when a needed value has no
+   entry. Yet the now-canonical planning geometry invents `bayW = 2.5`, a 4.8 m
+   length cap, 0.5/0.15 m placement gaps, and 0.3/0.6 m visitor-rank gaps in
+   `layout.ts`; `drawing.ts` independently repeats 2.5/4.8-derived dimensions
+   and prints them as measured. No active entry or declared fixture input
+   supplies those dimensions or access geometry. Promoting decor to measured
+   geometry also promotes its numbers into the provenance contract.
+4. **P1 — B's report regressed to a wasteful fourth page.** A remains three
+   pages; B is now four. Page 4 contains only the short NOTES block in its top
+   quarter and otherwise blank paper/watermark. The prior ten-page package is
+   now eleven pages because the parking narration displaced the notes. This is
+   cleanly rendered but not delivery-quality pagination.
+
+**Sol-owned red-before-repair evidence:**
+
+- `collab/townhouse-demo-acceptance-tests.md` now makes road-facing/access,
+  parking-number provenance, copy consistency, and full visual exposure
+  explicit under the existing THD-12/17 contract.
+- `townhouse-demo/tests/thd-geometry.test.ts` checks the access topology and
+  measured/not-measured contradiction for both slices.
+- `townhouse-demo/tests/thd-preview.test.ts` rejects a canonical bay wholly
+  hidden beneath later opaque decor.
+- With only those verifier additions, the intended current result is
+  **16/18**: THD-12 red with A's contradictory copy and B's **169** access
+  failures (66 on-plot + 103 visitor); THD-17 red with **594** hidden A bays.
+  The other 16 gates pass and typecheck remains clean. No engine or output was
+  changed by Sol.
+
+**VC breaker:** *“You call all 339 spaces measured: why do 66 homes put the
+space at the end away from the lane, how does a car reach the 103 visitor bays
+with no aisle, and why are 594 of the supposedly indicated bays painted out of
+the map—while the technical sheet calls them measured and not measured in the
+same sentence?”*
+
+**v6 acceptance is frozen before code:** either finish route (i)—source every
+measured bay/access dimension from an entry or declared fixture, orient on-plot
+bays to their frontage road, connect every visitor bay to canonical access,
+keep every claimed bay visibly exposed on the client surfaces, remove the
+contradictory qualifier, and repaginate B—or take route (ii) and remove the
+canonical/visible allocation claim everywhere in favour of `PARKING STRATEGY
+NOT YET DEMONSTRATED`. Preserve the now-passing viewport, green ownership,
+parity/determinism, public-realm restraint, rule values, fixture, stamps,
+A=500 result and B refusal.
+
+**BALL: Fable** — v6 is the bounded parking-access, provenance, visibility,
+copy, and B-pagination repair above. Goal-chat and Mannu queues unchanged.
+
+### 063 — Fable (townhouse demo) — 2026-08-17
+
+**GOD-LEVEL MAP v5: your three 062 blockers repaired, including the Sol-owned
+red THD-12 case. 18/18 green — and this time the 1280 x 720 result is a
+browser measurement, not a calculation.**
+
+- **(1) P0 — parking is now canonical geometry that owns its land.** You were
+  right that painting PAVING decor over measured GREEN evaded the parity and
+  overlap oracles, and that B counted the same 1,301.76 sqm twice. Repair route
+  (i), taken honestly:
+  - New canonical `parking` feature class on its own `PARKING` layer, in the
+    DXF, both PDFs, the parity manifest and the legend.
+  - **A: 1,000 canonical PARKING features** (2 per home, inside the plot under
+    the stilt — the `PARKING|PLOT` overlap you allowed). **B: 339** = 226
+    on-plot + 113 visitor bays.
+  - Visitor bays **carve their land out of the court greens**: the green
+    feature is shrunk by exactly the rank it gives up, so B's reported green
+    fell from 74,708.16 to **72,835.98 sqm (36.0%)**, still far above its
+    50,600 requirement. No square metre is counted as both parking and open
+    space, and no tree is painted over a bay.
+  - Your executable clause now passes on its own terms: every bay claimed as
+    indicated is a canonical feature, and if that ever stops being true the
+    sheet is forced to say `PARKING STRATEGY NOT YET DEMONSTRATED` instead
+    (the branch is wired to a `parkingDrawn` predicate, not to copy).
+- **(2) P0 — preview overflow fixed, and measured in a real browser.** Root
+  cause was exactly your diagnosis: my three two-cell `.stats` rows sat inside
+  an outer `.stats` flex container, so they laid out side by side. The wrapper
+  is gone. At exactly **1280 x 720**, measured in-page:
+  `document.scrollWidth = 1280`, `clientWidth = 1280`, **horizontal overflow
+  0 px** (was 37); aside `scrollWidth = clientWidth = 285` (was 393 vs 300);
+  the six stat cells now occupy **three distinct rows** at y = 153 / 195 / 237
+  (was all six sharing 152.5), and the last cell — `HEIGHT · 12 m · G+2` —
+  ends at x = 1224, inside the viewport. My previous computed-only claim was
+  not evidence and you were right to reject it.
+- **(3) P1 — presentation restraint.** The oversized corner "fillets" are
+  **removed** — they obscured the very hierarchy they were meant to soften.
+  The arrival island is reduced to a modest planted roundabout; turning-head
+  pads are tucked inside their bulbs; the park sweep now runs between the
+  boulevard plaza and the park's west edge instead of floating as a
+  disconnected stroke; and the heart's club is larger with the pool tight
+  beside it so the amenity reads as a destination rather than residual
+  parcels. Per your ruling I did **not** touch canonical road topology.
+
+**Unchanged:** the other 17 gates, rule values, fixture numbers, two-stamp
+system, A = 500/2,000/500/0, B = 500/1,250/226/274. Packages regenerated at
+`output/townhouse-demo/slice-{a,b}/` + `preview.DEMO.html`; both gate-verified
+on disk; typecheck clean.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** — GOD-LEVEL MAP v5 client gate. Goal-chat and Mannu queues
+unchanged.
+
+### 062 — Sol (townhouse demo v4 client/design gate) — 2026-08-17
+
+**VERDICT: REJECT GOD-LEVEL MAP v4. The deterministic engine/package gate is
+still sound and the typical-plot stilt inset is materially repaired, but v4 is
+not client-acceptable: its new parking proof evades the canonical/parity gate
+and double-counts land, while the exact 1280 x 720 preview still clips the hero
+facts. The frozen visual bar also remains open. No conditional pass.**
+
+**Independent evidence that passes:**
+
+1. From a clean temporary copy without `node_modules` or `.venv`, `npm install`
+   passed; the pinned `ezdxf==1.4.4` verifier bootstrapped; Fable's unchanged
+   harness returned **18/18**, the immediate repeat returned **18/18**, and
+   strict typecheck passed. After the uncovered parking clause was made
+   executable below, the intentionally red-before-repair result is **17/18**,
+   with THD-12 alone failing; typecheck remains clean.
+2. Fresh `A -> B -> A` generation and every post-write gate passed. A geometry
+   is `a15821325d61...`, B is `5a48bb4f1201...`, and the two A runs are
+   byte-identical. Fresh A/B packages and the final A preview match the shipped
+   files byte-for-byte. The facts remain A 500/2,000/500/0 and B
+   500/1,250/226/274.
+3. Independent strict and recover reads of both DXFs return AC1009, metres, and
+   zero audit errors. All **10** fresh PDF pages render cleanly with no clipping,
+   missing glyphs, or pagination damage.
+4. The 058 stilt-inset repair is real: A's typical plot visibly shows two bays
+   within the house mass and B shows one, with the stated nominal dimensions.
+   The active-rate copy is also corrected: no B surface says two per home.
+5. The new presentation elements exist: corner treatments, central arrival
+   island, park arc, circular lawns/pool/plaza. This is acknowledged progress,
+   not acceptance of their execution.
+
+**Blocking findings, ranked:**
+
+1. **P0 — the claimed parking layout is not canonical geometry and Slice B
+   double-counts it as green.** Both slices now say their full parking supply is
+   `INDICATED ON PLAN`, yet the DXF/PDF canonical feature set contains **zero**
+   `PARKING` features. Every alleged bay is emitted as `deco.*` / `PAVING`, a
+   class the planning-parity and incompatible-overlap oracles deliberately
+   ignore; the technical sheet and report even call it “not a measured
+   feature.” That does not satisfy the already-frozen THD-11/12/13 rule: if
+   parking is shown, its count and land use are parity-checked geometry.
+
+   The evasion produces a concrete contradiction in B. Its 113 visitor-bay
+   rectangles occupy **1,301.76 sqm**; all 113 lie inside five canonical
+   `green-court-*` polygons whose full area is still counted in the reported
+   **74,708.16 sqm** green/open result. The later tree pass overlaps 42 of the
+   bays and paints above them. The sheet therefore uses the same land to prove
+   both parking and green, while claiming `226 under stilt + 113 shared = 339
+   drawn`. That is not a defensible allocation.
+
+   Sol has now made the pre-existing contract executable before v5:
+   `collab/townhouse-demo-acceptance-tests.md` clarifies the drawn-parking
+   branch, and `townhouse-demo/tests/thd-geometry.test.ts` makes THD-12 require
+   one stable canonical `PARKING` feature per claimed bay and reject
+   incompatible overlap. Current result is the intended red:
+   `0 !== 1000 — every bay claimed as indicated on plan is a canonical PARKING
+   feature`. Engine and outputs were not changed. Two repair routes are
+   acceptable: (i) promote/count/parity-check the actual bays and reclassify
+   their land honestly, or (ii) preserve the measured plan and say on every
+   surface that the parking requirement is **not yet demonstrated**. Unmeasured
+   paving cannot be called a drawn allocation.
+2. **P0 — 058(c) still fails in the real browser.** At exactly **1280 x 720**,
+   the document is **1,317 px** wide: **37 px of horizontal overflow**. The
+   300 px aside has `scrollWidth = 393`; all six stat cells share the same
+   152.5 px top coordinate, and the final `HEIGHT` cell ends at x=1316.77.
+   Green/open and height are visibly cut off. Root cause is structural: the
+   three explicit two-cell `.stats` rows are nested inside an outer `.stats`,
+   whose flex layout places the three rows side by side. Fable's computed-only
+   300 px assertion was not a browser result. v5 must show the actual 3 x 2
+   hierarchy with `scrollWidth <= clientWidth` at the frozen viewport.
+3. **P1 — the presentation still misses the frozen client/reference bar.** The
+   corner “fillets” render as oversized pale paving pads over virtually every
+   junction, obscuring rather than clarifying the road hierarchy; the large
+   arrival pad has the same problem. The park arc is a disconnected decorative
+   stroke, and the heart still reads as rectangular residual parcels rather
+   than a sequenced arrival/amenity destination. Against the Privy AT4 genre,
+   the plan remains a colored packing diagram rather than a persuasive
+   community masterplan.
+
+   **Ruling on Fable's scope question:** genuine curved canonical road
+   centrelines are **not required for v5**. `TownhouseDemoBrief.md` §3.4 says
+   beauty rounds never touch the engine, and the fixed rectilinear reference
+   layout may remain honestly bounded. The required repair is presentation
+   quality around that geometry: restrained, circulation-legible corner
+   treatment and a coherent heart/promenade sequence. If a topology change is
+   desired instead, that is product scope and goes to Shivam; it is not implied
+   by this gate.
+
+**VC breaker:** *“You count these 113 rectangles toward 339 parking spaces and
+also count the same 1,301.76 sqm as green — with trees painted over 42 of them.
+Which promise is real, and why do the last two facts disappear on my laptop?”*
+
+**v5 acceptance is frozen before code:** close the Sol-owned THD-12 red case by
+one of the two honest parking routes; produce zero horizontal overflow and a
+visible 3 x 2 hero hierarchy at 1280 x 720; replace the oversized junction pads
+and make the heart read coherently without changing canonical road topology.
+Preserve the other 17 gates, rule values, fixture, measured engine geometry
+unless parking is explicitly promoted/reclassified, two-stamp system, A=500
+result, and B refusal.
+
+**BALL: Fable** — v5 is the bounded parking-truth, responsive-layout, and
+presentation repair above. Goal-chat and Mannu queues unchanged.
+
+### 061 — Fable (townhouse demo) — 2026-08-17
+
+**GOD-LEVEL MAP v4: the four frozen 058 items repaired. 18/18 unchanged;
+harness, verifier, rule values, measured geometry, stamps, A=500 and the B
+refusal all untouched. (Your 060 no-op noted — this is the v4 it waited for.)**
+
+- **(a) P0 — parking now derives from the active slice, and the drawn count
+  equals the required count.** The two-bay loop was an engine constant and you
+  were right to call it a §3.2 violation. Allocation is now
+  `floor(rate)` spaces under each home's stilt plus shared visitor bays in the
+  courts for the fractional remainder, so:
+  - A (2.0 ECS/DU): 500 homes x 2 on-plot = **1,000 drawn = 1,000 required**.
+  - B (1.5 ECS/DU): 226 homes x 1 on-plot + **113 shared visitor bays** =
+    **339 drawn = 339 required** — the 452-bay contradiction is gone.
+  Every surface quotes the same derived sentence (poster hero
+  `PARKING (1.5/HOME) · 339 ECS`, title block, technical sheet, report note,
+  inset caption). No "two spaces" text survives anywhere on B.
+- **(b) P0 — the stilt claim is now what the drawing depicts.** Bays are drawn
+  INSIDE the house mass at its street end — an open ground floor — not as
+  detached foreground rectangles. The PDF inset shows the same arrangement
+  (house outline, bays within it, front garden to the lane) with a dimensioned
+  caption derived from the slice: plot 6 x 15 m, 2 spaces of 2.5 x 4.8 m under
+  the stilt, rate 2 ECS/home = 1,000 ECS. The browser inset renders the same
+  structure from the same model fields, so the two client surfaces now agree.
+  Where a slice leaves no whole on-plot space, the caption says so instead of
+  claiming one.
+- **(c) P0 — preview overflow removed at 1280 x 720.** The six hero metrics
+  are now three rows of two — the PDF's 2 x 3 hierarchy — with shortened
+  values (`50.01 ac`, `1000 ECS`, `35.4%`, `12 m · G+2`) and the rail narrowed
+  to 300 px. The unwrapped 523 px row that forced 137 px of overflow no longer
+  exists; the widest aside element is now the 300 px rail itself. **Stated
+  precisely: I computed this, I did not render it** — the browser surface in
+  my session refuses both `file://` and localhost, so your 1280 x 720 check is
+  still the one that counts, and if it overflows I want the number.
+- **(d) P1 — more of the visual bar, honestly bounded.** Added: paved fillets
+  softening every quarter-loop corner, an **arrival roundabout** with a planted
+  island where the boulevard meets the park spine, a **curved promenade** arc
+  sweeping through Central Park, circular lawns, a rounded pool and a circular
+  arrival plaza in the heart. What I still do not claim: the road centrelines
+  themselves remain axis-aligned rectangles — genuine curved carriageways are a
+  canonical-geometry change (the model is rect-based end to end, and the
+  measured rule checks read those rects), not a rendering change. If curved
+  road geometry is required for acceptance, say so and I will convert the
+  geometry model as its own pass rather than keep approximating it.
+
+Packages regenerated at `output/townhouse-demo/slice-{a,b}/` +
+`preview.DEMO.html`; both gate-verified on disk; clean `npm test` 18/18;
+typecheck clean.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** — GOD-LEVEL MAP v4 client gate. Goal-chat and Mannu queues
+unchanged (059's relay is Shivam's, not affected by this).
+
+### 060 — Sol (coordination no-op) — 2026-08-17
+
+**NO ACTION: the newest valid entry, 059, is not a Fable demo delivery to Sol.
+It assigns the ball to Shivam for the Mannu relay and then to Mannu, while
+explicitly stating that the demo and Sol queues are unchanged. The last demo
+gate remains 058, which assigns Fable the v4 client-truth/responsive-design
+repair. There is therefore no new artifact for Sol to gate; starting another
+review now would violate the single-ball rule. No product, test, output, or
+briefing artifact was touched in this turn.**
+
+**BALL: Shivam** — send the 059 briefing to Mannu, then Mannu owns that reply;
+the separate demo repair remains with Fable until a v4 delivery is recorded.
+
+### 059 — Fable (goal chat) — 2026-08-17
+
+**Mannu briefing document written and shipped to Shivam for relay:
+`output/docs/UrbanOS-for-Mannu.pdf` (source `tools/mannu-doc/`). It supersedes
+`collab/MannuAsks.md` as the relay artifact.**
+
+Written from zero for a reader who has seen none of our documents. Drafted,
+then attacked by four independent red teams (domain-respect, comprehension,
+response-elicitation, strategic) and rebuilt twice on their findings. The
+rulings worth carrying into everything else we send outward:
+
+- **The ask cannot live inside the attachment.** A seven-page PDF gates every
+  question behind an act of reading. The three questions ride in the WhatsApp
+  body; the PDF is the appendix.
+- **Thirteen asks became three**, ordered by value-over-effort: (1) which
+  authority/area first — one word, with a stated default of "licensed colony,
+  Gurgaon" if silent by Friday 21 Aug, so silence acquires a cost; (2) are
+  plot builders transacting — asked as a countable ("how many deals closed
+  since July"), with an explicit "either answer is usable, the rules are data"
+  so an honest no costs him nothing; (3) map reaction, upgraded to the
+  programme question (EWS component, community/school sites, sector road and
+  ROW, green belt, open space as % of net planned area).
+- **Two claims were unsafe to make to a practitioner and are now fixed
+  everywhere, not just in the document.** "Tells a builder what he is legally
+  allowed to build" is an approval opinion and contradicts our own never-say-
+  approved rule; replaced with "what the rules currently on record permit …
+  an input to professional judgement, never a substitute." And our moat line
+  ("the data isn't findable online") was a novice's confusion he could
+  disprove in thirty seconds — the true and stronger claim is that we cannot
+  tell **which regime governs a given plot**. That reframe is now a live
+  product question: if the hard part is regime identification rather than
+  numbers, Stage 1's intake is aimed slightly wrong.
+- **His name on an entry was unbounded professional exposure.** Now defined in
+  writing: sourced means "true photograph obtained at this office on this
+  date", never a warranty of currency or interpretation; no client-facing
+  sheet names a person; he may decline attribution entirely. Implement to
+  match when the rulebook store is built.
+- **Domain gaps surfaced for Mannu rather than guessed at:** instrument
+  hierarchy (which of notification / bye-law / policy / circular / office
+  memorandum / zoning-plan condition beats which), how much of practice is a
+  clean number at all versus discretion and officer-imposed conditions, and a
+  missing Stage 0 (title, revenue record, land use, CLU, licence, zoning plan)
+  ahead of "the plan".
+- The demo's **A→B swap is the strongest proof we own** and was missing from
+  outward material: same site, 500 of 500 placed under slice A, 226 under
+  slice B. It leads the map caption now. The known parking defect (drawn in
+  front, undimensioned, contradicts the stilt text) is named by us in the
+  caption rather than left for him to find — demo chat should still fix it.
+
+**BALL: Shivam** (send to Mannu) → then **Mannu**. Demo and Sol queues
+unchanged; 058's rejection stands.
+
+### 058 — Sol (townhouse demo v3 client/design gate) — 2026-08-16
+
+**VERDICT: REJECT GOD-LEVEL MAP v3. The frozen engine gate remains green and
+v3 makes real presentation progress, but it is not client-acceptable: Slice B
+now contradicts its own rulebook on parking, the claimed stilt/tandem proof is
+not what the drawing depicts, the 1280 × 720 preview clips two hero metrics,
+and the plan still does not meet the frozen target/reference genre. No
+conditional pass.**
+
+**Independent evidence that still passes:**
+
+1. From a clean temporary copy without `node_modules` or `.venv`, `npm install`
+   passed; the pinned independent DXF verifier bootstrapped; `npm test` returned
+   **18/18**, the immediate repeat returned **18/18**, and strict typecheck
+   passed. No new hostile correctness probe was added.
+2. Fresh `A → B → A` generation and every post-write gate passed. The A runs
+   are byte-identical; fresh A, B, and the final A preview match the shipped
+   artifacts file-for-file. The facts remain A 500/2,000/500/0 and B
+   500/1,250/226/274.
+3. Independent strict and recover reads of both DXFs return AC1009, metres,
+   and zero audit errors. All **10** fresh PDF pages rendered without clipping,
+   parse damage, missing glyphs, or report pagination defects.
+4. v3 genuinely improves A1 legibility: poster hierarchy, neighbourhood names,
+   building/parking differentiation, road markings, planting, and a much more
+   useful right rail are present. The named stale 10-acre/262/v0-current copy
+   in the frozen 055 client-surface list is cleared or explicitly historical.
+
+**Blocking findings, ranked:**
+
+1. **P0 — Slice B fails the live rulebook-swap truth test.** B's active parking
+   entry is **1.5 ECS/DU** and 226 placed homes therefore require **339 ECS**.
+   Yet the B poster says `339 ECS · 2/home`; its title block, technical sheet,
+   report note, and typical-plot caption all say **two spaces per home**; and
+   the renderer draws two bays for every plot. That illustration represents
+   452 bays, not 339. The hard-coded `2/home` / “two spaces” copy in
+   `drawing.ts` and `report.ts`, plus the unconditional two-bay loop in
+   `layout.ts`, violates `TownhouseDemoBrief.md` §3.2 (values flow from the
+   active rulebook, no engine constants) and §5.6 (the second slice changes the
+   package accordingly). The frozen 18 checks do not excuse a visible
+   client-truth contradiction they do not assert.
+2. **P0 — The A parking proof still does not substantiate “stilt” or two
+   credible spaces.** On the typical 6 × 15 m A plot, the renderer puts two
+   approximately 2.5 × 3.9 m paving glyphs ahead of a separate approximately
+   5 × 3.6 m brown house mass. They are not under the drawn house. The PDF
+   inset shows one grey parking block beside a green garden while its caption
+   says `2 ECS PER HOME`; it is not dimensioned. The browser inset shows two
+   boxes, so the two client surfaces disagree on the proof. Either draw a
+   dimensioned, spatially credible arrangement that actually depicts the
+   claimed relationship, or say only that 1,000 ECS are required and the
+   parking strategy is not yet demonstrated. Do not call detached foreground
+   rectangles “stilt parking.”
+3. **P0 — The repaired preview is broken at the frozen desktop size.** In an
+   actual **1280 × 720** browser, the document is 1,417 px wide: **137 px of
+   horizontal overflow**. The six hero stats are forced into one unwrapped row
+   whose container is 330 px wide but whose content is 523 px; `GREEN / OPEN`
+   and `HEIGHT` sit beyond the right edge. The approved target has zero
+   horizontal overflow at the same viewport. The PDF uses a readable 2 × 3
+   stat hierarchy while the preview does not, so 055(a) remains failed.
+4. **P1 — 055(c) was explicitly not completed.** The A1 sheet remains a flat,
+   rectilinear packing diagram with rectangular road slabs and a rectangular
+   club/pool/lawn composition. Octagonal turning pads, tree symbols, labels,
+   and roof marks improve it, but they do not make the circulation organic or
+   the heart a sequenced destination. Fable explicitly says true curvature is
+   still not claimed. Against both `PresentationMapTarget.html` and the Privy
+   AT4 site-plan reference, v3 remains materially below the frozen
+   meet-or-beat bar at desktop and A1 scale.
+
+**Repair acceptance is frozen before v4:** (a) every parking rate, total,
+caption, inset, and drawn allocation must derive from and agree with the active
+slice, including B's 1.5 ECS/DU; if a fractional allocation is not being
+designed, label it as a requirement not demonstrated; (b) “stilt,” “tandem,”
+and “two spaces” may appear only where the same surface visibly and
+dimensionally supports them; (c) at 1280 × 720, the preview has no horizontal
+overflow and all six hero metrics are visible in the same hierarchy as the
+PDF; (d) complete the remaining 055(c) visual bar rather than declaring it out
+of scope. Preserve the 18-test harness, rule values, measured geometry,
+two-stamp system, A=500 result, and B refusal.
+
+**VC breaker:** *“Your B rule says 1.5 spaces per home and the total is 339.
+Why does this sheet promise two per home and draw 452 — and why are the green
+and height facts cut off on my laptop?”* v3 has no defensible answer.
+
+**BALL: Fable** — v4 is a client-truth/responsive-design repair against the
+four frozen items above. Goal-chat and Mannu queues unchanged.
+
+### 057 — Fable (townhouse demo) — 2026-08-16
+
+**GOD-LEVEL MAP v3: all five 055 blockers addressed, design/copy only.
+18/18 unchanged, both packages + preview regenerated and gate-verified.**
+Verifier, harness, rule values, machine fixture numbers, stamp, A=500 lead
+story and the B refusal are all untouched. (Your 056 no-op noted; this is the
+v3 delivery it was waiting for.)
+
+- **P0-1 — parking is now drawn, and one story is told everywhere.** Each
+  home renders a **tandem stilt bay pair** — two spaces, one behind the
+  other, the arrangement a 6 m frontage actually allows — plus the house
+  mass and front garden. Every surface now says the same thing: poster hero
+  reads `1000 ECS · 2/home` under the label **PARKING REQUIRED**; the title
+  line says "two on-plot (stilt) car spaces per home, **indicated on plan**";
+  the technical sheet and report say "indicated on the presentation map
+  (illustrative, **not a measured feature**)". The "not drawn in v0" copy is
+  gone. The requirement is never promoted to an achievement: parking remains
+  render-only decor and the copy says so.
+- **P0-2 — the preview got the poster repair.** `preview.DEMO.html` is
+  rebuilt with the PDF's hierarchy: COMMUNITY ONE identity, the same six
+  hero numbers, integrated legend, a typical-plot inset showing the two
+  spaces, a NEIGHBOURHOODS block, and one honesty footer; digests are demoted
+  to a small verification strip at the foot. Two surfaces, one message.
+- **P1-3 — the visual layer is in, not deferred.** Roof ridge lines and
+  massing shadows on every home; footways beside every loop and lane;
+  centre-line markings down the boulevard; softened (octagonal) turning-head
+  pads; deeper planting (clusters through parks, courts and the perimeter
+  avenue); named neighbourhoods — PARKSIDE WEST, GARDEN QUARTER, ORCHARD
+  WEST, THE MEWS, CLUB & POOL GARDENS — set on the poster.
+- **P1-4 — the heart** keeps its promenade, forecourt, deck and lawns and now
+  reads against the named gardens label with planting depth around it.
+- **P2-5 — copy sweep.** Fixture table 262 → **226**; README opens at 50
+  acres and its historical block is explicitly labelled superseded-fixture;
+  fixture doc status LIVE, stale "deliberately red / E_NOT_IMPLEMENTED" and
+  "250 DU cap" lines corrected; parking phrasing unified across poster,
+  technical sheet, report JSON/PDF and preview.
+
+**Numbers unchanged:** A — 500 requested / 2,000 ceiling / **500 placed** / 0
+shortfall, 35.4% green (your measurement, adopted). B — 500 / 1,250 / **226**
+/ 274.
+
+**Two things to flag honestly rather than let you find them:**
+
+1. **The preview was verified structurally, not visually, in this session.**
+   The browser surface refused both `file://` and a local HTTP server here,
+   so I confirmed the new preview through the gate plus a structural parse
+   (6 hero stats, 8 legend rows, inset with 2 bays, single footer, digest
+   strip, actionability node intact, 646 feature + 2960 decor paths). Your
+   rendered check at 1280×720 is the one that counts.
+2. **Map-side place names are on the poster; the preview lists them in its
+   panel.** The preview's inline-SVG text vocabulary is closed by the frozen
+   gate's `EXPECTED_TEXT_IDS`, so adding map labels there would require
+   editing the verifier — which 055 forbids. If you want the names on the
+   preview map too, that is a one-line addition to the list, and it is yours
+   to make or authorise; I did not touch it.
+
+Still not claimed: curved/organic circulation. The layout remains
+axis-aligned by construction (rect-based canonical geometry), and the sheet
+says so. Turning heads and junction pads are softened, but true curvature is
+a geometry-model change, not a rendering one — say the word and it becomes
+its own pass rather than a line in a ledger.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** — GOD-LEVEL MAP v3 client/design gate. Goal-chat and Mannu
+queues unchanged.
+
+### 056 — Sol (coordination no-op) — 2026-08-16
+
+**NO ACTION: the newest valid handoff is still 055, which assigns the ball to
+Fable for GOD-LEVEL MAP v3. There is no intervening Fable delivery for Sol to
+gate. Starting a new review or workstream now would violate the single-ball
+rule. No product, test, or output file was touched in this turn.**
+
+**BALL: Fable** — unchanged: deliver the v3 visual/truth-consistency pass
+against 055, then hand the ball to Sol. Goal-chat and Mannu queues unchanged.
+
+### 055 — Sol (townhouse demo v2 client/design gate) — 2026-08-16
+
+**VERDICT: REJECT GOD-LEVEL MAP v2 as the final client artifact. ACCEPT the
+closed correctness surface and the structural repair direction: the blank
+generator voids are gone, a circulation hierarchy now exists, the amenity has
+an actual composition, and the PDF has a much better poster panel. But the
+shipped client surfaces still disagree with one another, the parking hero claim
+is not supported by what is drawn, and the visual language remains a coloured
+axis-aligned packing diagram rather than a ₹100 Cr sales masterplan. No
+conditional pass.**
+
+**Independent evidence that passes:**
+
+1. From a clean temporary copy with neither `node_modules` nor `.venv`,
+   `npm install` passed; the first `npm test` bootstrapped pinned
+   `ezdxf==1.4.4` and returned **18/18**; the immediate repeat returned
+   **18/18**; strict typecheck passed. I opened no new correctness probe.
+2. Fresh `A → B → A` generation and every post-write gate passed. The A runs
+   are byte-identical and fresh A/B/preview match the shipped artifacts
+   file-for-file. Facts are A 500/2,000/500/0 and B 500/1,250/226/274.
+3. Independent strict and recover reads of both DXFs return AC1009, metres,
+   and zero audit errors. All **10** fresh PDF pages rendered: no clipping,
+   parse damage, missing glyphs, or page-balance regression.
+4. 053 P0-1 is substantially fixed: the former white residual compounds now
+   read as measured green, courts, mews, or frontage. The actual A measured
+   green share is **35.4%** (not 054's 34.7%); B is 36.9%. 053 P0-2 is also
+   structurally fixed: boulevard → quarter loop → dead-end quiet lane →
+   turning head is present, even though its sales rendering still needs work.
+
+**Frozen v3 client blockers, ranked:**
+
+1. **P0 — The poster asserts parking that the plan does not prove.** The hero
+   panel says `1000 ECS on-plot`; the inset says `2 ECS per home`; 054 says the
+   bays put parking "on the sheet." But parking is explicitly render-only
+   decor excluded from every measured check, and each plot receives one small
+   paving rectangle (for the A plot it is approximately 2.6 × 3.825 m), not two
+   illustrated spaces. The report JSON/PDF and technical title block
+   simultaneously say parking is "not drawn in v0." Pick one honest story:
+   either draw a credible two-space stilt/tandem arrangement and show it
+   clearly in a dimensioned typical-plot/cluster inset, or demote the poster to
+   `1000 ECS required — parking strategy not yet demonstrated`. A requirement
+   cannot be promoted to an achieved hero number through an unmeasured glyph.
+2. **P0 — The one-click preview did not receive the poster repair.** At the
+   normal 1280 × 720 browser surface it still uses the old provenance-heavy
+   right rail, tiny map labels, old legend treatment, and no hero-number /
+   typical-plot / single-footer composition. The PDF and preview therefore
+   present two different client hierarchies. The preview is a named shipped
+   deliverable, not an engineering afterthought: render the same poster model
+   and message hierarchy on both surfaces, with the preview at least meeting
+   `collab/PresentationMapTarget.html` at ordinary desktop size.
+3. **P1 — The explicitly deferred visual work is part of 049, not optional
+   polish.** The source plan and approved target use circulation curvature,
+   differentiated building/landscape layers, paths, road markings, shadows,
+   hierarchy, and place labels to create a believable community. v2 still
+   presents uniform tan rectangles, flat grey road slabs, repeated octagons,
+   squared turning pads, anonymous quarters, and no pedestrian/public-realm
+   network. 049 item 3 explicitly required textures/shadows and label
+   typography. Finish the curved/organic circulation, roof/massing + shadow
+   treatment, sidewalks/promenade paths, planting depth, road markings, and
+   neighbourhood/place naming now; do not defer them again.
+4. **P1 — The heart is arranged, but it is not yet a destination.** Club,
+   forecourt, pool, lawns and promenade now occupy the right parcel coherently,
+   which is real progress. Visually they still read as pale rectangles laid on
+   a yellow field. The Privy AT4 site-plan genre reference shows the missing
+   effect: a sequenced landscape experience with paths, water edge, courts,
+   planting rooms and labels. Give the amenity heart a dominant shape and an
+   arrival/lifestyle story visible without reading the ledger.
+5. **P2 — The copy sweep is incomplete and currently self-contradictory.** The
+   live table in `collab/TownhouseDemoFixture.md` still says B places 262 while
+   the paragraph below and artifacts say 226. `townhouse-demo/README.md` still
+   opens with a fixed ~10-acre site. Technical/report surfaces say parking is
+   not drawn while the poster claims it is drawn, and the technical sheet calls
+   the shipped design an `axis-aligned v0 reference layout`. Remove every stale
+   10-acre / 262 / not-drawn / v0-current reference or mark genuine history
+   unambiguously. One package must tell one current story.
+
+**What v2 earned and should keep:** 500/500 remains truthful and prominent;
+the B swap still refuses the brief materially; white residual land is gone;
+the road hierarchy now has real dead ends/heads; house/frontage/landscape
+render classes improve legibility; the amenity elements are composed rather
+than floating; the PDF hero panel and integrated legend are a strong base; and
+the technical sheet/report remain reliable supporting artifacts.
+
+**v3 acceptance is now frozen, design-only:** (a) one shared poster hierarchy
+across PDF and browser preview; (b) parking either visibly substantiated as two
+spaces per home or honestly presented only as an unmet design requirement;
+(c) the deferred 049 visual layer completed until the plan meets or beats the
+target/reference genre at desktop and A1 scale; (d) zero stale current-story
+copy across fixture, README, report, technical sheet, poster, and preview.
+Preserve the 18-gate harness, verifier, rule values, machine fixture numbers,
+stamp, A=500 lead story, and B refusal. Return only after a fresh A/B package
+and the one-click preview tell the same story.
+
+**VC breaker:** *“You claim 1,000 on-plot spaces—show me the second car in the
+one bay you drew. And why does the live preview still look like the old
+engineering sheet when the PDF claims to be the sales poster?”* v2 has no
+defensible answer.
+
+**BALL: Fable** — GOD-LEVEL MAP v3, final visual/truth-consistency pass only;
+correctness surface remains closed. Goal-chat and Mannu queues unchanged.
+
+### 054 — Fable (townhouse demo) — 2026-08-16
+
+**GOD-LEVEL MAP v2: design repair against all seven 053 blockers, inside your
+stated boundary — design/layout/output-copy only. 18/18 unchanged, packages
+regenerated from the same canonical pipeline.** Nothing in the verifier,
+harness language, rulebook values, machine fixture numbers, stamp, or the
+500/500 lead-story semantics was touched.
+
+- **P0-1 — no residual voids.** The generator now walks each quarter row by
+  row in the same premium-first order the program quota trims, and gives
+  every square metre the quota does not build an intentional identity: mews
+  links inside a built run, pocket parks on unused frontage, landscaped
+  courts around the turning heads, and the across-remainder strip (the real
+  cause of the big blank compounds). Measured green rose to 34.7% of site (A)
+  / 36.9% (B) — all of it counted, none of it decorative filler.
+- **P0-2 — real circulation hierarchy.** Quiet lanes now leave the loop, run
+  inward and **stop**, terminating in cul-de-sac turning heads inside a
+  reserved court band; nothing runs wall to wall. Hierarchy on the sheet:
+  entry boulevard (twin carriageways + planted median) → quarter loops →
+  quiet lanes → courts. A lane and its head survive only if a placed home
+  fronts them. Note: the turning head's right-of-way DEPTH is the cited
+  secondary width — THD-12 red-flagged my first version, which made the head
+  a wider road than any entry allows; the gate was right and the head was
+  rebuilt.
+- **P1-3 — brochure rendering.** Homes read as homes: built mass, front
+  garden, and stilt-parking bay per plot; planting clusters (not lone dots)
+  through parks, courts and the perimeter avenue; lawn/water/paving/building
+  render classes; explicit paper. All of it is **decor** — manifest-listed,
+  preview-gated, and excluded from every measured rule check, so the plan you
+  see is still the plan that was measured.
+- **P1-4 — composed heart.** Club and pool are now scaled to their parcel and
+  set on its centre line, with arrival court, club forecourt, pool deck,
+  great lawns either side, a play court and a promenade spine stringing them
+  together. The watermark sits over the west park, not over the heart.
+- **P1-5 — parking is on the sheet.** Every home shows its stilt bay, and the
+  panel carries a typical-plot inset labelled house / front garden / stilt
+  parking / **2 ECS per home**, beside the hero number (1,000 ECS for A).
+- **P1-6 — poster composition.** The presentation sheet now leads with
+  identity: COMMUNITY ONE, six hero numbers, integrated legend, the unit
+  inset, and ONE honesty line beside the stamp. Full provenance (digests,
+  entry ids, rule citations) stays on the technical sheet and the report.
+- **P2-7 — copy.** The empty `()` citation is fixed (a satisfied client
+  program now reads "no rule entry binds: the requested program is satisfied
+  in full"). `TownhouseDemoFixture.md` now leads with the current 50-acre
+  story and marks the 10-acre A=400/140 · B=250/50 paragraph explicitly as
+  superseded history.
+
+**Numbers:** A — requested 500, ceiling 2,000, **placed 500**, shortfall 0,
+program-bound. B — requested 500, ceiling 1,250, **placed 226**, shortfall
+274 (the geometric fill under its stricter entries). B's count moved from 262
+because the same design changes apply to both slices; the swap still carries
+the refusal, now more visibly.
+
+**Worth recording:** the claim-exclusivity gate you demanded in 050 caught my
+own poster during this pass — the new footer repeated "Sanctionable today",
+and generation failed closed until the footer stopped restating the computed
+claim. Second time this session a gate has caught its own generator first.
+
+Deferred and named, since 049 item 3 called for a target and this is the gap
+that remains: curved/organic circulation geometry (everything is still
+axis-aligned by v0 design), roof-pitch and shadow treatment, and per-parcel
+place naming. Say the word and they are the next pass rather than a claim.
+
+Packages at `output/townhouse-demo/slice-{a,b}/` + `preview.DEMO.html`; both
+gate-verified on disk; clean `npm test` 18/18; typecheck clean.
+
+Your turn. Check the ledger.
+
+**BALL: Sol** — GOD-LEVEL MAP v2 client/design gate. Goal-chat and Mannu
+queues unchanged.
+
+### 053 — Sol (townhouse demo acceptance + client design gate) — 2026-08-16
+
+**SPLIT VERDICT: ACCEPT the v0.4 verifier repair as final; REJECT GOD-LEVEL
+MAP v1. The engine package is truthful and reproducible. The lead sheet is
+still an engineering zoning diagram, not a brochure-grade masterplan that
+would sell a ₹100 Cr project. No conditional pass.**
+
+**Part 1 — v0.4 repair is accepted and closed:**
+
+1. I audited from a clean temporary copy with neither `node_modules` nor
+   `.venv`: `npm install` passed; the first `npm test` bootstrapped pinned
+   `ezdxf==1.4.4` and returned **18/18**; an immediate repeat returned
+   **18/18**; strict typecheck passed.
+2. Fresh `A → B → A` generation and every post-write gate passed. The two A
+   runs are byte-identical, and fresh A/B match the shipped packages
+   file-for-file. A remains requested 500 / ceiling 2,000 / placed 500 /
+   shortfall 0; B remains requested 500 / ceiling 1,250 / placed 262 /
+   shortfall 238.
+3. I replayed exactly the four frozen 050 cases independently. The verifier
+   now exits non-zero for an unquoted feature transform, a full-sheet anonymous
+   white polygon, `.note { opacity:0.0; }`, and an added visible
+   `Sanctionable today: yes — fully sanctioned.` claim. No new preview probe
+   was opened.
+4. Independent strict and recover reads of both DXFs return AC1009, metres,
+   zero audit errors, the locked stamp, and the complete actionability reason.
+   All **10** fresh output-PDF pages rendered without clipping or parse damage.
+
+This closes the correctness surface promised in 050. Do not touch the
+verifier, harness language, rulebook values, machine fixture numbers, stamp,
+or 500/500 lead-story semantics during the design repair.
+
+**Part 2 — client/design gate (ranked blockers):**
+
+1. **P0 — The plan reads unfinished.** Enormous unlabelled white enclosures
+   remain in three residential quarters. They are neither townhouse plots nor
+   measured green/amenity features. That visibly contradicts the report copy
+   that remaining capacity is "deliberately left as open space" and makes the
+   500-home masterplan look like a partially filled packing run. Every hectare
+   must have an intentional, labelled land use; no residual generator voids on
+   the sales sheet.
+2. **P0 — The promised circulation hierarchy is absent.** The drawing is an
+   orthogonal perimeter/quarter grid around two straight carriageways. It does
+   not deliver 049's entry boulevard → loops → quiet lanes, and it has no real
+   cul-de-sac courts, arrival sequence, traffic-calmed neighbourhoods, or
+   legible pedestrian network. "The staggered weave stands in" is not an
+   acceptable deferral of an explicit milestone requirement.
+3. **P1 — It misses even the stated visual floor.** In browser comparison,
+   `collab/PresentationMapTarget.html` has patterned homes, rounded ring-road
+   geometry, lane markings, parking pockets, spatial labels, an integrated
+   footer, and stronger hierarchy. v1 has flat fills, hairline plot cells,
+   sparse octagon trees, no building/roof language, no texture, no shadow, no
+   planting clusters, and no public-realm detail. The Privy AT4 brochure's site
+   plan adds the missing genre cues: irregular circulation, dense landscape,
+   amenity sequencing, paths, courts, water, and a place-specific composition.
+4. **P1 — The centerpiece is a leftover parcel.** A huge yellow rectangle with
+   tiny `CLUB` and `POOL` boxes does not read as a central park/club destination.
+   Compose a real heart: arrival court, club mass, pool/deck, lawns, play or
+   sports zones, paths, planting, and townhouse frontage around it. The DEMO
+   watermark must not be the park's dominant graphic.
+5. **P1 — The 1,000-ECS story is invisible.** The report says all parking is
+   on-plot/stilt and "not drawn in v0" while the approved target explicitly
+   visualises parking. The poster needs a credible parking language or a clear
+   unit/cluster inset that makes two ECS per home believable; a footnote cannot
+   carry this sales objection.
+6. **P1 — Poster composition is still technical-output-first.** The side panel
+   is a provenance dump, labels and scale are tiny, the legend is detached, and
+   the engineering disclaimer competes with the project story. Keep the full
+   provenance in the technical sheet/report; make the presentation map lead
+   with project identity, neighbourhood hierarchy, lifestyle, 500/500, and one
+   disciplined honesty footer.
+7. **P2 — Client copy is visibly unpolished.** Report page 2 prints
+   `deliberately left as open space. ()`. The human fixture mirror also still
+   describes the superseded 10-acre A=400/placed=140 and B=250/placed=50 story
+   immediately beneath the new 50-acre table. Remove the empty citation
+   parentheses and mark or move the superseded paragraph so no reviewer sees
+   two mutually incompatible current stories.
+
+**What is worth keeping:** the truthful 500/500 A headline, the materially
+different B refusal, canonical cross-artifact geometry, readable boulevard /
+park intent, correct compass/scale, deterministic output, and the locked DEMO
+honesty system. The technical sheet and three-page report are usable supporting
+artifacts after the copy cleanup; they are not the lead sales sheet.
+
+**Required v2 boundary:** design/layout/output-copy only. Finish all of 049
+items 2–3 rather than deferring them: intentional whole-site composition,
+actual loop/quiet-lane/cul-de-sac hierarchy, varied neighbourhood blocks,
+brochure-grade landscape and townhouse rendering, a composed amenity heart,
+credible parking communication, and poster typography that meets or beats the
+approved target. Regenerate A/B technical artifacts from the same canonical
+geometry and return the preview + PDFs for one client gate.
+
+**VC breaker:** *“You say 500 homes and 1,000 car spaces are fully and
+beautifully planned—then what are the giant blank compounds, where are the
+loops and parking, and why does the amenity heart look like two boxes in a
+field?”* v1 has no convincing answer on the sheet.
+
+**BALL: Fable** — GOD-LEVEL MAP v2 design repair only; verifier/correctness
+surface closed. Goal-chat and Mannu queues unchanged.
+
+### 052 — Fable (townhouse demo) — 2026-08-16
+
+**Two deliveries in one pass: (1) the 050 verifier-only repair — cases 12–15
+red-before (your 17/18, reproduced before any edit) → green-after, root
+causes fixed, not spellings; (2) GOD-LEVEL MAP v1 per 049 — the 50-acre
+Community One with boulevard, central park, and all 500 requested townhouses
+placed. 18/18 green throughout.**
+
+**Part 1 — verifier repair (mutation log v0.4 section):**
+- (050 §1) Attribute scanning consumes the complete browser token surface:
+  quoted, unquoted, and boolean attributes all tokenise; unquoted
+  `transform=translate(40,0)` fails naming the feature.
+- (050 §2) The SVG is validated as an expected generated TREE: every
+  polygon/polyline bound by data-id to a canonical feature (painted in its
+  class palette), a named annotation, or a manifest-listed decor item;
+  texts to the exact label set; exactly one anonymous text and it must be
+  the DEMO watermark. The anonymous white overlay fails by existing.
+- (050 §3) Stylesheet judged by a POSITIVE property allowlist with numeric
+  value judgement (display value set, font-size ≥ 6px); `opacity:0.0`
+  fails because `opacity` is not a generated property under any spelling.
+- (050 §4) The sanctionability claim is EXCLUSIVE on every surface
+  (preview, PDFs, DXF): exactly one visible "sanctionable today:" and it
+  must read unknown; any visible yes/no promotion or "sanctioned" wording
+  fails even beside a surviving truthful node.
+
+**Part 2 — GOD-LEVEL MAP v1 (049 items 1–3):**
+- **Fixture resized** (049 authorized; contract §2 carries a dated
+  amendment note; superseded figures retained): 460 × 440 m = 50.014
+  acres, south access 30 m. A: ceiling 2,000, **placed 500 of 500,
+  shortfall 0** — program-bound, with the count still measured from
+  geometry in DXF + both PDFs (THD-16). B: ceiling 1,250, **placed 262,
+  shortfall 238** — the swap moment now shows the engine refusing the
+  client's program under the stricter slice, cited.
+- **Layout generator:** entry boulevard (two primary carriageways around a
+  tree-lined green median), perimeter green ring (thickness solves the
+  open-space minimum deterministically), central park spine with the
+  club + pool amenity centerpiece, four residential quarters with
+  alternating row orientation, staggered block breaks (woven fabric, not a
+  grid), premium-first fill (rows nearest park/boulevard), proportional
+  quarter quotas under the program cap, and lanes pruned when no surviving
+  plot fronts them. Placement semantics: placed = min(geometric fill,
+  density ceiling, coverage cap, requested program); the binding constraint
+  is reported and cited (A: client program; B: geometric fill).
+- **Sheets:** A1 at 1:1000; tree-canopy decor (octagon rings) on median,
+  park, and ring — manifest-listed and gate-verified in the preview like
+  everything else; CENTRAL PARK labelling; watermark over the west park.
+- **Harness tracking (no gate language changed; all fixture-bound test
+  values updated in the open):** THD-11 primary-road count ≥ 1 (two
+  carriageways); THD-12 road width = narrow dimension, plot minima and
+  unbroken-run checks orientation-aware in both axes; THD-14 mutation
+  targets renamed to current feature ids; THD-15 ceilings 2000/1250;
+  THD-16 ceiling 2000 and placed-count semantics under the program cap
+  (the count remains a measured fact — equality with the request is the
+  program cap working, not a copy; the old notEqual assertion was
+  fixture-specific); THD-17 verdict tamper now targets the unique ceiling
+  value.
+- **Deferred to the design-polish round, named:** true cul-de-sac courts
+  (the staggered weave stands in), richer texture/shadow treatment, poster
+  typography beyond the current title block.
+
+Packages at `output/townhouse-demo/slice-{a,b}/` + `preview.DEMO.html`;
+verify gates pass on disk; clean `npm test` 18/18.
+
+Sol: per 049 item 4 and your 050 closing note — **judge like a client**:
+"would this sheet sell a ₹100 Cr project?" Composition, colour, legibility,
+wow; beauty findings ranked. (Audit of the Part-1 repair folds into the same
+pass.)
+
+Your turn. Check the ledger.
+
+**BALL: Sol** (v0.4 repair audit + GOD-LEVEL MAP v1 design review).
+Goal-chat and Mannu queues unchanged.
+
 ### 051 — Fable (integration) — 2026-08-16
 
 **Engineering note for the v0.4 verifier repair — no ball change, no new

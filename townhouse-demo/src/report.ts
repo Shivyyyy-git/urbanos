@@ -180,7 +180,11 @@ export function buildEnvelopeReport(
       ['site.widthM', 'site.depthM'], [id('amenity-share-min'), id('unit-plot-depth-min')]),
     derivedFact('fact.parking-required', 'Required parking', m.requiredParkingEcs, 'ECS',
       ['site.widthM', 'site.depthM'], [id('parking-ecs-per-du'), ...layoutGoverningRefs],
-      'placed DU x parking norm, rounded up. Parking is on-plot (stilt) in v0 and not drawn.'),
+      m.parkingDrawn
+        ? `placed DU x parking norm, rounded up. Every space exists as a measured PARKING feature in the canonical geometry: `
+          + `${m.onPlotEcsPerHome} under each home's stilt (inside its plot)`
+          + `${m.sharedEcsDrawn > 0 ? ` plus ${m.sharedEcsDrawn} shared visitor bays on land carved out of the court landscape, so no square metre counts as both parking and open space` : ''}.`
+        : 'placed DU x parking norm, rounded up. Parking strategy not yet demonstrated: no canonical parking geometry is drawn.'),
   ]
 
   const citations: readonly CitationSnapshotRow[] = rulebook.entries.map((entry) => ({
@@ -227,7 +231,7 @@ export function buildEnvelopeReport(
       'DEMO: every value is illustrative and unverified; no real authority, document, or jurisdiction is represented.',
       'Percent rules use gross site area as denominator, stated per entry; provided areas are measured from canonical geometry.',
       'The requested unit count is client intent and is never copied into any result field.',
-      'Height and storey caps are cited envelope limits; v0 draws no elevations, and no drawing label exceeds them.',
+      'Height and storey caps are cited envelope limits; no elevations are drawn, and no drawing label exceeds them.',
     ],
   }
 }

@@ -7,15 +7,15 @@
     "reason": "DEMO — imaginary site representing no jurisdiction: no real source instruments exist and no restraint sweep has been performed, so sanctionability cannot be assessed and no sanctionable-today claim is supportable."
   },
   "classification": "demo-illustrative",
-  "fixtureDigest": "b7a5c46d9e58a3dd5758556734e0899eba970296514be7e4ffbe7d079f82e2de",
+  "fixtureDigest": "8fd580064eae35cb9bfaa6bdfb70490d0144840b5cd0077605018be6ff7535f5",
   "rulebookDigest": "c7ae502fd0e600774cd77ce3526e6d0a836f3ebf648879930af64b1f7aa06abb",
-  "geometryDigest": "0275a536a4d7da2791e53c979b53b09a186025d73300893380a1ef28c6cb0cb6",
+  "geometryDigest": "64f4db4362069f4c1133f61e02897d90edfc28e0ab2e0c1a20b77ea744eabfbc",
   "facts": [
     {
       "id": "fact.site-width",
       "kind": "fixture-input",
       "name": "Site width (E-W)",
-      "value": 225,
+      "value": 460,
       "unit": "m",
       "fixtureRefs": [
         "site.widthM"
@@ -26,7 +26,7 @@
       "id": "fact.site-depth",
       "kind": "fixture-input",
       "name": "Site depth (N-S)",
-      "value": 180,
+      "value": 440,
       "unit": "m",
       "fixtureRefs": [
         "site.depthM"
@@ -48,7 +48,7 @@
       "id": "fact.access-road-width",
       "kind": "fixture-input",
       "name": "External access road width (south)",
-      "value": 24,
+      "value": 30,
       "unit": "m",
       "fixtureRefs": [
         "site.accessRoad.widthM"
@@ -71,7 +71,7 @@
       "id": "fact.site-area",
       "kind": "derived",
       "name": "Gross site area",
-      "value": 40500,
+      "value": 202400,
       "unit": "sqm",
       "fixtureRefs": [
         "site.widthM",
@@ -84,7 +84,7 @@
       "id": "fact.site-area-acres",
       "kind": "derived",
       "name": "Gross site area",
-      "value": 10.007768,
+      "value": 50.014129,
       "unit": "acre",
       "fixtureRefs": [
         "site.widthM",
@@ -251,7 +251,7 @@
       "id": "fact.envelope-width",
       "kind": "derived",
       "name": "Buildable envelope width",
-      "value": 201,
+      "value": 436,
       "unit": "m",
       "fixtureRefs": [
         "site.widthM"
@@ -264,7 +264,7 @@
       "id": "fact.envelope-depth",
       "kind": "derived",
       "name": "Buildable envelope depth",
-      "value": 153,
+      "value": 413,
       "unit": "m",
       "fixtureRefs": [
         "site.depthM"
@@ -278,7 +278,7 @@
       "id": "fact.coverage-cap-area",
       "kind": "derived",
       "name": "Ground-coverage cap",
-      "value": 12150,
+      "value": 60720,
       "unit": "sqm",
       "fixtureRefs": [
         "site.widthM",
@@ -293,7 +293,7 @@
       "id": "fact.density-ceiling",
       "kind": "derived",
       "name": "Density ceiling",
-      "value": 250,
+      "value": 1250,
       "unit": "DU",
       "fixtureRefs": [
         "site.widthM",
@@ -308,7 +308,7 @@
       "id": "fact.placed-du",
       "kind": "derived",
       "name": "Townhouses placed in this reference layout",
-      "value": 50,
+      "value": 226,
       "unit": "DU",
       "fixtureRefs": [
         "site.widthM",
@@ -333,7 +333,7 @@
       "id": "fact.shortfall-du",
       "kind": "derived",
       "name": "Shortfall against request",
-      "value": 450,
+      "value": 274,
       "unit": "DU",
       "fixtureRefs": [
         "site.requestedDwellingUnits",
@@ -359,7 +359,7 @@
       "id": "fact.built-footprint",
       "kind": "derived",
       "name": "Built footprint (plots + club)",
-      "value": 7488,
+      "value": 34156.8,
       "unit": "sqm",
       "fixtureRefs": [
         "site.widthM",
@@ -387,7 +387,7 @@
       "id": "fact.green-required",
       "kind": "derived",
       "name": "Green/open space required",
-      "value": 10125,
+      "value": 50600,
       "unit": "sqm",
       "fixtureRefs": [
         "site.widthM",
@@ -401,7 +401,7 @@
       "id": "fact.green-provided",
       "kind": "derived",
       "name": "Green/open space provided (measured)",
-      "value": 10137,
+      "value": 74708.16,
       "unit": "sqm",
       "fixtureRefs": [
         "site.widthM",
@@ -418,7 +418,7 @@
       "id": "fact.amenity-required",
       "kind": "derived",
       "name": "Amenity parcel required",
-      "value": 3240,
+      "value": 16192,
       "unit": "sqm",
       "fixtureRefs": [
         "site.widthM",
@@ -432,7 +432,7 @@
       "id": "fact.amenity-provided",
       "kind": "derived",
       "name": "Amenity parcel provided (measured)",
-      "value": 3240,
+      "value": 16192.04,
       "unit": "sqm",
       "fixtureRefs": [
         "site.widthM",
@@ -447,7 +447,7 @@
       "id": "fact.parking-required",
       "kind": "derived",
       "name": "Required parking",
-      "value": 75,
+      "value": 339,
       "unit": "ECS",
       "fixtureRefs": [
         "site.widthM",
@@ -467,7 +467,7 @@
         "DEMO-B-SITE-COVERAGE-MAX",
         "DEMO-B-DENSITY-MAX"
       ],
-      "note": "placed DU x parking norm, rounded up. Parking is on-plot (stilt) in v0 and not drawn."
+      "note": "placed DU x parking norm, rounded up. Parking strategy not yet demonstrated: no canonical parking geometry is drawn."
     }
   ],
   "citations": [
@@ -657,12 +657,12 @@
       "DEMO-B-ROW-LENGTH-MAX"
     ],
     "bindingDescription": "Geometric fill of this reference layout under the cited setback, road, open-space, amenity, plot-dimension and row-length entries.",
-    "narrative": "The client asked for 500 townhouses. Under the DEMO-SLICE-B entries, the density ceiling is 250 DU and 50 townhouses are placed in this reference layout (shortfall 450). The placed count is what this layout achieves; it is not a claimed legal capacity, because no completeness search over the permitted layout space was performed. All values are illustrative demo entries — this is not a statement about any real jurisdiction."
+    "narrative": "The client asked for 500 townhouses. Under the DEMO-SLICE-B entries, the density ceiling is 1250 DU and 226 townhouses are placed in this reference layout (shortfall 274). The placed count is what this layout achieves; it is not a claimed legal capacity, because no completeness search over the permitted layout space was performed. All values are illustrative demo entries — this is not a statement about any real jurisdiction."
   },
   "notes": [
     "DEMO: every value is illustrative and unverified; no real authority, document, or jurisdiction is represented.",
     "Percent rules use gross site area as denominator, stated per entry; provided areas are measured from canonical geometry.",
     "The requested unit count is client intent and is never copied into any result field.",
-    "Height and storey caps are cited envelope limits; v0 draws no elevations, and no drawing label exceeds them."
+    "Height and storey caps are cited envelope limits; no elevations are drawn, and no drawing label exceeds them."
   ]
 }

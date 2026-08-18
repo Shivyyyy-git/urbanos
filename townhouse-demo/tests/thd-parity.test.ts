@@ -39,7 +39,7 @@ test('THD-14: presentation-only tamper is detected and named', () => {
     const target = readArtifact(mutantDir, '-presentation-map.pdf')
     const shifted = rewritePdfContents(target.bytes, (content) => {
       const blocks = content.split('% URBANOS_PATH ')
-      const index = blocks.findIndex((block) => block.startsWith('f.plot-w-00-00'))
+      const index = blocks.findIndex((block) => block.startsWith('f.plot-sw-00-00'))
       assert.ok(index > 0, 'plot block found in presentation PDF')
       blocks[index] = blocks[index]!.replace(
         /^([\d.-]+) ([\d.-]+) (m|l)$/gm,
@@ -51,7 +51,7 @@ test('THD-14: presentation-only tamper is detected and named', () => {
     const findings = comparePackageGeometry(mutantDir)
     assert.ok(findings.length > 0, 'tampered block must be detected')
     assert.ok(
-      findings.some((finding) => finding.includes('plot-w-00-00') && finding.includes('presentation')),
+      findings.some((finding) => finding.includes('plot-sw-00-00') && finding.includes('presentation')),
       `findings name the moved feature: ${findings.join(' | ')}`,
     )
   }
@@ -61,7 +61,7 @@ test('THD-14: presentation-only tamper is detected and named', () => {
     const target = readArtifact(mutantDir, '-presentation-map.pdf')
     const removed = rewritePdfContents(target.bytes, (content) => {
       const blocks = content.split('% URBANOS_PATH ')
-      const index = blocks.findIndex((block) => block.startsWith('f.road-secondary-w-1'))
+      const index = blocks.findIndex((block) => block.startsWith('f.road-secondary-sw-loop-s'))
       assert.ok(index > 0, 'road block found in presentation PDF')
       // Drop the path operators, keep the trailing chunk after the block's Q.
       const block = blocks[index]!
@@ -72,7 +72,7 @@ test('THD-14: presentation-only tamper is detected and named', () => {
     writeBytes(mutantDir, target.filename, removed)
     const findings = comparePackageGeometry(mutantDir)
     assert.ok(
-      findings.some((finding) => finding.includes('road-secondary-w-1') && finding.includes('missing')),
+      findings.some((finding) => finding.includes('road-secondary-sw-loop-s') && finding.includes('missing')),
       `findings name the deleted road: ${findings.join(' | ')}`,
     )
   }

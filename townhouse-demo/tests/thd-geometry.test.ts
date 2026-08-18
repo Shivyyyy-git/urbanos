@@ -58,6 +58,27 @@ function overlap(a: WorldRect, b: WorldRect, tolerance = 1e-6): boolean {
   )
 }
 
+function contains(outer: WorldRect, inner: WorldRect, tolerance = 1e-6): boolean {
+  return (
+    inner.minX >= outer.minX - tolerance && inner.maxX <= outer.maxX + tolerance
+    && inner.minY >= outer.minY - tolerance && inner.maxY <= outer.maxY + tolerance
+  )
+}
+
+function pointRectDistance(x: number, y: number, rect: WorldRect): number {
+  return Math.hypot(
+    Math.max(rect.minX - x, 0, x - rect.maxX),
+    Math.max(rect.minY - y, 0, y - rect.maxY),
+  )
+}
+
+function rectDistance(a: WorldRect, b: WorldRect): number {
+  return Math.hypot(
+    Math.max(a.minX - b.maxX, b.minX - a.maxX, 0),
+    Math.max(a.minY - b.maxY, b.minY - a.maxY, 0),
+  )
+}
+
 test('THD-11: independent DXF audit', () => {
   assert.equal(runA.status, 0)
   const artifact = readArtifact(dirA, '-technical-sheet.dxf')
@@ -81,7 +102,7 @@ test('THD-11: independent DXF audit', () => {
     dxf.paths.filter((path) => path.layer === layer && path.id.startsWith('f.'))
   assert.ok(byLayer('SITE').length === 1, 'site boundary present')
   assert.ok(byLayer('ENVELOPE').length === 1, 'setback/buildable envelope present')
-  assert.ok(byLayer('ROAD-PRIMARY').length === 1, 'primary road present')
+  assert.ok(byLayer('ROAD-PRIMARY').length >= 1, 'primary road (boulevard carriageways) present')
   assert.ok(byLayer('ROAD-SECONDARY').length >= 1, 'secondary roads present')
   assert.ok(byLayer('PLOT').length >= 1, 'townhouse plots present')
   assert.ok(byLayer('GREEN').length >= 1, 'green polygons present')
@@ -122,36 +143,47 @@ function measuredChecks(dir: string, slice: 'a' | 'b'): void {
     assert.ok(building.minY >= sbF - tol, `${building.id} front setback`)
   }
 
-  // Road widths equal their entries.
+  // Road widths equal their entries (roads run either axis; the narrow
+  // dimension is the right-of-way width).
   const spine = rects.find((rect) => rect.id === 'road-primary-spine')!
-  assert.ok(Math.abs(spine.w - rule('road-width-primary')) < tol, 'primary road width')
+  assert.ok(Math.abs(spine.w - rule('road-width-primary')) < tol, 'primary carriageway width')
   const secondaries = rects.filter((rect) => rect.klass === 'ROAD-SECONDARY')
   assert.ok(secondaries.length >= 1)
   for (const road of secondaries) {
-    assert.ok(Math.abs(road.h - rule('road-width-secondary')) < tol, `${road.id} secondary width`)
+    assert.ok(
+      Math.abs(Math.min(road.w, road.h) - rule('road-width-secondary')) < tol,
+      `${road.id} secondary width`,
+    )
   }
 
-  // Plot minima and unbroken row length.
+  // Plot minima (rows run either orientation: the short side is the
+  // frontage, the long side the depth) and unbroken row length in both axes.
   const plots = rects.filter((rect) => rect.klass === 'PLOT')
   for (const plot of plots) {
-    assert.ok(plot.w >= rule('unit-plot-frontage-min') - tol, `${plot.id} frontage`)
-    assert.ok(plot.h >= rule('unit-plot-depth-min') - tol, `${plot.id} depth`)
+    assert.ok(Math.min(plot.w, plot.h) >= rule('unit-plot-frontage-min') - tol, `${plot.id} frontage`)
+    assert.ok(Math.max(plot.w, plot.h) >= rule('unit-plot-depth-min') - tol, `${plot.id} depth`)
   }
-  const rows = new Map<string, WorldRect[]>()
-  for (const plot of plots) {
-    const key = plot.minY.toFixed(4)
-    rows.set(key, [...(rows.get(key) ?? []), plot])
-  }
-  for (const [rowKey, rowPlots] of rows) {
-    const sorted = [...rowPlots].sort((a, b) => a.minX - b.minX)
-    let runLength = 0
-    let previousMaxX = Number.NEGATIVE_INFINITY
-    for (const plot of sorted) {
-      runLength = plot.minX - previousMaxX < tol ? runLength + plot.w : plot.w
-      assert.ok(runLength <= rule('row-length-max') + tol, `row ${rowKey} unbroken length ${runLength}`)
-      previousMaxX = plot.maxX
+  const checkRuns = (axis: 'x' | 'y'): void => {
+    const groups = new Map<string, WorldRect[]>()
+    for (const plot of plots) {
+      const key = axis === 'x' ? `${plot.minY.toFixed(4)}:${plot.h.toFixed(4)}` : `${plot.minX.toFixed(4)}:${plot.w.toFixed(4)}`
+      groups.set(key, [...(groups.get(key) ?? []), plot])
+    }
+    for (const [groupKey, groupPlots] of groups) {
+      const sorted = [...groupPlots].sort((a, b) => (axis === 'x' ? a.minX - b.minX : a.minY - b.minY))
+      let runLength = 0
+      let previousEnd = Number.NEGATIVE_INFINITY
+      for (const plot of sorted) {
+        const start = axis === 'x' ? plot.minX : plot.minY
+        const size = axis === 'x' ? plot.w : plot.h
+        runLength = start - previousEnd < tol ? runLength + size : size
+        assert.ok(runLength <= rule('row-length-max') + tol, `run ${axis}/${groupKey} unbroken length ${runLength}`)
+        previousEnd = axis === 'x' ? plot.maxX : plot.maxY
+      }
     }
   }
+  checkRuns('x')
+  checkRuns('y')
 
   // Coverage, green, amenity, density — measured, gross-site denominator.
   const club = rects.find((rect) => rect.klass === 'CLUB')!
@@ -165,7 +197,14 @@ function measuredChecks(dir: string, slice: 'a' | 'b'): void {
   assert.ok(plots.length <= densityCeiling, 'placed count within density ceiling')
 
   // No double counting / incompatible overlaps.
-  const compatible = new Set(['CLUB|AMENITY', 'POOL|AMENITY', 'GATE|ROAD-PRIMARY'])
+  const compatible = new Set([
+    'CLUB|AMENITY',
+    'POOL|AMENITY',
+    'GATE|ROAD-PRIMARY',
+    // A stilt bay is physically inside its townhouse plot. Parking is still
+    // incompatible with green/open space and every other unlisted land use.
+    'PARKING|PLOT',
+  ])
   const solids = rects.filter((rect) => rect.klass !== 'SITE' && rect.klass !== 'ENVELOPE')
   for (let a = 0; a < solids.length; a += 1) {
     for (let b = a + 1; b < solids.length; b += 1) {
@@ -186,13 +225,83 @@ function measuredChecks(dir: string, slice: 'a' | 'b'): void {
   }
 
   // Parking: report fact equals placed x norm (rounded up, policy stated).
+  // If a client-facing surface says the bays are indicated on plan, those
+  // bays must be canonical/parity-checked planning features. Painting the
+  // right number of PAVING decor rectangles over measured GREEN is not proof
+  // and evades the incompatible-overlap oracle above.
+  const requiredParking = Math.ceil(plots.length * rule('parking-ecs-per-du') - 1e-9)
+  const labels = dxf.texts.map((text) => text.value).join('\n')
   assert.equal(
     fact('fact.parking-required'),
-    Math.ceil(plots.length * rule('parking-ecs-per-du') - 1e-9),
+    requiredParking,
     'required ECS equals placed DU x parking norm',
   )
+  const parking = rects.filter((rect) => rect.klass === 'PARKING')
+  if (/PARKING[^\n]*INDICATED ON PLAN/i.test(labels)) {
+    assert.equal(
+      parking.length,
+      requiredParking,
+      'every bay claimed as indicated on plan is a canonical PARKING feature',
+    )
+  } else {
+    assert.match(
+      labels,
+      /PARKING STRATEGY (?:IS )?NOT YET DEMONSTRATED/i,
+      'without canonical parking geometry, the sheet says the requirement is not demonstrated',
+    )
+    assert.equal(parking.length, 0, 'no partial canonical parking claim')
+  }
+
+  // A counted rectangle must be usable as parking, not merely fit somewhere
+  // on the site. The front-most on-plot bay must lie toward the nearest road
+  // across the plot frontage; visitor bays must physically abut a canonical
+  // road (or be served by one modelled as such), with no invented tolerance.
+  const accessFailures: string[] = []
+  const accessRoads = rects.filter((rect) => rect.klass === 'ROAD-PRIMARY' || rect.klass === 'ROAD-SECONDARY')
+  const onPlotParking = new Set<string>()
+  for (const plot of plots) {
+    const ownBays = parking.filter((bay) => contains(plot, bay, tol))
+    for (const bay of ownBays) onPlotParking.add(bay.id)
+    if (ownBays.length === 0) continue
+    const portrait = plot.h >= plot.w
+    const centreX = (plot.minX + plot.maxX) / 2
+    const centreY = (plot.minY + plot.maxY) / 2
+    const frontageRoads = accessRoads.filter((road) => (
+      portrait
+        ? road.w >= road.h && road.minX - tol <= centreX && road.maxX + tol >= centreX
+        : road.h >= road.w && road.minY - tol <= centreY && road.maxY + tol >= centreY
+    ))
+    const nearest = frontageRoads.sort(
+      (a, b) => pointRectDistance(centreX, centreY, a) - pointRectDistance(centreX, centreY, b),
+    )[0]
+    if (!nearest) {
+      accessFailures.push(`${plot.id}: no frontage road`)
+      continue
+    }
+    const plotCentreDistance = pointRectDistance(centreX, centreY, nearest)
+    const frontBayExists = ownBays.some((bay) => pointRectDistance(
+      (bay.minX + bay.maxX) / 2,
+      (bay.minY + bay.maxY) / 2,
+      nearest,
+    ) < plotCentreDistance - tol)
+    if (!frontBayExists) accessFailures.push(`${plot.id}: bays face away from ${nearest.id}`)
+  }
+  for (const bay of parking.filter((candidate) => !onPlotParking.has(candidate.id))) {
+    if (!accessRoads.some((road) => rectDistance(bay, road) <= tol)) {
+      accessFailures.push(`${bay.id}: no canonical road/access aisle`)
+    }
+  }
+  assert.equal(
+    accessFailures.length,
+    0,
+    `${accessFailures.length} claimed parking access failures: ${accessFailures.slice(0, 8).join(', ')}`,
+  )
+  assert.doesNotMatch(
+    labels,
+    /MEASURED PARKING FEATURES[^\n]*NOT A MEASURED FEATURE/i,
+    'one title line cannot call the same parking geometry both measured and not measured',
+  )
   // Height/storey caps appear as cited limits and no label exceeds them.
-  const labels = dxf.texts.map((text) => text.value).join('\n')
   assert.ok(labels.includes(`HEIGHT CAP ${rule('height-max').toFixed(3)} m`), 'height cap cited on sheet')
   for (const match of labels.matchAll(/G\+(\d+)/g)) {
     assert.ok(Number(match[1]) <= rule('storeys-max') - 1, `label G+${match[1]} within storey cap`)
@@ -204,8 +313,15 @@ function measuredChecks(dir: string, slice: 'a' | 'b'): void {
 test('THD-12: canonical geometry satisfies every active rule (A and B)', () => {
   assert.equal(runA.status, 0)
   assert.equal(runB.status, 0)
-  measuredChecks(dirA, 'a')
-  measuredChecks(dirB, 'b')
+  const failures: string[] = []
+  for (const [dir, slice] of [[dirA, 'a'], [dirB, 'b']] as const) {
+    try {
+      measuredChecks(dir, slice)
+    } catch (error) {
+      failures.push(`${slice.toUpperCase()}: ${error instanceof Error ? error.message : String(error)}`)
+    }
+  }
+  assert.equal(failures.length, 0, `slice rule failures:\n${failures.join('\n')}`)
 })
 
 test('THD-16: 500 is intent; density cap and placed capacity are separate', () => {
@@ -221,12 +337,18 @@ test('THD-16: 500 is intent; density cap and placed capacity are separate', () =
   assert.equal(requested.value, 500)
   assert.equal(requested.kind, 'fixture-input')
   assert.deepEqual([...requested.fixtureRefs], ['site.requestedDwellingUnits'])
-  assert.equal(ceiling.value, 400)
+  assert.equal(ceiling.value, 2000)
   assert.ok(ceiling.ruleRefs.some((ref) => ref.includes('DENSITY')), 'ceiling cites the density entry')
   assert.ok(ceiling.fixtureRefs.length > 0, 'ceiling cites site area feeders')
   assert.equal(shortfall.value, requested.value - placed.value, 'shortfall = requested - placed')
-  assert.notEqual(placed.value, requested.value, 'requested count is not copied into a result')
-  assert.ok(report.verdict.bindingEntryIds.length > 0, 'binding constraints are named')
+  // The placed count is COUNTED from canonical geometry (verified against the
+  // DXF below), never copied from the request — under the 049 fixture the
+  // program cap makes them numerically equal, and the count is the evidence.
+  assert.ok(placed.kind === 'derived', 'placed is a derived (counted) fact')
+  assert.ok(
+    report.verdict.bindingEntryIds.length > 0 || report.verdict.bindingDescription.includes('Client program'),
+    'binding constraints are named (entries, or the client program when fully placed)',
+  )
 
   // Placed count independently counted in DXF and both PDFs.
   const dxfCount = parseDxf(latin1(readArtifact(dirA, '-technical-sheet.dxf').bytes))

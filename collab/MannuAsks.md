@@ -1,5 +1,10 @@
 # Mannu — consolidated ask list (as of 2026-08-16, ledger 040)
 
+> **SUPERSEDED 2026-08-17.** The document actually sent to Mannu is
+> `output/docs/UrbanOS-for-Mannu.pdf` (source in `tools/mannu-doc/`), which cuts this
+> list to three questions and moves the rest to a no-rush tail. Keep this file only as
+> the full inventory of what he owes; do not send it to him.
+
 One page, everything open that only you can answer. Numbered for WhatsApp replies — answer in any order, partial answers welcome. Files to read first (Shivam shares): `BusinessThesis.md`, `Stage1Spec.md`.
 
 ## A. The two that unblock the build

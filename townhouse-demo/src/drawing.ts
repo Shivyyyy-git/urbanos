@@ -22,6 +22,14 @@ export type DemoLayer =
   | 'CLUB'
   | 'POOL'
   | 'GATE'
+  | 'PARKING'
+  | 'TREE'
+  | 'BUILDING'
+  | 'PAVING'
+  | 'WATER'
+  | 'LAWN'
+  | 'SHADOW'
+  | 'MARKING'
   | 'DIMENSION'
   | 'TEXT'
   | 'ANNOTATION'
@@ -47,6 +55,14 @@ export const DEMO_LAYERS: readonly DemoLayerStyle[] = [
   { name: 'CLUB', aci: 32, stroke: [0.58, 0.34, 0.18], fill: [0.83, 0.56, 0.36], lineWeightMm: 0.3, dashed: false },
   { name: 'POOL', aci: 5, stroke: [0.16, 0.38, 0.64], fill: [0.43, 0.66, 0.88], lineWeightMm: 0.3, dashed: false },
   { name: 'GATE', aci: 6, stroke: [0.32, 0.26, 0.38], fill: [0.5, 0.44, 0.56], lineWeightMm: 0.35, dashed: false },
+  { name: 'PARKING', aci: 9, stroke: [0.5, 0.48, 0.44], fill: [0.84, 0.82, 0.77], lineWeightMm: 0.14, dashed: false },
+  { name: 'TREE', aci: 3, stroke: [0.29, 0.47, 0.22], fill: [0.53, 0.72, 0.36], lineWeightMm: 0.16, dashed: false },
+  { name: 'BUILDING', aci: 34, stroke: [0.45, 0.31, 0.19], fill: [0.76, 0.55, 0.36], lineWeightMm: 0.18, dashed: false },
+  { name: 'PAVING', aci: 9, stroke: [0.62, 0.6, 0.56], fill: [0.86, 0.84, 0.79], lineWeightMm: 0.14, dashed: false },
+  { name: 'WATER', aci: 5, stroke: [0.2, 0.45, 0.7], fill: [0.55, 0.76, 0.92], lineWeightMm: 0.2, dashed: false },
+  { name: 'LAWN', aci: 3, stroke: [0.45, 0.63, 0.3], fill: [0.72, 0.85, 0.55], lineWeightMm: 0.16, dashed: false },
+  { name: 'SHADOW', aci: 8, stroke: [0.55, 0.5, 0.45], fill: [0.55, 0.5, 0.45], lineWeightMm: 0.1, dashed: false },
+  { name: 'MARKING', aci: 7, stroke: [0.97, 0.96, 0.93], fill: [0.97, 0.96, 0.93], lineWeightMm: 0.1, dashed: false },
   { name: 'DIMENSION', aci: 2, stroke: [0.3, 0.3, 0.28], fill: null, lineWeightMm: 0.18, dashed: false },
   { name: 'TEXT', aci: 7, stroke: [0.05, 0.05, 0.05], fill: null, lineWeightMm: 0.18, dashed: false },
   { name: 'ANNOTATION', aci: 7, stroke: [0.04, 0.04, 0.04], fill: null, lineWeightMm: 0.18, dashed: false },
@@ -64,6 +80,7 @@ export const LAYER_BY_CLASS: Readonly<Record<FeatureClass, DemoLayer>> = {
   club: 'CLUB',
   pool: 'POOL',
   gate: 'GATE',
+  parking: 'PARKING',
 }
 
 export interface DemoDrawingPath {
@@ -98,11 +115,26 @@ export interface DemoDrawingModel {
   readonly paths: readonly DemoDrawingPath[]
   readonly texts: readonly DemoDrawingText[]
   readonly titleLines: readonly string[]
+  /** Hero numbers for the presentation poster's side panel. */
+  readonly stats: readonly { readonly label: string; readonly value: string }[]
+  /** The single honesty line a poster carries under its stamp. */
+  readonly footerLine: string
   readonly legend: readonly { readonly label: string; readonly layer: DemoLayer }[]
+  /**
+   * Neighbourhood place names. Drawn by the PDF composer in paper space and
+   * listed in the preview panel: the preview's inline-SVG text vocabulary is
+   * closed by the frozen gate, so map-side naming lives on the poster while
+   * both surfaces carry the names (ledger 056).
+   */
+  readonly placeLabels: readonly { readonly at: Point; readonly text: string }[]
+  /** Stilt bays drawn per home — floor of the ACTIVE slice's parking rate. */
+  readonly stiltBaysPerHome: number
+  /** Typical-plot inset caption, dimensioned and derived from the slice. */
+  readonly insetCaption: string
   readonly bounds: { minX: number; minY: number; maxX: number; maxY: number }
 }
 
-const SCALE_DENOMINATOR = 750
+const SCALE_DENOMINATOR = 1000
 
 function bounds(
   paths: readonly DemoDrawingPath[],
@@ -158,6 +190,24 @@ export function buildDrawingModels(
     closed: true,
     featureClass: feature.featureClass,
   }))
+  // Tree-canopy decor: same canonical source on both sheets, 'deco.' ids so
+  // the planning-parity oracle ignores them while the preview gate verifies
+  // them against the manifest's decor list.
+  const DECOR_LAYER: Readonly<Record<string, DemoLayer>> = {
+    tree: 'TREE', building: 'BUILDING', paving: 'PAVING', water: 'WATER', lawn: 'LAWN',
+    shadow: 'SHADOW', marking: 'MARKING',
+  }
+  // Decor paints in landscape → paving → building order so homes read above
+  // their gardens and drives (rendering only; no canonical geometry).
+  const decorOrder = ['lawn', 'water', 'paving', 'marking', 'shadow', 'building', 'tree']
+  const decorPaths: readonly DemoDrawingPath[] = [...layout.decor]
+    .sort((a, b) => decorOrder.indexOf(a.kind) - decorOrder.indexOf(b.kind))
+    .map((item) => ({
+      id: `deco.${item.id}`,
+      layer: DECOR_LAYER[item.kind] ?? 'TREE',
+      points: item.ring,
+      closed: true,
+    }))
 
   // North arrow (both sheets): triangle + N, west of the site, clear of the
   // page-corner stamp and the presentation legend.
@@ -245,24 +295,95 @@ export function buildDrawingModels(
   const labelTexts: DemoDrawingText[] = [
     { id: 'anno.label-club', layer: 'TEXT', at: [layout.features.find((f) => f.id === 'club-house')!.rect.x + rule('unit-plot-frontage-min'), layout.features.find((f) => f.id === 'club-house')!.rect.y + rule('unit-plot-depth-min') / 2], heightMm: 2.6, text: 'CLUB', rotationDegrees: 0, align: 'center', bold: true },
     { id: 'anno.label-pool', layer: 'TEXT', at: [layout.features.find((f) => f.id === 'pool')!.rect.x + 0.75 * rule('unit-plot-frontage-min'), layout.features.find((f) => f.id === 'pool')!.rect.y + 0.3 * rule('unit-plot-depth-min')], heightMm: 2.2, text: 'POOL', rotationDegrees: 0, align: 'center', bold: true },
-    { id: 'anno.label-green-west', layer: 'TEXT', at: [env.x + (spine.rect.x - env.x) / 2, env.y + 6], heightMm: 3, text: 'GREEN / OPEN', rotationDegrees: 0, align: 'center', bold: true },
+    {
+      id: 'anno.label-green-west',
+      layer: 'TEXT',
+      at: (() => {
+        const park = layout.features.find((f) => f.id === 'green-west')!.rect
+        return [park.x + park.w / 2, park.y + park.h * 0.82] as Point
+      })(),
+      heightMm: 3.2,
+      text: 'CENTRAL PARK',
+      rotationDegrees: 0,
+      align: 'center',
+      bold: true,
+    },
     { id: 'anno.label-gate', layer: 'TEXT', at: [W / 2, -4], heightMm: 2.6, text: 'ENTRY GATE', rotationDegrees: 0, align: 'center', bold: false },
   ]
 
+  // Neighbourhood naming, derived from the quarters the engine actually
+  // built (each quarter's loop road bounds its neighbourhood).
+  const QUARTER_NAMES: Readonly<Record<string, string>> = {
+    sw: 'PARKSIDE WEST', se: 'GARDEN QUARTER', nw: 'ORCHARD WEST', ne: 'THE MEWS',
+  }
+  const placeLabels: { at: Point; text: string }[] = []
+  for (const [tag, name] of Object.entries(QUARTER_NAMES)) {
+    const loops = layout.features.filter((feature) => feature.id.startsWith(`road-secondary-${tag}-loop-`))
+    if (loops.length === 0) continue
+    const minX = Math.min(...loops.map((loop) => loop.rect.x))
+    const maxX = Math.max(...loops.map((loop) => loop.rect.x + loop.rect.w))
+    const minY = Math.min(...loops.map((loop) => loop.rect.y))
+    const maxY = Math.max(...loops.map((loop) => loop.rect.y + loop.rect.h))
+    placeLabels.push({ at: [(minX + maxX) / 2, maxY - 6] as Point, text: name })
+  }
+  const amenityFeature = layout.features.find((feature) => feature.id === 'amenity-parcel')
+  if (amenityFeature) {
+    placeLabels.push({
+      at: [amenityFeature.rect.x + amenityFeature.rect.w * 0.62, amenityFeature.rect.y + amenityFeature.rect.h - 8] as Point,
+      text: 'CLUB & POOL GARDENS',
+    })
+  }
+
   const m = layout.measures
+  // Hero numbers: what a client reads first. Every one is a computed fact
+  // already present in the report — the poster leads with them instead of
+  // with provenance (ledger 053 P1-6).
+  const openSharePercent = (m.greenAreaSqm / m.siteAreaSqm) * 100
+  const stats: { label: string; value: string }[] = [
+    { label: 'HOMES PLACED', value: `${m.placedDu}` },
+    { label: 'HOMES REQUESTED', value: `${site.requestedDwellingUnits}` },
+    { label: 'SITE', value: `${m.siteAreaAcres.toFixed(2)} ac` },
+    { label: `PARKING REQUIRED (${rule('parking-ecs-per-du')}/HOME)`, value: `${m.requiredParkingEcs} ECS` },
+    { label: 'GREEN / OPEN', value: `${openSharePercent.toFixed(1)}%` },
+    { label: 'HEIGHT', value: `${rule('height-max')} m · G+${rule('storeys-max') - 1}` },
+  ]
+  // One honesty line. It must NOT repeat the sanctionability claim: the
+  // computed claim is exclusive, and the gate enforces exactly one.
+  // Parking narration derived from the active slice and from what is drawn:
+  // whole spaces under each stilt, the fractional remainder as shared bays.
+  const parkingSentence =
+    `PARKING ${m.requiredParkingEcs} ECS REQUIRED AT ${rule('parking-ecs-per-du')}/HOME `
+    + `[${ruleId('parking-ecs-per-du')}] — PARKING STRATEGY NOT YET DEMONSTRATED`
+  const insetCaption =
+    `Plot ${rule('unit-plot-frontage-min')} x ${rule('unit-plot-depth-min')} m `
+    + `[${ruleId('unit-plot-frontage-min')}, ${ruleId('unit-plot-depth-min')}]. `
+    + `${m.requiredParkingEcs} ECS required at ${rule('parking-ecs-per-du')}/home `
+    + `[${ruleId('parking-ecs-per-du')}] — parking strategy not yet demonstrated: no rulebook entry `
+    + `supplies bay or access dimensions, so none are drawn as measured geometry.`
+  const footerLine =
+    'All rule values are DEMO — illustrative and unverified; no real jurisdiction is represented; '
+    + 'axis-aligned reference layout on one fixed imaginary site.'
+  const presentationTitleLines = [
+    `${m.placedDu} OF ${site.requestedDwellingUnits} REQUESTED TOWNHOUSES PLACED — ${m.siteAreaAcres.toFixed(2)} ACRES`,
+    `ENTRY BOULEVARD · NEIGHBOURHOOD LOOPS · CUL-DE-SAC COURTS · CENTRAL PARK · CLUB & POOL`,
+    parkingSentence,
+    `SLICE ${rulebook.slice}  ·  SCALE 1:${SCALE_DENOMINATOR} ON A1  ·  UNITS: METRES  ·  NORTH DECLARED (PLAN-UP)`,
+    // THD-18: the FULL computed reason, verbatim — never a shortened variant.
+    `SANCTIONABLE TODAY: ${report.actionability.sanctionableToday.toUpperCase()} — ${report.actionability.reason}`,
+  ]
   const sharedTitleLines = [
     `SLICE: ${rulebook.slice}  |  SCALE 1:${SCALE_DENOMINATOR}  |  UNITS: METRES  |  NORTH: DECLARED (PLAN-UP)`,
     `PLACED IN THIS REFERENCE LAYOUT: ${m.placedDu} DU  |  REQUESTED (INTENT): ${site.requestedDwellingUnits} DU  |  DENSITY CEILING: ${m.densityCeilingDu} DU`,
-    `HEIGHT CAP ${metres(rule('height-max'))} / G+${rule('storeys-max') - 1} [${ruleId('height-max')}, ${ruleId('storeys-max')}] — CITED LIMITS, NO ELEVATIONS DRAWN IN v0`,
-    `PARKING: ${m.requiredParkingEcs} ECS REQUIRED [${ruleId('parking-ecs-per-du')}] — ON-PLOT (STILT), NOT DRAWN IN v0`,
+    `HEIGHT CAP ${metres(rule('height-max'))} / G+${rule('storeys-max') - 1} [${ruleId('height-max')}, ${ruleId('storeys-max')}] — CITED LIMITS; NO ELEVATIONS DRAWN`,
+    parkingSentence,
     // THD-18: the FULL computed reason, verbatim — never a shortened variant.
     `SANCTIONABLE TODAY: ${report.actionability.sanctionableToday.toUpperCase()} — ${report.actionability.reason}`,
     'ALL RULE VALUES ARE DEMO — ILLUSTRATIVE, UNVERIFIED; NO REAL JURISDICTION IS REPRESENTED',
-    'AXIS-ALIGNED v0 REFERENCE LAYOUT — ONE FIXED IMAGINARY SITE, NO GENERAL SITE SOLVER',
+    'AXIS-ALIGNED REFERENCE LAYOUT — ONE FIXED IMAGINARY SITE, NO GENERAL SITE SOLVER',
     `FIXTURE ${report.fixtureDigest.slice(0, 16)}…  RULEBOOK ${report.rulebookDigest.slice(0, 16)}…  GEOMETRY ${report.geometryDigest.slice(0, 16)}…`,
   ]
 
-  const technicalPaths = [...featurePaths, ...northPaths, ...dimensionPaths]
+  const technicalPaths = [...featurePaths, ...decorPaths, ...northPaths, ...dimensionPaths]
   const technicalAllTexts = [northText, watermarkText, ...technicalTexts, ...labelTexts]
   const technical: DemoDrawingModel = {
     kind: 'technical',
@@ -276,7 +397,12 @@ export function buildDrawingModels(
     paths: technicalPaths,
     texts: technicalAllTexts,
     titleLines: sharedTitleLines,
+    stats,
+    footerLine,
     legend: [],
+    placeLabels: [],
+    stiltBaysPerHome: m.onPlotEcsPerHome,
+    insetCaption,
     bounds: bounds(technicalPaths, technicalAllTexts, 14),
   }
 
@@ -303,7 +429,7 @@ export function buildDrawingModels(
     { id: 'anno.scalebar-t100', layer: 'ANNOTATION', at: [100, scaleBarY - 5], heightMm: 2.4, text: '100 m', rotationDegrees: 0, align: 'center', bold: false },
   ]
 
-  const presentationPaths = [...featurePaths, ...northPaths, ...scaleBarPaths]
+  const presentationPaths = [...featurePaths, ...decorPaths, ...northPaths, ...scaleBarPaths]
   const presentationAllTexts = [northText, watermarkText, ...labelTexts, ...scaleBarTexts]
   const presentation: DemoDrawingModel = {
     kind: 'presentation',
@@ -316,8 +442,13 @@ export function buildDrawingModels(
     scaleDenominator: SCALE_DENOMINATOR,
     paths: presentationPaths,
     texts: presentationAllTexts,
-    titleLines: sharedTitleLines,
+    titleLines: presentationTitleLines,
+    stats,
+    footerLine,
     legend,
+    placeLabels,
+    stiltBaysPerHome: m.onPlotEcsPerHome,
+    insetCaption,
     bounds: bounds(presentationPaths, presentationAllTexts, 14),
   }
 

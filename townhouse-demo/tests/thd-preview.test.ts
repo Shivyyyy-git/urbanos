@@ -109,6 +109,52 @@ test('THD-17: one-click preview is current, self-contained, and fail-closed', ()
     assert.ok(Math.abs(actual.h / scale - expected.h) < 0.1, `${feature.id} height parity`)
   }
 
+  // Rendered visibility is part of parity. A canonical bay that exists in the
+  // SVG but is painted wholly beneath a later opaque decor polygon is not
+  // "indicated on plan" to a human viewer (THD-17 / Sol 064).
+  type PaintedPolygon = {
+    order: number
+    id: string
+    bounds: ReturnType<typeof ringBounds>
+    opaqueFill: boolean
+  }
+  const paintedPolygons: PaintedPolygon[] = []
+  let polygonOrder = 0
+  for (const match of html.matchAll(/<polygon\b[^>]*>/g)) {
+    const tag = match[0]
+    const id = tag.match(/\bdata-id="([^"]+)"/)?.[1]
+    const points = tag.match(/\bpoints="([^"]+)"/)?.[1]
+    const fill = tag.match(/\bfill="([^"]+)"/)?.[1]
+    const opacity = Number(tag.match(/\bopacity="([^"]+)"/)?.[1] ?? '1')
+    const fillOpacity = Number(tag.match(/\bfill-opacity="([^"]+)"/)?.[1] ?? '1')
+    if (id && points) {
+      paintedPolygons.push({
+        order: polygonOrder,
+        id,
+        bounds: ringBounds(points.split(' ').map((pair) => pair.split(',').map(Number) as [number, number])),
+        opaqueFill: Boolean(fill && fill.toLowerCase() !== 'none' && opacity >= 0.999 && fillOpacity >= 0.999),
+      })
+    }
+    polygonOrder += 1
+  }
+  const fullyHiddenParking = paintedPolygons
+    .filter((polygon) => polygon.id.startsWith('f.parking-'))
+    .filter((bay) => paintedPolygons.some((cover) => (
+      cover.order > bay.order
+      && cover.id.startsWith('deco.')
+      && cover.opaqueFill
+      && cover.bounds.minX <= bay.bounds.minX
+      && cover.bounds.minY <= bay.bounds.minY
+      && cover.bounds.maxX >= bay.bounds.maxX
+      && cover.bounds.maxY >= bay.bounds.maxY
+    )))
+    .map((polygon) => polygon.id)
+  assert.equal(
+    fullyHiddenParking.length,
+    0,
+    `${fullyHiddenParking.length} canonical parking bays hidden under later opaque decor: ${fullyHiddenParking.slice(0, 8).join(', ')}`,
+  )
+
   // Gate: green baseline, then the required kill mutations.
   assert.equal(verifyWithPreview(dirA2).status, 0, 'gate green with current preview')
 
@@ -128,12 +174,17 @@ test('THD-17: one-click preview is current, self-contained, and fail-closed', ()
     assert.notEqual(result.status, 0, 'missing preview fails')
     assert.ok(result.output.includes('preview.DEMO.html'))
   }
-  // 3. Changed verdict number.
+  // 3. Changed verdict number (the density ceiling: its value is unique on
+  //    the page, so the tamper hits exactly one rendered fact).
   {
-    writeFileSync(PREVIEW, previewA2.toString('utf8').replace('</b> 140 DU<', '</b> 400 DU<'))
+    const ceiling = reportA.facts.find((candidate) => candidate.id === 'fact.density-ceiling')!.value
+    writeFileSync(
+      PREVIEW,
+      previewA2.toString('utf8').replace(`</b> ${ceiling} DU<`, `</b> ${ceiling + 7} DU<`),
+    )
     const result = verifyWithPreview(dirA2)
     assert.notEqual(result.status, 0, 'tampered verdict number fails')
-    assert.ok(result.output.includes('fact.placed-du'), 'names the tampered field')
+    assert.ok(result.output.includes('fact.density-ceiling'), 'names the tampered field')
     writeFileSync(PREVIEW, previewA2)
   }
   // 4. Removed watermark.

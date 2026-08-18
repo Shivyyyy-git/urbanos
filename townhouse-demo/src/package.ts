@@ -99,6 +99,7 @@ export function buildCommunityPackage(
       featureClass: feature.featureClass,
       ring: rectRing(feature.rect),
     })),
+    decor: layout.decor,
     note:
       'Digests corroborate parity but never replace it: the acceptance oracle measures vector paths in every artifact independently.',
   }

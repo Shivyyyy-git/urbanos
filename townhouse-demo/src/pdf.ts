@@ -291,17 +291,19 @@ export interface DemoSheetProfile {
   readonly heightMm: number
   readonly marginMm: number
   readonly titleBlockHeightMm: number
+  /** Reserved right-hand poster column (presentation sheet only). */
+  readonly rightPanelMm?: number
 }
 
 export const A2_SHEET: DemoSheetProfile = {
-  ref: 'A2', widthMm: 594, heightMm: 420, marginMm: 12, titleBlockHeightMm: 60,
+  ref: 'A1', widthMm: 841, heightMm: 594, marginMm: 14, titleBlockHeightMm: 62,
 }
 
 export function drawingTransform(
   model: DemoDrawingModel,
   profile: DemoSheetProfile,
 ): DemoPaperTransform {
-  const availableWidthMm = profile.widthMm - 2 * profile.marginMm
+  const availableWidthMm = profile.widthMm - 2 * profile.marginMm - (profile.rightPanelMm ?? 0)
   const availableHeightMm = profile.heightMm - 2 * profile.marginMm - profile.titleBlockHeightMm
   const modelWidthM = model.bounds.maxX - model.bounds.minX
   const modelHeightM = model.bounds.maxY - model.bounds.minY
@@ -338,6 +340,12 @@ function sheetFurniture(model: DemoDrawingModel, profile: DemoSheetProfile): str
   const bodySize = (2.2 * POINTS_PER_MM) / CAP_HEIGHT_RATIO
   const stampSize = (3.0 * POINTS_PER_MM) / CAP_HEIGHT_RATIO
   const ops = [
+    // Explicit paper: a poster must not rely on the viewer's backdrop.
+    '% URBANOS_PAPER',
+    'q',
+    '0.988 0.984 0.972 rg',
+    `0 0 ${number(widthPt)} ${number(heightPt)} re f`,
+    'Q',
     '% URBANOS_SHEET_FURNITURE',
     'q',
     `${number(0.35 * POINTS_PER_MM)} w`,
@@ -355,10 +363,11 @@ function sheetFurniture(model: DemoDrawingModel, profile: DemoSheetProfile): str
     `(${pdfString(model.title)}) Tj`,
     `/F1 ${number(bodySize)} Tf`,
   ]
+  const bodyLeading = model.kind === 'presentation' ? 4.6 : 4.2
   let cursorY = titleTop - pad - titleSize - 5.5 * POINTS_PER_MM
   for (const line of model.titleLines) {
     ops.push(`1 0 0 1 ${number(border + pad)} ${number(cursorY)} Tm`, `(${pdfString(line)}) Tj`)
-    cursorY -= 4.2 * POINTS_PER_MM
+    cursorY -= bodyLeading * POINTS_PER_MM
   }
   // Both stamps sit in the title-block band (bottom-left and bottom-right),
   // clear of the drawing area and the top-right legend (ledger 041 §5).
@@ -368,50 +377,164 @@ function sheetFurniture(model: DemoDrawingModel, profile: DemoSheetProfile): str
     `(${pdfString(model.stamp)}) Tj`,
     `1 0 0 1 ${number(border + innerW - pad - 110 * POINTS_PER_MM)} ${number(border + pad)} Tm`,
     `(${pdfString(model.stamp)}) Tj`,
-    'ET',
-    'Q',
   )
+  if (model.kind === 'presentation') {
+    // One disciplined honesty line beside the stamp, not a competing block.
+    ops.push(
+      `/F1 ${number(bodySize)} Tf`,
+      `1 0 0 1 ${number(border + pad + 118 * POINTS_PER_MM)} ${number(border + pad)} Tm`,
+      `(${pdfString(model.footerLine)}) Tj`,
+    )
+  }
+  ops.push('ET', 'Q')
   return ops
 }
 
-function legendOps(model: DemoDrawingModel, profile: DemoSheetProfile): string[] {
-  if (model.legend.length === 0) return []
-  const swatchW = 8 * POINTS_PER_MM
-  const swatchH = 4.2 * POINTS_PER_MM
-  const rowH = 6.4 * POINTS_PER_MM
-  const x = (profile.widthMm - profile.marginMm - 74) * POINTS_PER_MM
-  let y = (profile.heightMm - profile.marginMm - 14) * POINTS_PER_MM
-  const fontSize = (2.4 * POINTS_PER_MM) / CAP_HEIGHT_RATIO
-  const ops = ['% URBANOS_LEGEND', 'q']
-  const boxH = rowH * model.legend.length + 8 * POINTS_PER_MM
+/**
+ * Poster side panel (ledger 053 P1-6): project identity, hero numbers, the
+ * legend, and ONE honesty line — the reader meets the project before the
+ * provenance. Full provenance stays on the technical sheet and the report.
+ */
+function wrapPlain(text: string, width: number): string[] {
+  const words = text.split(' ')
+  const lines: string[] = []
+  let current = ''
+  for (const word of words) {
+    if (current.length + word.length + 1 > width && current.length > 0) {
+      lines.push(current)
+      current = word
+    } else current = current.length === 0 ? word : `${current} ${word}`
+  }
+  if (current.length > 0) lines.push(current)
+  return lines
+}
+
+function posterPanelOps(model: DemoDrawingModel, profile: DemoSheetProfile): string[] {
+  const panelW = profile.rightPanelMm ?? 0
+  if (panelW <= 0) return []
+  const left = (profile.widthMm - profile.marginMm - panelW + 6) * POINTS_PER_MM
+  const width = (panelW - 12) * POINTS_PER_MM
+  const top = (profile.heightMm - profile.marginMm - 12) * POINTS_PER_MM
+  const mm = (value: number): number => value * POINTS_PER_MM
+  const size = (heightMm: number): number => (heightMm * POINTS_PER_MM) / CAP_HEIGHT_RATIO
+  const ops = ['% URBANOS_POSTER_PANEL', 'q']
+  let y = top
+
+  const line = (text: string, heightMm: number, bold: boolean, gapMm: number, grey = 0.08): void => {
+    ops.push(
+      `${number(grey)} ${number(grey)} ${number(grey)} rg`,
+      'BT',
+      `${bold ? '/F2' : '/F1'} ${number(size(heightMm))} Tf`,
+      `1 0 0 1 ${number(left)} ${number(y)} Tm`,
+      `(${pdfString(text)}) Tj`,
+      'ET',
+    )
+    y -= mm(gapMm)
+  }
+
+  line('COMMUNITY ONE', 9, true, 11)
+  line('TOWNHOUSE MASTERPLAN — DEMO', 3.2, false, 8)
   ops.push(
-    '1 1 1 rg', '0.2 0.2 0.2 RG', `${number(0.3 * POINTS_PER_MM)} w`,
-    `${number(x - 4 * POINTS_PER_MM)} ${number(y - boxH + rowH)} ${number(70 * POINTS_PER_MM)} ${number(boxH)} re B`,
+    '0.62 0.35 0.18 RG', `${number(mm(0.8))} w`,
+    `${number(left)} ${number(y + mm(3))} m ${number(left + width)} ${number(y + mm(3))} l S`,
   )
+  y -= mm(6)
+
+  // Hero numbers, two per row.
+  for (let index = 0; index < model.stats.length; index += 2) {
+    const pair = model.stats.slice(index, index + 2)
+    pair.forEach((stat, column) => {
+      const x = left + column * (width / 2)
+      ops.push(
+        '0.42 0.4 0.36 rg', 'BT', `/F1 ${number(size(2.4))} Tf`,
+        `1 0 0 1 ${number(x)} ${number(y)} Tm`, `(${pdfString(stat.label)}) Tj`, 'ET',
+        '0.11 0.1 0.09 rg', 'BT', `/F2 ${number(size(5.4))} Tf`,
+        `1 0 0 1 ${number(x)} ${number(y - mm(7))} Tm`, `(${pdfString(stat.value)}) Tj`, 'ET',
+      )
+    })
+    y -= mm(15)
+  }
+
+  y -= mm(2)
   ops.push(
-    '0.04 0.04 0.04 rg', 'BT', `/F2 ${number(fontSize)} Tf`,
-    `1 0 0 1 ${number(x)} ${number(y)} Tm`, '(LEGEND) Tj', 'ET',
+    '0.75 0.73 0.68 RG', `${number(mm(0.3))} w`,
+    `${number(left)} ${number(y + mm(4))} m ${number(left + width)} ${number(y + mm(4))} l S`,
   )
-  y -= rowH
+  line('LEGEND', 3.4, true, 8)
+  const swatchW = mm(9)
+  const swatchH = mm(4.4)
   for (const item of model.legend) {
     const style = layerStyle(item.layer)
     const fill = style.fill ?? style.stroke
     ops.push(
       `${number(fill[0])} ${number(fill[1])} ${number(fill[2])} rg`,
       `${number(style.stroke[0])} ${number(style.stroke[1])} ${number(style.stroke[2])} RG`,
-      `${number(x)} ${number(y - swatchH * 0.2)} ${number(swatchW)} ${number(swatchH)} re B`,
-      '0.04 0.04 0.04 rg', 'BT', `/F1 ${number(fontSize)} Tf`,
-      `1 0 0 1 ${number(x + swatchW + 3 * POINTS_PER_MM)} ${number(y)} Tm`,
+      `${number(mm(0.25))} w`,
+      `${number(left)} ${number(y - swatchH * 0.25)} ${number(swatchW)} ${number(swatchH)} re B`,
+      '0.1 0.1 0.1 rg', 'BT', `/F1 ${number(size(2.8))} Tf`,
+      `1 0 0 1 ${number(left + swatchW + mm(4))} ${number(y)} Tm`,
       `(${pdfString(item.label)}) Tj`, 'ET',
     )
-    y -= rowH
+    y -= mm(6.6)
+  }
+
+  // Typical-plot inset: the SAME arrangement the plan draws — bays under the
+  // house mass, dimensioned, with a caption derived from the active slice
+  // (ledger 058 P0-2: the claim and the depiction must be one thing).
+  y -= mm(4)
+  line('TYPICAL TOWNHOUSE PLOT', 3.4, true, 7)
+  const insetW = mm(34)
+  const insetH = mm(50)
+  const insetY = y - insetH
+  const houseH = insetH * 0.72
+  ops.push(
+    // plot
+    '0.9 0.81 0.62 rg', '0.55 0.42 0.24 RG', `${number(mm(0.3))} w`,
+    `${number(left)} ${number(insetY)} ${number(insetW)} ${number(insetH)} re B`,
+    // front garden to the lane
+    '0.53 0.72 0.36 rg', '0.29 0.47 0.22 RG',
+    `${number(left + mm(2))} ${number(insetY + mm(2))} ${number(insetW - mm(4))} ${number(insetH - houseH - mm(4))} re B`,
+    // house mass
+    '0.76 0.55 0.36 rg', '0.45 0.31 0.19 RG',
+    `${number(left + mm(2))} ${number(insetY + insetH - houseH - mm(2))} ${number(insetW - mm(4))} ${number(houseH)} re B`,
+  )
+  // Stilt bays INSIDE the house outline (open ground floor).
+  const bays = model.stiltBaysPerHome
+  const bayBoxH = bays > 0 ? Math.min(mm(13), (houseH - mm(6)) / bays) : 0
+  for (let bay = 0; bay < bays; bay += 1) {
+    ops.push(
+      '0.86 0.84 0.79 rg', '0.62 0.6 0.56 RG',
+      `${number(left + mm(6))} ${number(insetY + insetH - houseH + mm(2) + bay * (bayBoxH + mm(1.5)))} `
+        + `${number(insetW - mm(12))} ${number(bayBoxH)} re B`,
+    )
+  }
+  ops.push(
+    '0.1 0.1 0.1 rg', 'BT', `/F1 ${number(size(2.5))} Tf`,
+    `1 0 0 1 ${number(left + insetW + mm(5))} ${number(insetY + insetH - mm(5))} Tm`,
+    '(HOUSE \(G+n\)) Tj', 'ET',
+    'BT', `/F2 ${number(size(2.7))} Tf`,
+    `1 0 0 1 ${number(left + insetW + mm(5))} ${number(insetY + insetH - mm(13))} Tm`,
+    `(${pdfString(bays > 0 ? `${bays} CAR SPACE${bays === 1 ? '' : 'S'} UNDER STILT` : 'NO ON-PLOT BAY DRAWN')}) Tj`, 'ET',
+    'BT', `/F1 ${number(size(2.5))} Tf`,
+    `1 0 0 1 ${number(left + insetW + mm(5))} ${number(insetY + mm(6))} Tm`,
+    '(FRONT GARDEN TO LANE) Tj', 'ET',
+  )
+  y = insetY - mm(6)
+  for (const captionLine of wrapPlain(model.insetCaption, 46)) {
+    ops.push(
+      '0.35 0.33 0.3 rg', 'BT', `/F1 ${number(size(2.5))} Tf`,
+      `1 0 0 1 ${number(left)} ${number(y)} Tm`, `(${pdfString(captionLine)}) Tj`, 'ET',
+    )
+    y -= mm(4)
   }
   ops.push('Q')
   return ops
 }
 
 export function communityDrawingToPdf(model: DemoDrawingModel): Uint8Array {
-  const profile = A2_SHEET
+  const profile: DemoSheetProfile = model.kind === 'presentation'
+    ? { ...A2_SHEET, titleBlockHeightMm: 50, rightPanelMm: 210 }
+    : A2_SHEET
   const transform = drawingTransform(model, profile)
   const filled = model.kind === 'presentation'
   const ops: string[] = []
@@ -427,7 +550,7 @@ export function communityDrawingToPdf(model: DemoDrawingModel): Uint8Array {
   // the east green polygon so it crosses no annotation, label, or club/pool
   // geometry (ledger 045 §4). Falls back to the page centre only if the
   // green feature is somehow absent.
-  const greenEast = model.paths.find((path) => path.id === 'f.green-east')
+  const greenEast = model.paths.find((path) => path.id === 'f.green-west')
   if (greenEast) {
     const xs = greenEast.points.map((point) => point[0])
     const ys = greenEast.points.map((point) => point[1])
@@ -441,7 +564,24 @@ export function communityDrawingToPdf(model: DemoDrawingModel): Uint8Array {
   } else {
     ops.push(...watermarkOps(profile.widthMm, profile.heightMm, model.stamp, 30))
   }
-  ops.push(...legendOps(model, profile))
+  // Neighbourhood naming, drawn in paper space over the plan.
+  for (const label of model.placeLabels) {
+    const at = transformPoint(label.at, transform)
+    const fontSize = (3.6 * POINTS_PER_MM) / CAP_HEIGHT_RATIO
+    const halfWidth = (label.text.length * fontSize * 0.52) / 2
+    ops.push(
+      '% URBANOS_PLACE_LABEL',
+      'q',
+      '0.16 0.15 0.13 rg',
+      'BT',
+      `/F2 ${number(fontSize)} Tf`,
+      `1 0 0 1 ${number(at[0] - halfWidth)} ${number(at[1])} Tm`,
+      `(${pdfString(label.text)}) Tj`,
+      'ET',
+      'Q',
+    )
+  }
+  ops.push(...posterPanelOps(model, profile))
   return buildPdf(
     [{ widthMm: profile.widthMm, heightMm: profile.heightMm, content: ops.join('\n') }],
     model.title,
@@ -536,7 +676,10 @@ function reportBlocks(report: CommunityEnvelopeReport): ReportLine[][] {
   bold('VERDICT — REQUEST vs CEILING vs PLACED')
   plain(`requested [${report.verdict.requestedDuFactId}]  ceiling [${report.verdict.densityCeilingFactId}]`)
   plain(`placed [${report.verdict.placedDuFactId}]  shortfall [${report.verdict.shortfallFactId}]`)
-  for (const line of wrap(`binding: ${report.verdict.bindingDescription} (${report.verdict.bindingEntryIds.join(', ')})`, 96)) {
+  const bindingCitation = report.verdict.bindingEntryIds.length > 0
+    ? ` (${report.verdict.bindingEntryIds.join(', ')})`
+    : ' (no rule entry binds: the requested program is satisfied in full)'
+  for (const line of wrap(`binding: ${report.verdict.bindingDescription}${bindingCitation}`, 96)) {
     plain(line)
   }
   for (const line of wrap(report.verdict.narrative, 96)) plain(line)
@@ -584,6 +727,13 @@ export function reportToPdf(report: CommunityEnvelopeReport): Uint8Array {
   const stampSize = (2.6 * POINTS_PER_MM) / CAP_HEIGHT_RATIO
   const pages: PdfPage[] = chunks.map((chunk, pageIndex) => {
     const ops: string[] = []
+    ops.push(
+      '% URBANOS_PAPER',
+      'q',
+      '1 1 1 rg',
+      `0 0 ${number(A4.widthMm * POINTS_PER_MM)} ${number(A4.heightMm * POINTS_PER_MM)} re f`,
+      'Q',
+    )
     ops.push(...watermarkOps(A4.widthMm, A4.heightMm, report.stamp, 28))
     ops.push('% URBANOS_REPORT_BODY', 'q', '0.05 0.05 0.05 rg', 'BT')
     let y = bodyTop * POINTS_PER_MM

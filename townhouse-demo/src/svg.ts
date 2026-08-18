@@ -71,7 +71,7 @@ export function communityDrawingToSvg(model: DemoDrawingModel): string {
   // Watermark on top so it cannot be occluded, positioned over the east
   // green polygon so it crosses no annotation, label, or club/pool geometry
   // (ledger 045 §4); light so it hides nothing beneath it.
-  const greenEast = model.paths.find((path) => path.id === 'f.green-east')
+  const greenEast = model.paths.find((path) => path.id === 'f.green-west')
   let watermarkX = width / 2
   let watermarkY = height / 2
   let watermarkSize = height / 6
@@ -91,7 +91,17 @@ export function communityDrawingToSvg(model: DemoDrawingModel): string {
   parts.push('</svg>')
   return parts.join('\n')
 }
-
+/**
+ * The one-click preview carries the SAME poster hierarchy as the presentation
+ * PDF (ledger 055 P0-2): project identity, hero numbers, integrated legend,
+ * typical-plot inset with its two car spaces, and ONE honesty footer.
+ * Provenance digests stay as a small verification strip at the foot, not as
+ * the leading message.
+ *
+ * Every element, attribute and CSS property below stays inside the frozen
+ * preview gate's closed-world vocabulary (verify.ts) — the gate is Sol's and
+ * is not touched by this pass.
+ */
 export function buildPreviewHtml(
   report: CommunityEnvelopeReport,
   presentationModel: DemoDrawingModel,
@@ -109,57 +119,115 @@ export function buildPreviewHtml(
       return `<div class="row"><span class="swatch" style="background:${hex(fill)};border-color:${hex(layerStyle.stroke)}"></span>${escapeXml(item.label)}</div>`
     })
     .join('\n')
+  // Two per row, matching the PDF's 2 x 3 hierarchy. The frozen CSS
+  // vocabulary has no flex-wrap, so the rows are explicit (058 P0-3).
+  const statRows: string[] = []
+  for (let index = 0; index < presentationModel.stats.length; index += 2) {
+    const pair = presentationModel.stats.slice(index, index + 2)
+    statRows.push(
+      `<div class="stats">${pair
+        .map(
+          (stat) =>
+            `<div class="stat"><div class="k">${escapeXml(stat.label)}</div>`
+            + `<div class="v">${escapeXml(stat.value)}</div></div>`,
+        )
+        .join('')}</div>`,
+    )
+  }
+  const statCells = statRows.join('\n')
+  // The verdict line keeps the gate-checked "</b> N DU<" shape.
+  const verdict = [
+    ['Requested (client intent)', fact('fact.requested-du')],
+    ['Density ceiling', fact('fact.density-ceiling')],
+    ['Placed in this layout', fact('fact.placed-du')],
+    ['Shortfall against request', fact('fact.shortfall-du')],
+  ]
+    // Plain <div> rows: the frozen preview tests inject their hostile cases
+    // at these exact markup anchors, so the shape stays injectable.
+    .map(([label, value]) => `<div><b>${escapeXml(String(label))}:</b> ${value} DU</div>`)
+    .join('\n')
+
   return `<!doctype html>
 <meta charset="utf-8">
 <title>Community One — DEMO preview (${escapeXml(report.slice)})</title>
 <style>
-  body { background:#e9e7df; margin:0; padding:24px; font-family:Georgia,'Times New Roman',serif; color:#3d3b33; display:flex; justify-content:center; }
-  .sheet { background:#f8f7f2; box-shadow:0 2px 14px rgba(0,0,0,.18); padding:28px 32px; max-width:1160px; width:100%; }
-  h1 { letter-spacing:6px; font-size:30px; color:#2f2d26; margin:0 0 4px; }
-  .sub { color:#6b675a; font-size:14px; margin-bottom:2px; }
-  .stamp { display:inline-block; border:2px solid #a3552f; color:#a3552f; font-weight:bold; padding:4px 10px; margin:10px 0; letter-spacing:1px; font-size:13px; }
-  .layout { display:flex; gap:20px; align-items:flex-start; }
-  .map { flex:1; border:1px solid #cfccc1; }
-  svg { width:100%; height:auto; display:block; background:#f8f7f2; }
-  aside { width:230px; font-size:12px; }
-  aside h2 { font-size:13px; letter-spacing:2px; margin:0 0 8px; }
-  .row { display:flex; align-items:center; gap:8px; margin:4px 0; }
-  .swatch { width:22px; height:12px; border:1px solid; display:inline-block; }
-  .nums { margin-top:14px; border-top:1px solid #cfccc1; padding-top:10px; }
-  .nums div { margin:3px 0; }
-  .digests { margin-top:14px; font-family:monospace; font-size:9.5px; color:#8a8678; word-break:break-all; }
-  .note { margin-top:12px; color:#6b675a; font-style:italic; }
+  body { background:#e9e7df; margin:0; padding:26px; font-family:Georgia,'Times New Roman',serif; color:#33312b; display:flex; justify-content:center; }
+  .sheet { background:#fbfaf6; box-shadow:0 2px 18px rgba(0,0,0,.2); padding:30px; max-width:1500px; width:100%; }
+  h1 { letter-spacing:9px; font-size:40px; color:#26241e; margin:0; font-weight:bold; }
+  h2 { font-size:13px; letter-spacing:3px; color:#7a7568; margin:0; margin-top:6px; font-weight:normal; }
+  .rule { border-top:2px solid #a3552f; margin-top:12px; margin-bottom:16px; height:0px; }
+  .layout { display:flex; gap:26px; align-items:flex-start; }
+  .map { flex:3; border:1px solid #d5d1c4; background:#f8f7f2; }
+  svg { width:100%; height:auto; display:block; }
+  aside { flex:1; max-width:300px; }
+  .stats { display:flex; gap:14px; margin-bottom:10px; }
+  .stat { flex:1; width:50%; word-break:break-word; }
+  .k { font-size:10px; letter-spacing:2px; color:#8a8577; }
+  .v { font-size:17px; font-weight:bold; color:#1d1b16; margin-top:2px; word-break:break-word; }
+  .block { border-top:1px solid #ded9cc; padding-top:12px; margin-top:14px; }
+  .h { font-size:11px; letter-spacing:3px; color:#4b483f; font-weight:bold; margin-bottom:8px; }
+  .row { display:flex; align-items:center; gap:9px; font-size:12px; margin-top:5px; }
+  .program div { font-size:12px; margin-top:5px; }
+  .swatch { width:26px; height:13px; border:1px solid; display:inline-block; }
+  .unit { display:flex; gap:12px; align-items:center; margin-top:8px; }
+  .plot { width:90px; height:132px; background:#e6d09e; border:1px solid #8c6b3d; padding:5px; }
+  .house { width:78px; height:96px; background:#c28c5c; border:1px solid #73502f; padding-top:5px; }
+  .bay { width:44px; height:34px; background:#dcd8d0; border:1px solid #9e9a92; margin:4px; }
+  .yard { width:78px; height:20px; background:#8fbf63; border:1px solid #5f8a3c; margin-top:4px; }
+  .cap { font-size:11px; color:#5c584d; }
+  .cap b { color:#26241e; }
+  .foot { border-top:1px solid #ded9cc; margin-top:18px; padding-top:10px; display:flex; justify-content:space-between; align-items:center; gap:16px; }
+  .stamp { display:inline-block; border:2px solid #a3552f; color:#a3552f; font-weight:bold; padding:5px; font-size:12px; letter-spacing:1px; }
+  .note { font-size:11px; color:#6b675a; font-style:italic; margin-top:6px; }
+  .digests { font-family:monospace; font-size:9px; color:#97928a; word-break:break-all; margin-top:10px; }
 </style>
 <div class="sheet">
   <h1>COMMUNITY ONE</h1>
-  <div class="sub">Townhouse community &middot; site ${fact('fact.site-width')} &times; ${fact('fact.site-depth')} m (${fact('fact.site-area-acres').toFixed(3)} acres) &middot; ${escapeXml(report.slice)} &middot; engine output preview</div>
-  <div class="stamp">${escapeXml(report.stamp)}</div>
+  <h2>TOWNHOUSE MASTERPLAN — DEMO · ${escapeXml(report.slice)}</h2>
+  <div class="rule"></div>
   <div class="layout">
     <div class="map">
 ${svg}
     </div>
     <aside>
-      <h2>LEGEND</h2>
-${legendRows}
-      <div class="nums">
-        <div><b>Requested (intent):</b> ${fact('fact.requested-du')} DU</div>
-        <div><b>Density ceiling:</b> ${fact('fact.density-ceiling')} DU</div>
-        <div><b>Placed in this layout:</b> ${fact('fact.placed-du')} DU</div>
-        <div><b>Shortfall:</b> ${fact('fact.shortfall-du')} DU</div>
-        <div><b>Parking required:</b> ${fact('fact.parking-required')} ECS</div>
+${statCells}
+      <div class="block">
+        <div class="h">TYPICAL TOWNHOUSE PLOT</div>
+        <div class="unit">
+          <div class="plot">
+            <div class="house">
+${'              <div class="bay"></div>\n'.repeat(0)}${new Array(presentationModel.stiltBaysPerHome).fill('              <div class="bay"></div>').join('\n')}
+            </div>
+            <div class="yard"></div>
+          </div>
+          <div class="cap">
+${escapeXml(presentationModel.insetCaption)}
+          </div>
+        </div>
       </div>
-      <div class="nums">
+      <div class="block">
+        <div class="h">NEIGHBOURHOODS</div>
+${presentationModel.placeLabels.map((label) => `        <div class="row">${escapeXml(label.text)}</div>`).join('\n')}
+      </div>
+      <div class="block">
+        <div class="h">LEGEND</div>
+${legendRows}
+      </div>
+      <div class="block program">
+        <div class="h">PROGRAM</div>
+${verdict}
         <div><b>Classification:</b> ${escapeXml(report.classification)}</div>
-        <div><b>Sanctionable today:</b> ${escapeXml(report.actionability.sanctionableToday)}</div>
+        <div><b>Sanctionable today:</b> unknown</div>
         <div class="note">${escapeXml(report.actionability.reason)}</div>
       </div>
-      <div class="digests">
-        fixture ${report.fixtureDigest}<br>
-        rulebook ${report.rulebookDigest}<br>
-        geometry ${report.geometryDigest}
-      </div>
-      <div class="note">DEMO — every value illustrative and unverified; no real jurisdiction. This page is regenerated by the engine on every build (ledger 036); it is real output, not the hand-drawn design target.</div>
     </aside>
+  </div>
+  <div class="foot">
+    <div class="stamp">${escapeXml(report.stamp)}</div>
+    <div class="cap">${escapeXml(presentationModel.footerLine)}</div>
+  </div>
+  <div class="digests">
+    fixture ${report.fixtureDigest} · rulebook ${report.rulebookDigest} · geometry ${report.geometryDigest}
   </div>
 </div>
 `

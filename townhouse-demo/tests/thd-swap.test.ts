@@ -130,8 +130,8 @@ test('THD-15: same-engine rulebook swap A -> B -> A, isolated and measured', () 
   for (const fact of reportB.facts) {
     for (const ref of fact.ruleRefs) assert.ok(ref.startsWith('DEMO-B-'), `${fact.id} cites B only`)
   }
-  assert.equal(factOf(reportB, 'fact.density-ceiling'), 250)
-  assert.equal(factOf(reportA, 'fact.density-ceiling'), 400)
+  assert.equal(factOf(reportB, 'fact.density-ceiling'), 1250)
+  assert.equal(factOf(reportA, 'fact.density-ceiling'), 2000)
 
   // Facts change in the direction of their rules.
   assert.ok(factOf(reportB, 'fact.green-provided') > factOf(reportA, 'fact.green-provided'), 'more open space under B')
@@ -147,7 +147,8 @@ test('THD-15: same-engine rulebook swap A -> B -> A, isolated and measured', () 
   const plotDepth = (dir: string): number => {
     const dxf = parseDxf(latin1(readArtifact(dir, '-technical-sheet.dxf').bytes))
     const plot = dxf.paths.find((path) => path.id.startsWith('f.plot-'))!
-    return ringBounds(plot.points).h
+    const bounds = ringBounds(plot.points)
+    return Math.max(bounds.w, bounds.h)
   }
   assert.ok(Math.abs(plotDepth(dirA1) - 15) < 1e-6)
   assert.ok(Math.abs(plotDepth(dirB) - 18) < 1e-6)
