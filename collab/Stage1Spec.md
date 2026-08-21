@@ -1,8 +1,8 @@
 # Stage1Spec — The Base (v1 draft)
 
 **Owner:** Fable (draft) — Shivam ratifies product decisions; Mannu rules on domain items.
-**Status:** DRAFT v1.2 — D3/D4 ruled 2026-08-16; **D5 + R1 ruled by Shivam 2026-08-16** (Restraint machinery folded in from `collab/RuleSchema-Restraint-draft.md`; S+4 response = compute both regimes). Ratification blocked on D1/D2 (Mannu) + the M-S register. Spec only, no code.
-**Parent:** `collab/BusinessThesis.md` v1.1 — Stage 1 of the five-stage product, aimed at customer #1 (plot-scale builder, Gurgaon/Haryana).
+**Status:** v2.0-DRAFT — 2026-08-21: **D1 ANSWERED** (Mannu: DTCP-licensed colony, Dwarka Expressway corridor, Sectors 99–113, one real parcel) and **A/B/C ratified by Shivam** (ledger 082) merging Mannu's Alignment Review: regime resolution becomes **Stage 0** (the jurisdiction slice is now an *output* of the parcel resolver, not an input), the rule schema expands to Mannu's five layers (Source/Applicability/Rule/Time-status/Provenance) with **no universal instrument hierarchy** (contextual precedence + traceable conflict decision + human escalation), "no paper, no number" upgrades to **"no authoritative source, no operative rule"** (official GIS/approved plans/digital services are authoritative), the MVP layout requirement becomes **≥2 designed options** ("design, do not trace", functional + urban-design tests), and a feasibility/market module joins the report (declared, dated, sourced inputs only). Field-level schema rework + the five-status/two-stamp reconciliation are the next workstream pass, Sol gating. Spec only, no code.
+**Parent:** `collab/BusinessThesis.md` **v2** — the MVP contract (stages 0–5), aimed at developers/landowners/plot builders in the Dwarka Expressway launch corridor, served by the internal practice.
 **Labels:** [decided] = already ruled · [proposed] = my proposal, needs a yes · [inferred] = my reasoning, Mannu verifies · [TO-LOAD] = value must come from a cited, Mannu-verified source — never typed from memory.
 
 ---
@@ -27,7 +27,7 @@ This is the artifact the five free pilots see first, and the demo that opens eve
 
 ## 3. Scope for v1
 
-- **One jurisdiction slice.** One authority, one colony/sector type in Gurgaon — picked by Mannu where his circular collection is deepest (decision D1). DDA/Delhi excluded entirely. [decided: one-geography rule]
+- **Jurisdiction [D1 answered — Mannu, 2026-08-20]:** DTCP-licensed colony on the Dwarka Expressway corridor (Sectors 99–113), **one real parcel first** (exact colony pending). Per v2, the engine's Stage 0 resolves the parcel's overlapping regime layers (municipal / HSVP estate / controlled area / licensed-colony conditions) rather than taking a slice id as input. DDA/Delhi excluded entirely. [locked: one-geography rule]
 - **One plot type:** residential plotted, builder-floor intent (the stilt+N scenario). No commercial, no group housing, no amalgamated plots. **[R1 ruled — Shivam, 2026-08-16]:** v1 computes the envelope under **both** the S+4 regime (as loaded; currently carrying active restraints — HC stay 2026-04-02, DTCP suspension memo 2026-07-21) **and** the currently-sanctionable configuration for the same plot (values TO-LOAD). Both print with actionability (§5/§6); neither is hidden. Corollaries adopted with the ruling (ledger 040, from the R1 draft): the sanctionable envelope computes and passes **standalone** — build step B carries no S+4 reference, the suspended comparison is a composition step gated behind it; the draft layout draws the **sanctionable envelope only**, the suspended envelope appearing as numbers, citations, and at most a dashed overlay (preserves D3); the suspended envelope is **historical record, never a forecast** — no timeline, no likelihood, no "when the stay lifts."
 - **Single-plot input.** No neighbouring-context modelling beyond declared road widths.
 
@@ -49,6 +49,8 @@ Stage-1 additions, all explicit, no derived values:
 Missing required input ⇒ named refusal (kernel style), never a default.
 
 ## 5. Rulebook dependency — Shelf 1 (the only new data contract)
+
+> **v2 amendment (ledger 082):** this section's model is superseded in direction by Mannu's five-layer schema — Source / Applicability / Rule / Time-status / Provenance — with **no universal instrument hierarchy** (precedence is contextual; conflicts carry a traceable decision rule and human escalation) and the evidence rule **"no authoritative source, no operative rule"** (official GIS, approved plans and government digital services are authoritative alongside collected papers). The Restraint/SourceInstrument machinery below maps onto the Time-status layer (stayed/withdrawn/contested). The field-level rewrite is the next workstream pass, Sol gating; nothing below may be built as-is without that pass.
 
 Every rule is an **entry**, never a constant in code (kernel already bans jurisdiction values in the engine):
 
@@ -154,14 +156,16 @@ A → B → C. Tests-first, mutation-checked, independent artifact parsing — t
 
 | # | Question | Owner |
 |---|---|---|
-| D1 | Which jurisdiction slice first — the exact authority + colony/sector type where Mannu's circulars are deepest? | Mannu |
-| D2 | Which boundary route will pilot builders actually have (survey DXF / coordinates / deed sides)? Sets the route we polish first. | Mannu |
+| D1 | Which jurisdiction slice first? | **Answered (Mannu, 2026-08-20): DTCP-licensed colony, Dwarka Expressway, Sectors 99–113, one real parcel; exact colony pending** |
+| D2 | Which boundary route will pilots actually have? | **Answered by specification (Mannu review §3): verified parcel = GPS pin + surveyed boundary polygon + all side dimensions + frontage + road width/ROW + levels + constraints; documents = deed/ownership, demarcation or survey, approved colony layout/zoning plan, licence/allotment, any prior sanctioned plan/NOC. A pin alone is not enough.** |
 | D3 | v1 draft layout: one footprint or variants? | **Ruled (Shivam, 2026-08-16): one reference footprint** |
 | D4 | Saleable-area math in the envelope report? | **Ruled (Shivam, 2026-08-16): include — indicative, declared-factor only** |
 | D5 | Restraint object + SourceInstrument promotion + no-third-stamp defence | **Ruled (Shivam, 2026-08-16): ratified as drafted** |
 | R1 | Response to the S+4 stay/suspension | **Ruled (Shivam, 2026-08-16): compute both regimes; S+4 marked suspended via restraints, never hidden** |
 
 ## 12. PENDING-MANNU register (Stage 1)
+
+> **v2 note:** superseded by the post-review ask list (ledger 081/082, `collab/MannuAsks.md`): exact colony · the pilot parcel + document set · signed 21-Jul memo + HC order primaries · rule pack for the chosen colony · founding pilot client · founders' call (pilot ₹ + IP paperwork). Rows below are historical.
 
 | # | Question | Blocks |
 |---|---|---|

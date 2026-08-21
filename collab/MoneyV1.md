@@ -1,5 +1,7 @@
 # UrbanOS — Money v1 (strawman)
 
+> **RULED 2026-08-21 (Mannu review + Shivam's C ruling, ledger 082): the pilot posture below is superseded.** Pilots are **reduced-fee founding pilots** — meaningful fee, fixed scope (one parcel, one use case, two review cycles), fixed timeline, explicit value exchange — not fully-waived list-price invoices. Fully waived survives only as a documented one-time R&D collaboration. Mannu owns the ₹ numbers; this file awaits its revision pass in the pricing chat.
+
 2026-08-16 · drafted by Fable with Shivam · a strawman for the dedicated pricing session — **Mannu owns pricing [locked]**; nothing here is decided until he shoots at it and fills the blanks.
 Evidence labels per house rule: **[proposed]** = strawman position, awaiting Mannu · **[locked]** = prior agreed rule · **[inferred]** = reasoning, needs confirmation · **[unknown]** = open · **[Mannu]** = input only he can supply. Nothing in this doc is [decided] — Mannu hasn't seen it yet.
 

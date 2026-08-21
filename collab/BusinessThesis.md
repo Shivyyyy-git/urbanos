@@ -1,61 +1,64 @@
-# UrbanOS — Business Thesis v1.1
+# UrbanOS — Business Thesis v2
 
-2026-08-15 · drafted by Fable, ratified in discovery with Shivam · next reader: Mannu.
-v1.1: product section expanded to the confirmed five-stage flow; boundary rule added; Dubai entry requirement softened (tool posture).
-Labels: **[decided]** = Shivam's call · **[locked]** = prior agreed rule · **[inferred]** = my reasoning, needs confirmation · **[unknown]** = open.
+2026-08-21 · v1.1 ratified by Shivam 2026-08-15/16 · v2 merges Mannu's Alignment Review (`reference/mannu-2026-08-21/UrbanOS_Alignment_Review_for_Shivam.pdf`) with Shivam's A/B/C rulings (ledger 082).
+Labels: **[decided]** = founder ruling · **[locked]** = standing rule · **[inferred]** = reasoning, needs confirmation · **[unknown]** = open.
 
 ## One sentence
 
-UrbanOS tells a builder what he can legally build on a piece of land — design, numbers, and every approval he'll need — then tracks the whole journey from intent to construction, backed by a versioned rulebook of local building law that cannot be Googled.
+UrbanOS is the operating system of an integrated planning, design and feasibility practice: it converts a verified parcel, a client brief and a budget into a source-traceable feasibility decision, a compliance-first 2D design, and a market and ROI report — and, after authorised professional review, an approval-ready package. *(Wording follows Mannu's one-line correction.)*
 
-## The boundary rule **[decided — Shivam, 2026-08-15]**
+## Identity **[decided — A, Shivam 2026-08-21]**
 
-**UrbanOS informs, designs, and tracks. People decide, sign, and submit.** The software never touches the government — finalization, signatures, and submission are ground work (the customer's team; Mannu's side). Every output carries one printed label — *"Prepared for Professional Review"* — meaning: from here, humans. We never say "approved." **[locked 2026-07-25; reframed as tool boundary 2026-08-15]**
+- **Internal-consultancy operating system first.** The UrbanOS team and its professional network deliver projects *using* the software; it is not sold as self-service at launch. The consultancy proves it; the software scales it. Pitch framing: the consultancy is the R&D engine and the proof — the software remains the company.
+- **Boundary rule unchanged [locked]:** the software informs, designs and keeps track. It never signs, never files, never claims approval. Certification and signature stay with authorised professionals; only the competent authority can approve a plan.
+- **Status language:** the two stamps remain our epistemic claim [locked]. Mannu's five lifecycle statuses (PRELIMINARY FEASIBILITY → COMPLIANCE-CHECKED DESIGN → SUBMISSION-READY → APPROVED *only with the authority's approval identifier and date attached* → ISSUED FOR CONSTRUCTION) are **[proposed — Sol gate pending]**: read as compatible (stamp = what we claim; status = lifecycle record of external events), but the wording is claims-discipline surface.
 
-## The product — five stages **[decided — Shivam, 2026-08-15]**
+## The MVP contract **[decided — B included, Shivam 2026-08-21]**
 
-| # | Stage | Software does | Ground does |
-|---|-------|---------------|-------------|
-| 1 | **The Base** — design first | Reads the site, applies the rulebook as constraints, returns the full picture: layout, map, how many units legally fit, the numbers — beautifully presented. Client selects a design; every option is legal by construction. | Nothing yet |
-| 2 | **Compliance Roadmap** | For the selected design on this site: the complete list of approvals/NOCs/licenses — what each is, why this project triggers it, which office, which documents, what order; paperwork prepped where possible. | Reads and plans |
-| 3 | **Tracker** | The roadmap becomes a live project-management board: dependencies, what's next, full project state in one place. | The legwork; ticks updates ("fire NOC ✓") |
-| 4 | **Finalize + Submit** | Holds the record only. **Fully human by design — "software not included."** | In-person pre-check, paperwork verification, submission |
-| 5 | **Deep Planning** (post-approval) | The selected design planned deeply: detailed drawings, construction-ready package, construction debrief. Unit/interior detail (Feature 2's 2BHK module) lives here. | Prepares for construction |
+One thin complete workflow for one real site — not disconnected features:
 
-Then construction begins — on-ground, Mannu's world. Construction-phase management is the destination vision, later.
+0. **Parcel and regime resolution (Stage 0, part of the moat).** Pin + surveyed polygon + documents in → jurisdiction layers, applicable plans/instruments, and unresolved conflicts out. Municipal boundary, HSVP estate, controlled area and licensed-colony conditions can overlap on one parcel; the engine resolves layers per parcel. The "jurisdiction slice" is an **output**, not an input.
+1. **Source-linked development-control schedule + buildable envelope**, clause citations throughout.
+2. **≥2 properly dimensioned 2D design options** for the actual brief — *design, do not trace* — with functional and urban-design tests, not only geometric fit.
+3. **Clause-level compliance report:** PASS / FAIL / UNKNOWN / NOT APPLICABLE.
+4. **Feasibility, ROI and market snapshot** — a calculator over declared, dated, sourced inputs (no market-oracle claims); the design and the financial model update together.
+5. **Data-gap / assumption / source / professional-review register**, with issue gates that block unresolved material inputs.
 
-**Build order [decided]:** Stage 1 + 2 first, aimed at the plot-scale builder. Then Stage 3. Stages 4–5 mature through the pilots.
+**Journey (Mannu §7):** stages 0–5 are MVP through professional-QA handoff; submission & objection loop next; detailed design, construction QC and handover later; UrbanOS never operates the completed project. **Tracker deprioritised [decided]:** "a tracker around incorrect rules only organises incorrect work."
 
-## Who pays, in order **[decided — Shivam, 2026-08-15]**
+**Non-assumption protocol [locked]:** missing parcel boundary, authority/regime, land use, road width, operative rule status or essential brief = hard blocker, stop and ask. Regulatory conflict = UNKNOWN / REVIEW REQUIRED, never the convenient rule silently.
 
-1. **Plot-scale builder** — Gurgaon/Haryana builder-floor market: buy plot → stilt+4 → sell floors → repeat. Highest-frequency customer; returns every quarter. *(Frequency/volume claim is **[inferred]** — Mannu to confirm from ground knowledge.)*
-2. **Townhouse / group-housing developer** — the "500 townhouses" client. Bigger package, higher price, lower frequency.
-3. **Bigger fish** (large developers, government/city planning) — only after 1 and 2 work. Pitch-deck material until then.
+## Who pays **[decided — revised per Mannu]**
+
+Real-estate developers, landowners and repeat plot builders in the launch corridor — **served by us, not self-service**. Launch: **DTCP-licensed colony, Dwarka Expressway corridor (Sectors 99–113), one real parcel first [decided — D1, Mannu 2026-08-20]**. Corridor confirmed active ("booming with sale, purchase and new developments") [Mannu, directional]; transaction counts deliberately unverified — validate separately, never build on a guessed number **[unknown]**.
 
 ## Where
 
-Gurgaon/Haryana (+ Delhi region), one geography until won. DDA (Delhi) and DTCP (Haryana) are separate regulatory regimes — never merged. **[locked, 2026-07-25]**
+Gurgaon/Haryana; DTCP-licensed colonies on the Dwarka Expressway corridor first, one parcel before any generalisation. DDA (Delhi) and DTCP (Haryana) regimes never merged **[locked]**.
 
-## The moat
+## The moat **[decided — restated per Mannu]**
 
-- **The rulebook — two shelves.** **Rules**: the numbers (setbacks, FAR, heights, coverage) — they feed the Stage-1 design engine as constraints. **Procedures**: the process (which approval, which office, which documents, what sequence, real timelines) — they feed Stages 2–3. Both built partly from circulars that exist only offline — Mannu physically collects them from government offices. That data cannot be scraped or bought. **[decided, 2026-08-15]**
-- **The machine:** AI intake pipeline — photo/PDF in → rules extracted → Mannu confirms → versioned entry with source, issue date, collection date, authority. Mannu is user zero.
-- **The flywheel:** every project tracked in Stage 3 quietly teaches the Procedures shelf the real timelines and office quirks. The tool gets smarter with each client.
-- **The guardrail:** models are rented; the dataset is owned. No rule lives only inside model weights — every answer cites the database. That is what makes premium pricing and liability survivable. **[locked, 2026-08-15]**
+- Not raw circulars: the **verified corpus + metadata + mappings + rule graph + extraction/validation workflow + QA history + change monitoring**.
+- **Regime resolution is Stage 0 of the moat** — identifying a parcel's overlapping regimes *and* applying the correct current rules.
+- **Rule schema — five layers:** Source (instrument incl. approved plans, licence/NOC conditions, court orders, official GIS/data services) · Applicability (authority, jurisdiction polygon, sector/colony/parcel, land use, project type, plot-size band, road width, thresholds) · Rule (clause, parameter, value/unit, formula, conditions, exceptions, relaxations, dependencies, evidence, effect) · Time/status (issue/effective/end, in force/superseded/amended/stayed/withdrawn/contested + changing instrument) · Provenance (file/URL, page/clause, hash, ingestion, reviewer, validation state, last-checked, history).
+- **No universal instrument hierarchy [decided]:** precedence depends on enabling law, competence, parcel/plan conditions, later amendments and judicial orders. Conflicts get a traceable decision rule plus human escalation — never a static ranking.
+- **Guardrail [locked, wording upgraded]:** models are rented, the corpus is owned. **No authoritative source, no operative rule** — official GIS, approved plans and government digital services count as authoritative evidence; nothing lives only in model weights; every answer cites the corpus.
+- **Attribution [decided]:** provenance and reviewer recorded internally only; no individual warrants continuing legal validity; no client-facing sheet names a person; client-facing responsibility and limitation terms via counsel.
 
-## Money **[parked — Mannu owns pricing]**
+## Money **[Mannu owns pricing · C decided, Shivam 2026-08-21]**
 
-~5 free pilot projects to learn and prove, then premium pricing. Each free pilot doubles as discovery: what would this have cost, how many weeks, who signs. Pricing itself is discussed in a dedicated session with Mannu's numbers, not here.
+**Reduced-fee founding pilots** replace the waived-invoice model: meaningful fee, fixed scope (one real parcel, one primary use case, defined outputs, two review cycles), fixed timeline, explicit value exchange (complete site documents, decision-maker access, timely answers, permission to use anonymised project data). Fully waived only as a documented one-time R&D collaboration, never a free-service precedent. Then premium pricing. ₹ numbers set on the founders' call **[Mannu]**. Protections: NDA, data rights, deliverable status, professional-review gateway, change control, no reliance on superseded outputs.
 
-## Expansion logic
+## Company actions **[decided]**
 
-The engine is rulebook-swappable by design. **Dubai:** pitch demo now (prove the engine travels on its digitized rules); candidate market #2 after Gurgaon proof. As a tool — not a service — entry needs the Dubai rulebook loaded **plus a local expert to validate it**: data validation, not signing authority. Possibly earlier than a second Indian city because of data quality. **[inferred — decision later]**
-
-Reference comp: qbiq.ai ($26M raised, JLL Spark) automates test fits inside approved buildings and deliberately avoids compliance. UrbanOS is a test fit **for land** — one layer up, in the layer they refused. **[inferred]**
+Founder agreement + IP assignment drafted with Indian corporate and professional-regulatory counsel: background IP, code, databases, collected documents, derived rule data, brand, confidentiality, access, equity/vesting, roles, expenses, decision rights, departure and disputes. Ownership is a document, not a call.
 
 ## Open questions
 
-1. Inside the plot ecosystem, who exactly pays — the builder directly, or the architect/liaison who runs many files a year? (qbiq sells to brokers, not tenants.) **[unknown]**
-2. Who are the 5 free pilots, and what does each get? They should exercise Stages 1–2 at minimum. Suggest 3 plot builders + 2 townhouse-scale, all Gurgaon. **[unknown]**
-3. Feature 2 (2BHK unit module) redline still pending with Mannu — it sets the quality bar for the Stage-5 drawing pipeline. **[pending since 2026-08-08]**
-4. Current legal status of plotted-colony floor rules (stilt+4) — changed direction multiple times 2023–2024; verify before the first pilot. **[Mannu]**
+1. Exact colony within Sectors 99–113 **[Mannu]**
+2. The pilot parcel with survey/demarcation, governing layout/zoning plan and accepted drawing set **[Mannu — gates everything real]**
+3. Signed 21-July DTCP memo + HC order primaries — HOLD as unverified until obtained **[Mannu]**
+4. The founding pilot client **[Mannu]**
+5. Pilot fee ₹ + founder/IP paperwork **[founders' call + counsel]**
+6. Five-status ↔ two-stamp reconciliation **[Sol gate]**
+7. Corridor transaction-activity validation **[joint — evidence, not anecdote]**

@@ -1,5 +1,7 @@
 # UrbanOS — Pilot Data Capture Sheet v1
 
+> **RULED 2026-08-21:** the "unpaid, never free / 100% waived" operating model referenced below is superseded by reduced-fee founding pilots (see `MoneyV1.md` banner, ledger 082). The capture fields remain valid; the §A commitments need a revision pass.
+
 2026-08-16 · drafted by Fable with Shivam · one copy filled per pilot, no exceptions.
 Purpose: every pilot is a price-discovery instrument, not a favor. This sheet is the instrument.
 Operating model **[proposed — per MoneyV1.md, awaiting Mannu]**: pilots are **unpaid, never free** — each pilot receives a real invoice showing list price, 100% waived ("Pilot Partner Program"), and signs the two commitments in §A before work starts.

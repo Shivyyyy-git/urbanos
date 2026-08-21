@@ -5,7 +5,18 @@
 > list to three questions and moves the rest to a no-rush tail. Keep this file only as
 > the full inventory of what he owes; do not send it to him.
 
-One page, everything open that only you can answer. Numbered for WhatsApp replies — answer in any order, partial answers welcome. Files to read first (Shivam shares): `BusinessThesis.md`, `Stage1Spec.md`.
+## Current asks after his 2026-08-21 review (the live list)
+
+1. **Exact colony** within Sectors 99–113 on the Dwarka Expressway corridor.
+2. **The pilot parcel** — one live plotted residential plot with survey/demarcation, governing layout/zoning plan, licence/allotment docs and an accepted drawing set. Gates everything real.
+3. **The two primary documents on HOLD** — the signed 21-July DTCP memo and the HC order copy (CWP-PIL 212/2024).
+4. **The rule pack for the chosen colony** — circulars/notifications photographed with office + date.
+5. **The founding pilot client** — which developer/plot builder takes the reduced-fee pilot.
+6. **One founders' call** — pilot fee ₹ (his number) + founder/IP paperwork with counsel.
+
+---
+
+Historical inventory below (2026-08-16). One page, everything open that only you can answer. Numbered for WhatsApp replies — answer in any order, partial answers welcome. Files to read first (Shivam shares): `BusinessThesis.md`, `Stage1Spec.md`.
 
 ## A. The two that unblock the build
 
