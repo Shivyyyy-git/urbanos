@@ -5,14 +5,16 @@
 > list to three questions and moves the rest to a no-rush tail. Keep this file only as
 > the full inventory of what he owes; do not send it to him.
 
-## Current asks after his 2026-08-21 review (the live list)
+## Current asks (updated 2026-08-22, ledger 083 — colony candidate picked, fetch list live)
 
-1. **Exact colony** within Sectors 99–113 on the Dwarka Expressway corridor.
-2. **The pilot parcel** — one live plotted residential plot with survey/demarcation, governing layout/zoning plan, licence/allotment docs and an accepted drawing set. Gates everything real.
-3. **The two primary documents on HOLD** — the signed 21-July DTCP memo and the HC order copy (CWP-PIL 212/2024).
-4. **The rule pack for the chosen colony** — circulars/notifications photographed with office + date.
-5. **The founding pilot client** — which developer/plot builder takes the reduced-fee pilot.
-6. **One founders' call** — pilot fee ₹ (his number) + founder/IP paperwork with counsel.
+1. **Verify the pilot colony pick:** Satya Merano Greens, Sector 99A (licence 19/2021, DDJAY, 170 plots). Right choice, or name better.
+2. **Fetch (India IP + ~2-min CAPTCHA):** HARERA project search for reg. 48 of 2021 (Merano Greens) and 71 of 2021 (Plaza 106) → download each project's **FORM LC-V licence** and **DTCP-approved layout plan** (the numbered-plot drawing). Plus the tcpharyana licence-register/colony-plan PDFs for both.
+3. **Pick one unfrozen plot** off the Merano Greens approved layout and confirm its ground status (possession, construction, any registration bar). That plot becomes the pilot parcel.
+4. **Layer table:** open the two archived HSVP files (`reference/hsvp-obpas-2026-08-22/`) in AutoCAD and mark up the layer table — our sheets will match the State's own standard.
+5. **The two HOLD primaries** — signed 21-July DTCP memo + HC order copy (CWP-PIL 212/2024).
+6. **Rule pack for Merano Greens' regime** — DDJAY policy set + colony licence conditions + zoning plan, photographed/collected with office + date.
+7. **The founding pilot client** — which developer/plot builder takes the reduced-fee pilot.
+8. **One founders' call** — pilot fee ₹ + founder/IP paperwork with counsel.
 
 ---
 

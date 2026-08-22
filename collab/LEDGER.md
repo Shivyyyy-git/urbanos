@@ -54,6 +54,50 @@ prototype — Shivam), one accepted local site plan + one real plot with papers
 
 ## Entries (newest first)
 
+### 083 — Fable (goal chat) — 2026-08-22
+
+**Shivam confirmed all seven menu items (design-engine unblock). Dispatched.**
+
+- **Pilot colony [decided as candidate]:** Satya Merano Greens, Sector 99A —
+  licence 19 of 2021 (28.04.2021), DDJAY plotted, 9.525 ac, 170 plots
+  [verified-primary: HARERA reg. cert. 48 of 2021]. Plaza 106 (Sector 106,
+  licence 71 of 2021) = control case; BPTP Amstoria (Sector 102) = later
+  stress test of the Time/status layer; Experion The Westerlies parked as
+  candidate #4 pending its licence number. Ground verification = Mannu.
+  Known feature: DDJAY sits in S+4 stay territory — the pilot must print
+  "stayed" correctly on real land.
+- **Mannu fetch list dispatched (via Shivam):** HARERA project search
+  (human CAPTCHA) for 48/2021 + 71/2021 → download FORM LC-V licences +
+  DTCP-approved layout plans (the numbered-plot drawings); tcpharyana
+  licence-register + colony-plan pulls (India IP); pick ONE unfrozen plot
+  from the Merano Greens approved layout and confirm ground status;
+  transcribe the HSVP layer table (archived DWGs below) — replaces M-S4
+  blank-page ask.
+- **State CAD layer standard adopted:** both HSVP OBPAS files downloaded
+  while live and archived at `reference/hsvp-obpas-2026-08-22/`
+  (Layers.dwg 591KB, SampleDrawingforArchitects.dwg 177KB, both verified
+  DWG AutoCAD 2007-09). We archive; only Mannu opens them (DWG gate
+  intact). Our sheet layers will speak the Quick DCR engine's language.
+- **Visual register ratified:** founder's ten picks
+  (`VisualTarget-FounderPicks.md`) + research shortlist ★1/2/4/5/6
+  (`VisualTarget-ResearchCandidates.md`): HSVP statutory anatomy ×2,
+  Poundbury linework, Sasaki rendering craft, The Westerlies as the
+  corridor drawing to beat. Merged board goes to Mannu for rating; his
+  rating = the bar the rebuilt engine must clear.
+- **Both documents to Sol's gate:** `PerfectInput-PlottedResidential.md`
+  (must demonstrate 077's three-strategies backwards-design test; then
+  bind parcel fields to Merano Greens' document list) and
+  `DesignCompletenessStandard.md` (30 gates + F-00 zero-printed-
+  assumptions; B-04 rests on the pending five-status↔two-stamp ruling —
+  Sol rules both together; then Mannu redline, adding the DDJAY policy
+  instrument slot). Both verified clean of invented statutory values.
+- Colony research filed at `ColonyCandidates.md` (channel-reachability
+  table + India-IP-only links flagged, not dead).
+
+**BALL: Sol** (gate the two documents + rule the five-status question) and
+**Mannu** (fetch list) — parallel. Goal chat holds nothing.
+
+
 ### 082 — Fable (goal chat) — 2026-08-21
 
 **Shivam ratified A, B, C. Updated everything; committed.**

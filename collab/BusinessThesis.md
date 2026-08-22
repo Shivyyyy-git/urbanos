@@ -55,8 +55,8 @@ Founder agreement + IP assignment drafted with Indian corporate and professional
 
 ## Open questions
 
-1. Exact colony within Sectors 99–113 **[Mannu]**
-2. The pilot parcel with survey/demarcation, governing layout/zoning plan and accepted drawing set **[Mannu — gates everything real]**
+1. Pilot colony candidate **picked** [Shivam, 2026-08-22]: **Satya Merano Greens, Sector 99A** (licence 19/2021, DDJAY plotted, 170 plots; HARERA-verified). Plaza 106 = control; Amstoria = later stress test; The Westerlies parked. **Mannu ground-verifies** |
+2. The pilot parcel = **one unfrozen plot from the Merano Greens approved layout** — Mannu fetches the LC-V licence + approved layout plan (HARERA/DTCP pulls, India IP + CAPTCHA), picks the plot, confirms ground status **[Mannu — gates everything real]**
 3. Signed 21-July DTCP memo + HC order primaries — HOLD as unverified until obtained **[Mannu]**
 4. The founding pilot client **[Mannu]**
 5. Pilot fee ₹ + founder/IP paperwork **[founders' call + counsel]**
